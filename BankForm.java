@@ -112,6 +112,8 @@ public class BankForm extends javax.swing.JFrame {
 
     private void bankButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bankButtonActionPerformed
         // TODO add your handling code here:
+        new bankTeller().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_bankButtonActionPerformed
 
     private void atmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atmButtonActionPerformed

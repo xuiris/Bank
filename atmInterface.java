@@ -185,7 +185,6 @@ public class atmInterface extends javax.swing.JFrame {
 
         collectButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         collectButton.setText("Collect");
-        collectButton.setActionCommand("Collect");
 
         wireButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         wireButton.setText("Wire");
@@ -406,7 +405,7 @@ public class atmInterface extends javax.swing.JFrame {
 			            day = dateInput;
 			        } else {
 			        	
-			        	day = "12-01-20";
+			        	day = "12-01-2018";
 			        }
                                 
                                 printAccounts();
@@ -433,7 +432,8 @@ public class atmInterface extends javax.swing.JFrame {
 			int aid = 0;
 			try {
          
-				aid = Integer.parseInt(toAcc.getText());
+				//aid = Integer.parseInt(toAcc.getText());
+                                aid = Integer.parseInt((String)fromAcc.getSelectedItem());
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 				status.setText("Not a number");
@@ -561,7 +561,7 @@ public class atmInterface extends javax.swing.JFrame {
 			// Update this in the DB using account object.
 			if (a.updateAccountDB(conn)) {
 				status.setText("Withdrawal successful.");
-				printAccounts();
+				//printAccounts();
 				if (Transaction.createWithdraw(conn, day, amt, aid, id)) {
 					status.setText("Transaction recorded.");
 				} else {
@@ -622,7 +622,7 @@ public class atmInterface extends javax.swing.JFrame {
 			// Update this in the DB using account object.
 			if (pa.updateAccountDB(conn)) {
 				status.setText("Purchase successful.");
-				printAccounts();
+				//printAccounts();
 				if (Transaction.createPurchase(conn, day, amt, pid, id)) {
 					status.setText("Transaction recorded.");
 				} else {
@@ -689,7 +689,7 @@ public class atmInterface extends javax.swing.JFrame {
 			// Update this in the DB using account object.
 			if (pa.updateAccountDB(conn) && la.updateAccountDB(conn)) {
 				status.setText("Top up successful.");
-				printAccounts();
+				//printAccounts();
 				if (Transaction.createTopUp(conn, day, amt, pid, id)) {
 					status.setText("Transaction recorded.");
 				} else {

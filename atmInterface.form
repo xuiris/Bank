@@ -347,7 +347,6 @@
               <Font name="Tahoma" size="18" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Collect"/>
-            <Property name="actionCommand" type="java.lang.String" value="Collect"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="wireButton">
