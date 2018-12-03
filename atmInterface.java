@@ -196,6 +196,11 @@ public class atmInterface extends javax.swing.JFrame {
 
         payButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         payButton.setText("Pay-Friend");
+        payButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                payButtonActionPerformed(evt);
+            }
+        });
 
         from.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         from.setText("FROM:");
@@ -771,14 +776,13 @@ public class atmInterface extends javax.swing.JFrame {
                 to.balance += amt;
                 // Update this in the DB using account object.
                 if (from.updateAccountDB(conn) && to.updateAccountDB(conn)) {
-                        status.setText("Transfer successful.");
-                        //printAccounts();
-                        // Add transaction.
-                        if (Transaction.createTransfer(conn, day, amt, from.aid, to.aid, id)) {
-                                status.setText("Transaction recorded.");
-                        } else {
-                                status.setText("Bad behavior - Error recording transfer transaction.");
-                        }
+                    status.setText("Transfer successful.");
+                    // Add transaction.
+                    if (Transaction.createTransfer(conn, day, amt, from.aid, to.aid, id)) {
+                            status.setText("Transaction recorded.");
+                    } else {
+                            status.setText("Bad behavior - Error recording transfer transaction.");
+                    }
                 } 
         } catch(Exception e){
                 e.printStackTrace();
@@ -786,6 +790,88 @@ public class atmInterface extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_transferButtonActionPerformed
+
+    private void payButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_payButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            // Get account they want to pull from
+            int pid = 0;
+            Account from = new Account();
+            pid = chooseAccount();
+            if (pid == 0) {
+                    status.setText("Error when choosing pocket account to pay from.");
+                    return;
+            }
+            // Pull account, place in Account object, check if its savings or checkings
+            from = accounts.get(pid);
+            if (!(from.type.equals("Pocket"))) {
+                status.setText("Please select a Pocket account.");
+                return;
+            }
+
+            // Get account they want to pay to
+            Account to = new Account();
+            pid = 0;
+            try {
+                pid = Integer.parseInt(toAcc.getText());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                status.setText("Not a number");
+            }
+
+            // Pull account, place in Account object, check if its savings or checkings
+            try {
+                to = Account.getAccount(conn, pid);
+            } catch (Exception e) {
+                e.printStackTrace();
+                status.setText("Error finding the pocket account to pay to.");
+            }
+            if (!(to.type.equals("Pocket"))) {
+                status.setText("Cannot pay to a non-Pocket account.");
+                return;
+            }
+            
+            // Check this is a different account.
+            if (from.aid == to.aid) {
+                status.setText("Cannot pay to the same account.");
+                return;
+            }
+            
+            int amt = 0;
+            try {
+                amt = Integer.parseInt(amount.getText());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                status.setText("Not a number");
+            }
+
+            if (amt < 0) {
+                status.setText("Cannot pay a negative amount.");
+                return;
+            }
+            if (amt > from.balance) {
+                status.setText("Insufficient funds for this payment.");
+                return;
+            }
+
+            // Update this in the DB using account object.
+            from.balance -= amt;
+            to.balance += amt;
+            // Update this in the DB using account object.
+            if (from.updateAccountDB(conn) && to.updateAccountDB(conn)) {
+                status.setText("Payment completed.");
+                // Add transaction.
+                if (Transaction.createPayFriend(conn, day, amt, from.aid, to.aid, id)) {
+                        status.setText("Payment completed and Transaction recorded.");
+                } else {
+                        status.setText("Bad behavior - Error recording transfer transaction.");
+                }
+            } 
+        } catch(Exception e){
+            e.printStackTrace();
+            status.setText("Error processing payment");
+        }
+    }//GEN-LAST:event_payButtonActionPerformed
    
     /**
      * @param args the command line arguments
