@@ -27,6 +27,10 @@ public class Transaction {
 			return false;
 		}
 	}
+        
+        public static String stringDeposit(String day, double added, int aid, String taxID) {
+            return "";
+        }
 	
 	public static boolean createTopUp(Connection conn, String day, double added, int pid, String taxID){
 		try {
@@ -92,6 +96,52 @@ public class Transaction {
 		} catch (SQLException e) {
 			return false;
 		}	
+	}
+        
+        public static boolean createTransfer(Connection conn, String day, double amt, int from, int to, String taxID) {
+            try {
+                Statement stmt = conn.createStatement();
+                int tid = newTid(conn);
+                String qry = "INSERT INTO Transactions(tid, day, type) VALUES (" 
+                                + tid 
+                                + ", TO_DATE('" + day + "', 'MM-DD-YYYY')"
+                                + ", 'Transfer')";
+                System.out.println(qry);
+                stmt.executeQuery(qry);
+                qry = "INSERT INTO Transfer(tid, amt, fromAid, toAid, taxID) VALUES (" 
+                                + tid 
+                                + ", " + amt
+                                + ", " + from
+                                + ", " + to
+                                + ", " + taxID + ")";
+                stmt.executeQuery(qry);
+                return true;
+            } catch (SQLException e) {
+                return false;
+            }	
+	}
+        
+        public static boolean createPayFriend(Connection conn, String day, double amt, int from, int to, String taxID) {
+            try {
+                Statement stmt = conn.createStatement();
+                int tid = newTid(conn);
+                String qry = "INSERT INTO Transactions(tid, day, type) VALUES (" 
+                                + tid 
+                                + ", TO_DATE('" + day + "', 'MM-DD-YYYY')"
+                                + ", 'PayFriend')";
+                System.out.println(qry);
+                stmt.executeQuery(qry);
+                qry = "INSERT INTO PayFriend(tid, amt, fromPid, toPid, taxID) VALUES (" 
+                                + tid 
+                                + ", " + amt
+                                + ", " + from
+                                + ", " + to
+                                + ", " + taxID + ")";
+                stmt.executeQuery(qry);
+                return true;
+            } catch (SQLException e) {
+                return false;
+            }	
 	}
 	
 	// Come up with an available and unique tid.

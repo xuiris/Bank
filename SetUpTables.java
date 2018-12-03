@@ -112,6 +112,34 @@ public class SetUpTables {
 					" FOREIGN KEY(pid) REFERENCES Accounts)";
 			st.executeQuery(createTable);
 			System.out.println("Deposit table created");
+                        
+                        //Transfer Table
+			createTable = "CREATE TABLE Transfer(tid INTEGER," +
+					" amt FLOAT," + 
+					" fromAid INTEGER," +
+                                        " toAid INTEGER," +
+					" taxID CHAR(9)," +
+					" PRIMARY KEY(tid)," + 
+					" FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE," +
+					" FOREIGN KEY (taxID) REFERENCES Customers," +
+					" FOREIGN KEY(fromAid) REFERENCES Accounts," +
+                                        " FOREIGN KEY(toAid) REFERENCES Accounts)";
+			st.executeQuery(createTable);
+			System.out.println("Transfer table created");
+                        
+                        //PayFriend Table
+			createTable = "CREATE TABLE PayFriend(tid INTEGER," +
+					" amt FLOAT," + 
+					" fromPid INTEGER," +
+                                        " toPid INTEGER," +
+					" taxID CHAR(9)," +
+					" PRIMARY KEY(tid)," + 
+					" FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE," +
+					" FOREIGN KEY (taxID) REFERENCES Customers," +
+					" FOREIGN KEY(fromPid) REFERENCES Accounts," +
+                                        " FOREIGN KEY(toPid) REFERENCES Accounts)";
+			st.executeQuery(createTable);
+			System.out.println("PayFriend table created");
 			
 //			String createTrigger = "CREATE TRIGGER checkBalance" +
 //					" AFTER UPDATE OF balance ON Accounts" + 
@@ -146,6 +174,12 @@ public class SetUpTables {
 			
 			deleteTable = "DROP TABLE Purchase";
 			st.executeQuery(deleteTable);
+                        
+                        deleteTable = "DROP TABLE Transfer";
+			st.executeQuery(deleteTable);
+                        
+                        deleteTable = "DROP TABLE PayFriend";
+			st.executeQuery(deleteTable);
 			
 			deleteTable = "DROP TABLE Transactions";
 			st.executeQuery(deleteTable);
@@ -172,24 +206,32 @@ public class SetUpTables {
 	public void initData()
 	{
 		try {
-			System.out.println("Adding data tables...");
-			Statement stmt = conn.createStatement();
-			String data = "";
-			data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('361721022', 1234, '6667 El Colegio #40', 'Alfred Hitchcock')";
-		    stmt.executeQuery(data);
-		    data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('231403227', 1468, '5777 Hollister', 'Billy Clinton')";
-		    stmt.executeQuery(data);
-                    data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('412231856', 3764, '7000 Hollister', 'Cindy Laugher')";
-                    stmt.executeQuery(data);
+        System.out.println("Adding data tables...");
+        Statement stmt = conn.createStatement();
+        String data = "";
+        data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('361721022', 1234, '6667 El Colegio #40', 'Alfred Hitchcock')";
+        stmt.executeQuery(data);
+        data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('231403227', 1468, '5777 Hollister', 'Billy Clinton')";
+        stmt.executeQuery(data);
+        data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('207843218', 8582, '1357 State St', 'David Copperfill')";
+        stmt.executeQuery(data);
+        data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('412231856', 3764, '7000 Hollister', 'Cindy Laugher')";
+        stmt.executeQuery(data);
 
-		    data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (43942, 1000.0, 1.0, '1', 'Savings')";
+		    data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (43942, 1000.0, 7.5, '1', 'Savings')";
 		    stmt.executeQuery(data);
 		    data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (60413, 500.0, 0.0, '1', 'Pocket')";
 		    stmt.executeQuery(data);
-                    data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (17431, 2000.0, 1.0, '1', 'Student-Checking')";
+        data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (12121, 800.0, 0.0, '1', 'Student-Checking')";
+		    stmt.executeQuery(data);
+        data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (53027, 200.0, 0.0, '1', 'Pocket')";
+		    stmt.executeQuery(data);
+        data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (17431, 2000.0, 1.0, '1', 'Student-Checking')";
 		    stmt.executeQuery(data);
                     
 		    data = "INSERT INTO LinkedPockets(pid, aid) VALUES (60413, 43942)";
+		    stmt.executeQuery(data);
+		    data = "INSERT INTO LinkedPockets(pid, aid) VALUES (53027, 12121)";
 		    stmt.executeQuery(data);
 		    
 		    data = "INSERT INTO Owners(taxID, aid, type) VALUES ('361721022', 43942, 'Primary')";
@@ -197,6 +239,10 @@ public class SetUpTables {
 		    data = "INSERT INTO Owners(taxID, aid, type) VALUES ('231403227', 60413, 'Co-Owner')";
 		    stmt.executeQuery(data);
 		    data = "INSERT INTO Owners(taxID, aid, type) VALUES ('412231856', 17431, 'Primary')";
+		    stmt.executeQuery(data);
+        data = "INSERT INTO Owners(taxID, aid, type) VALUES ('207843218', 12121, 'Primary')";
+		    stmt.executeQuery(data);
+        data = "INSERT INTO Owners(taxID, aid, type) VALUES ('207843218', 53027, 'Primary')";
 		    stmt.executeQuery(data);
 
 		    System.out.println("Done with setup...");
