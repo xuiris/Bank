@@ -21,9 +21,11 @@ public class BankForm extends javax.swing.JFrame {
     //private final Bank bank;
     //private final customerInterface cust;
     //private Connection conn;
+    
+    
     public BankForm() {
         initComponents();
-        //this.bank = new Bank();
+       // new Bank();
         
         
         
