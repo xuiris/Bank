@@ -27,6 +27,10 @@ public class Transaction {
 			return false;
 		}
 	}
+        
+        public static String stringDeposit(String day, double added, int aid, String taxID) {
+            return "";
+        }
 	
 	public static boolean createTopUp(Connection conn, String day, double added, int pid, String taxID){
 		try {

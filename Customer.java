@@ -1,4 +1,6 @@
 import java.io.Serializable;
+import java.sql.*;
+
       /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10,14 +12,15 @@ import java.io.Serializable;
  * @author kenkh
  */
 public class Customer implements Serializable {
-    private final int taxID;
-    private final String name;
-    private final String PIN;
-    private final String address;
+    private String taxID;
+    private String name;
+    private int PIN;
+    private String address;
    
     
-  
-    Customer(int taxID, String name, String address, String PIN) {
+    Customer() {}
+    
+    Customer(String taxID, String name, String address, int PIN) {
         this.taxID = taxID;
         this.name = name;
         this.PIN = PIN;
@@ -25,7 +28,41 @@ public class Customer implements Serializable {
        
     }
     
+    public static Customer createCustomer(Connection conn, String taxID, String name, String address) throws SQLException {
+        // Creates customer and stores in database
+        // default pin: 1717
+        Customer c = new Customer(taxID, name, address, 1717);
+        
+        Statement stmt = conn.createStatement();
+        String qry = "INSERT INTO Customers(taxID, PIN, address, name)" +
+                " VALUES (" +
+                "'" + taxID + "', " +
+                "'1717', " +
+                "'" + address + "'," +
+                "'" + name + "')";
+        stmt.executeQuery(qry);
+        return c;  
+    }
     
+    public static Customer getCustomer(Connection conn, int taxID) throws SQLException {
+        // Tries to find customer in database and return as Customer object
+        String qry = "SELECT * from Customers c where c.taxID = '" + taxID + "'";
+	Statement stmt = conn.createStatement();
+	ResultSet rs = stmt.executeQuery(qry);
+        Customer c = new Customer();
+        if (rs.next()) {
+	    c.taxID = rs.getString("taxID");
+            c.name = rs.getString("name");
+            c.address = rs.getString("address");
+            c.PIN = rs.getInt("PIN");
+        } else {
+            System.out.println("No customer found with this taxID");
+            throw new SQLException("No such customer exists in DB");
+        }
+        
+        return c;
+    }
+        
     @Override
     public String toString(){
         return  "taxID: " + gettaxID() + 
@@ -35,7 +72,7 @@ public class Customer implements Serializable {
                 
     }
       
-    public int gettaxID(){
+    public String gettaxID(){
         return taxID;
     }
 
@@ -44,7 +81,7 @@ public class Customer implements Serializable {
         return name;
     }
     
-    public String getPIN() {
+    public int getPIN() {
         return PIN;
     }
     
