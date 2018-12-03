@@ -112,6 +112,20 @@ public class SetUpTables {
 					" FOREIGN KEY(pid) REFERENCES Accounts)";
 			st.executeQuery(createTable);
 			System.out.println("Deposit table created");
+                        
+                        //Transfer Table
+			createTable = "CREATE TABLE Transfer(tid INTEGER," +
+					" amt FLOAT," + 
+					" fromAid INTEGER," +
+                                        " toAid INTEGER," +
+					" taxID CHAR(9)," +
+					" PRIMARY KEY(tid)," + 
+					" FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE," +
+					" FOREIGN KEY (taxID) REFERENCES Customers," +
+					" FOREIGN KEY(fromAid) REFERENCES Accounts," +
+                                        " FOREIGN KEY(toAid) REFERENCES Accounts)";
+			st.executeQuery(createTable);
+			System.out.println("Transfer table created");
 			
 //			String createTrigger = "CREATE TRIGGER checkBalance" +
 //					" AFTER UPDATE OF balance ON Accounts" + 
@@ -145,6 +159,9 @@ public class SetUpTables {
 			st.executeQuery(deleteTable);
 			
 			deleteTable = "DROP TABLE Purchase";
+			st.executeQuery(deleteTable);
+                        
+                        deleteTable = "DROP TABLE Transfer";
 			st.executeQuery(deleteTable);
 			
 			deleteTable = "DROP TABLE Transactions";

@@ -25,7 +25,7 @@ public class atmInterface extends javax.swing.JFrame {
     private Connection conn;
     private Map<Integer, Account> accounts;
     private String id;
-    private Map<Integer, Integer> linked; 
+    private Map<Integer, Integer> linked; // pid, aid
     private String day;
     
     
@@ -182,6 +182,11 @@ public class atmInterface extends javax.swing.JFrame {
 
         transferButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         transferButton.setText("Transfer");
+        transferButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                transferButtonActionPerformed(evt);
+            }
+        });
 
         collectButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         collectButton.setText("Collect");
@@ -702,6 +707,85 @@ public class atmInterface extends javax.swing.JFrame {
 			status.setText("Error topping up account");
 		}
     }//GEN-LAST:event_topupButtonActionPerformed
+
+    private void transferButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transferButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+                // Get account they want to pull from
+                int aid = 0;
+                Account from = new Account();
+                aid = chooseAccount();
+                if (aid == 0) {
+                        status.setText("Error when choosing account to deposit to.");
+                        return;
+                }
+                // Pull account, place in Account object, check if its savings or checkings
+                from = accounts.get(aid);
+                if (!(from.type.equals("Savings") || from.type.equals("Student-Checking") || from.type.equals("Interest-Checking"))){
+                    status.setText("Please choose only Savings or Checkings.");
+                    return;
+                }
+                
+                // Get account they want to add to
+                Account to = new Account();
+                aid = 0;
+                try {
+                        aid = Integer.parseInt(toAcc.getText());
+                } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        status.setText("Not a number");
+                }
+                if (!(accounts.containsKey(aid))) {
+                    status.setText("Invalid account number.");
+                    return;
+                }
+                // Pull account, place in Account object, check if its savings or checkings
+                to = accounts.get(aid);
+                if (!(to.type.equals("Savings") || to.type.equals("Student-Checking") || to.type.equals("Interest-Checking"))){
+                    status.setText("Please choose only Savings or Checkings.");
+                    return;
+                }
+
+                double amt = 0;
+                try {
+                    amt = Double.parseDouble(amount.getText());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    status.setText("Not a number");
+                }
+
+                if (amt < 0) {
+                    status.setText("Cannot transfer a negative amount.");
+                    return;
+                }
+                if (amt > from.balance) {
+                    status.setText("Insufficient funds.");
+                    return;
+                }
+                if (amt > 2000) {
+                    status.setText("Cannot transfer over $2,000.");
+                    return;
+                }
+
+                from.balance -= amt;
+                to.balance += amt;
+                // Update this in the DB using account object.
+                if (from.updateAccountDB(conn) && to.updateAccountDB(conn)) {
+                        status.setText("Transfer successful.");
+                        //printAccounts();
+                        // Add transaction.
+                        if (Transaction.createTransfer(conn, day, amt, from.aid, to.aid, id)) {
+                                status.setText("Transaction recorded.");
+                        } else {
+                                status.setText("Bad behavior - Error recording transfer transaction.");
+                        }
+                } 
+        } catch(Exception e){
+                e.printStackTrace();
+                status.setText("Error transfering into account");
+        }
+
+    }//GEN-LAST:event_transferButtonActionPerformed
    
     /**
      * @param args the command line arguments
