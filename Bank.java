@@ -8,8 +8,8 @@ public class Bank {
    static final String DB_URL = "jdbc:oracle:thin:@cloud-34-133.eci.ucsb.edu:1521:XE";
 
    //  Database credentials
-   static final String USERNAME = "irisxu";
-   static final String PASSWORD = "9893025"; 
+   static final String USERNAME = "e_khurelbaatar";
+   static final String PASSWORD = "enjilove"; 
    Connection conn = null;
    Statement stmt = null;
    
@@ -30,19 +30,6 @@ public class Bank {
       su.create();
       su.initData();
       
-      // Query the user
-      /*BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-      
-      System.out.println("Welcome!");
-      System.out.println("Are you a customer? [y/n]");
-      String userType = input.readLine();
-      
-      if (userType.equals("y")) {
-          new customerInterface(conn);
-      }
-      else if (userType.equals("n")) {
-          System.out.println("Welcome to the Bank Teller Interface!");
-      }*/
    }catch(SQLException se){
       //Handle errors for JDBC
       se.printStackTrace();

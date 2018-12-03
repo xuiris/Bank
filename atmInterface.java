@@ -44,6 +44,7 @@ public class atmInterface extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton3 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         PinField = new javax.swing.JPasswordField();
@@ -71,6 +72,8 @@ public class atmInterface extends javax.swing.JFrame {
         toAcc = new javax.swing.JTextField();
         amount = new javax.swing.JTextField();
         date = new javax.swing.JTextField();
+
+        jButton3.setText("jButton3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ATM \n");
@@ -185,9 +188,19 @@ public class atmInterface extends javax.swing.JFrame {
 
         collectButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         collectButton.setText("Collect");
+        collectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                collectButtonActionPerformed(evt);
+            }
+        });
 
         wireButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         wireButton.setText("Wire");
+        wireButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                wireButtonActionPerformed(evt);
+            }
+        });
 
         payButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         payButton.setText("Pay-Friend");
@@ -448,6 +461,7 @@ public class atmInterface extends javax.swing.JFrame {
 		}
 		return 0;
 	}
+   
     private void printAccounts() {
         
  
@@ -702,6 +716,159 @@ public class atmInterface extends javax.swing.JFrame {
 			status.setText("Error topping up account");
 		}
     }//GEN-LAST:event_topupButtonActionPerformed
+
+    private void collectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_collectButtonActionPerformed
+        // TODO add your handling code here:
+        try{
+                        int count = 0;
+			int pid = 0;
+			Account pa = new Account();
+			while (count < 3) {
+				pid = chooseAccount();
+				if (pid == 0) {
+					status.setText("Error when choosing account to collect.");
+					return;
+                                }
+				
+				pa = accounts.get(pid);
+				if (pa.type.equals("Pocket")) break;
+				status.setText("Please choose only a pocket account.");
+				count += 1;
+                        }
+                                
+                        if (count > 2) {
+                            status.setText("Failed to choose valid account.");
+                            return;
+			}
+			
+			// find the linked Saving/Checking acct
+			int link = linked.get(pid);
+			Account la = accounts.get(link);
+                        
+                        double amt = 0;
+			try {
+				amt = Integer.parseInt(amount.getText());
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+				status.setText("Not a number");
+			}
+			
+			if (amt < 0) {
+				status.setText("Cannot collect negative amount.");
+				return;
+			}
+		
+                        
+                        double finalAmt = amt + (amt*0.03);
+                         if (finalAmt > pa.balance) {
+				status.setText("Insufficient funds.");
+				return;
+			}
+                       
+                        
+                        
+                        pa.balance -= finalAmt;
+                        la.balance += finalAmt;
+                        
+                        if (pa.updateAccountDB(conn) && la.updateAccountDB(conn)) {
+				status.setText("Collection successful.");
+				//printAccounts();
+				if (Transaction.createTopUp(conn, day, amt, pid, id)) {
+					status.setText("Transaction recorded.");
+				} else {
+					status.setText("Bad behavior - Error recording COLLECT transaction.");
+				}
+			} 
+			
+		} catch(Exception e){
+                    
+			e.printStackTrace();
+			status.setText("Error collecting from account");
+                }                       
+                                              	                  
+    }//GEN-LAST:event_collectButtonActionPerformed
+
+    private void wireButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wireButtonActionPerformed
+        // TODO add your handling code here:
+        try{
+            int count = 0;
+			int aid = 0;
+			Account a = new Account();
+			while (count < 3) {
+				aid = chooseAccount();
+				if (aid == 0) {
+					status.setText("Error when choosing account to wire from.");
+					return;
+				}
+				// Pull account, place in Account object, check if its savings or checkings
+				a = accounts.get(aid);
+				if (a.type.equals("Savings") || a.type.equals("Student-Checking") || a.type.equals("Interest-Checking")) break;
+				status.setText("Please choose only Savings or Checkings.");
+				count += 1;
+			}
+			if (count > 2) {
+				status.setText("Failed to choose valid account.");
+				return;
+			}
+                        
+                       //receiving account
+                      Account b = new Account();
+                      int aid1 = 0;
+			try {
+         
+				aid1 = Integer.parseInt(toAcc.getText());
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+				status.setText("Not a number");
+			}
+                        b = Account.getAccount(conn, aid1);
+                        
+		
+                        if (b.type.equals("Savings") || b.type.equals("Student-Checking") || b.type.equals("Interest-Checking")){
+                            int amt = 0;
+			try {
+				amt = Integer.parseInt(amount.getText());
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+				status.setText("Not a number");
+			}
+			
+			if (amt < 0) {
+				status.setText("Cannot wire negative amount.");
+				return;
+			}
+			
+                        
+                        double finalAmt = amt + (amt*0.02);
+                        
+                        if (finalAmt > a.balance) {
+				status.setText("Insufficient funds.");
+				return;
+			}
+			
+			b.balance += finalAmt;
+			a.balance -= finalAmt;
+                        
+                        if (a.updateAccountDB(conn) && b.updateAccountDB(conn)) {
+				status.setText("Wire successful.");
+				//printAccounts();
+				if (Transaction.createTopUp(conn, day, amt, aid, id)) {
+					status.setText("Transaction recorded.");
+				} else {
+					status.setText("Bad behavior - Error recording  transaction.");
+				}
+			} 
+                        }
+                        else {
+                            status.setText("Please choose only Savings or Checkings.");
+                            return;	
+                        }
+			
+		} catch(Exception e){
+			e.printStackTrace();
+			status.setText("Error wiring from account");    
+        }
+    }//GEN-LAST:event_wireButtonActionPerformed
    
     /**
      * @param args the command line arguments
@@ -732,6 +899,7 @@ public class atmInterface extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            
             public void run() {
                 new atmInterface().setVisible(true);
             }
@@ -750,6 +918,7 @@ public class atmInterface extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> fromAcc;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;

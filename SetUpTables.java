@@ -179,12 +179,16 @@ public class SetUpTables {
 		    stmt.executeQuery(data);
 		    data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('231403227', 1468, '5777 Hollister', 'Billy Clinton')";
 		    stmt.executeQuery(data);
+                    data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('412231856', 3764, '7000 Hollister', 'Cindy Laugher')";
+                    stmt.executeQuery(data);
 
 		    data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (43942, 1000.0, 1.0, '1', 'Savings')";
 		    stmt.executeQuery(data);
 		    data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (60413, 500.0, 0.0, '1', 'Pocket')";
 		    stmt.executeQuery(data);
-		    
+                    data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (17431, 2000.0, 1.0, '1', 'Student-Checking')";
+		    stmt.executeQuery(data);
+                    
 		    data = "INSERT INTO LinkedPockets(pid, aid) VALUES (60413, 43942)";
 		    stmt.executeQuery(data);
 		    
@@ -192,7 +196,7 @@ public class SetUpTables {
 		    stmt.executeQuery(data);
 		    data = "INSERT INTO Owners(taxID, aid, type) VALUES ('231403227', 60413, 'Co-Owner')";
 		    stmt.executeQuery(data);
-		    data = "INSERT INTO Owners(taxID, aid, type) VALUES ('361721022', 60413, 'Co-Owner')";
+		    data = "INSERT INTO Owners(taxID, aid, type) VALUES ('412231856', 17431, 'Primary')";
 		    stmt.executeQuery(data);
 
 		    System.out.println("Done with setup...");
