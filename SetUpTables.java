@@ -119,6 +119,16 @@ public class SetUpTables {
 			st.executeQuery(createTable);
 			System.out.println("Transfer table created");
                         
+                        //Collect Table
+			createTable = "CREATE TABLE Collect(tid INTEGER," +
+					" amt FLOAT," + 
+                                        " fromPid INTEGER," +
+					" PRIMARY KEY(tid)," + 
+					" FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE," +
+                                        " FOREIGN KEY(fromPid) REFERENCES Accounts)";
+			st.executeQuery(createTable);
+			System.out.println("Collect table created");
+                        
                         //PayFriend Table
 			createTable = "CREATE TABLE PayFriend(tid INTEGER," +
 					" amt FLOAT," + 
@@ -131,6 +141,18 @@ public class SetUpTables {
 			st.executeQuery(createTable);
 			System.out.println("PayFriend table created");
 			
+                        //Wire Table
+			createTable = "CREATE TABLE Wire(tid INTEGER," +
+					" amt FLOAT," + 
+					" fromAid INTEGER," +
+                                        " toAid INTEGER," +
+					" PRIMARY KEY(tid)," + 
+					" FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE," +
+					" FOREIGN KEY(fromAid) REFERENCES Accounts," +
+                                        " FOREIGN KEY(toAid) REFERENCES Accounts)";
+			st.executeQuery(createTable);
+			System.out.println("Wire table created");
+                        
 //			String createTrigger = "CREATE TRIGGER checkBalance" +
 //					" AFTER UPDATE OF balance ON Accounts" + 
 //					" FOR EACH ROW" +
@@ -169,6 +191,12 @@ public class SetUpTables {
 			st.executeQuery(deleteTable);
                         
                         deleteTable = "DROP TABLE PayFriend";
+			st.executeQuery(deleteTable);
+                        
+                        deleteTable = "DROP TABLE Collect";
+			st.executeQuery(deleteTable);
+                        
+                        deleteTable = "DROP TABLE Wire";
 			st.executeQuery(deleteTable);
 			
 			deleteTable = "DROP TABLE Transactions";

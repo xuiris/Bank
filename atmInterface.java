@@ -286,10 +286,11 @@ public class atmInterface extends javax.swing.JFrame {
                                     .addComponent(to)
                                     .addComponent(money))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(fromAcc, 0, 93, Short.MAX_VALUE)
-                                    .addComponent(toAcc)
-                                    .addComponent(amount))))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(toAcc, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                                        .addComponent(amount))
+                                    .addComponent(fromAcc, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -299,14 +300,17 @@ public class atmInterface extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(withdrawButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(purchaseButton))
-                            .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(purchaseButton))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -341,9 +345,9 @@ public class atmInterface extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(amount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(money, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(status)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -532,39 +536,44 @@ public class atmInterface extends javax.swing.JFrame {
     private void wireButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wireButtonActionPerformed
         // TODO add your handling code here:
         try{
-            int count = 0;
-            int aid = 0;
-            Account a = new Account();
-            while (count < 3) {
-                aid = chooseAccount();
-                if (aid == 0) {
-                    status.setText("Error when choosing account to wire from.");
-                    return;
-                }
-                // Pull account, place in Account object, check if its savings or checkings
-                a = accounts.get(aid);
-                if (a.type.equals("Savings") || a.type.equals("Student-Checking") || a.type.equals("Interest-Checking")) break;
-                status.setText("Please choose only Savings or Checkings.");
-                count += 1;
-            }
-            if (count > 2) {
-                status.setText("Failed to choose valid account.");
+
+            // Get account they want to pull from
+            int fromAid = 0;
+            Account from = new Account();
+            fromAid = chooseAccount();
+            if (fromAid == 0) {
+                status.setText("Error when choosing account to wire from.");
                 return;
             }
-
+            // Pull account, place in Account object, check if its savings or checkings
+            from = accounts.get(fromAid);
+            if (!(from.type.equals("Savings") || from.type.equals("Student-Checking") || from.type.equals("Interest-Checking"))) {
+                status.setText("Please choose only Savings or Checkings.");
+                return;
+            }
+            
             //receiving account
-            Account b = new Account();
-            int aid1 = 0;
+            Account to = new Account();
+            int toAid = 0;
             try {
-
-                aid1 = Integer.parseInt(toAcc.getText());
+                toAid = Integer.parseInt(toAcc.getText());
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 status.setText("Not a number");
             }
-            b = Account.getAccount(conn, aid1);
+            try {
+                to = Account.getAccount(conn, toAid);
+            } catch (Exception e) {
+                e.printStackTrace();
+                status.setText("Error finding the account to wire to.");
+            }
+            // Check this is a different account.
+            if (from.aid == to.aid) {
+                status.setText("Cannot wire to the same account.");
+                return;
+            }
 
-            if (b.type.equals("Savings") || b.type.equals("Student-Checking") || b.type.equals("Interest-Checking")){
+            if (to.type.equals("Savings") || to.type.equals("Student-Checking") || to.type.equals("Interest-Checking")){
                 int amt = 0;
                 try {
                     amt = Integer.parseInt(amount.getText());
@@ -577,28 +586,28 @@ public class atmInterface extends javax.swing.JFrame {
                     status.setText("Cannot wire negative amount.");
                     return;
                 }
+                
+                double fee = (amt*0.02);
+                double withFee = amt + fee;
 
-                double finalAmt = amt + (amt*0.02);
-
-                if (finalAmt > a.balance) {
+                if (withFee > from.balance) {
                     status.setText("Insufficient funds.");
                     return;
                 }
 
-                b.balance += finalAmt;
-                a.balance -= finalAmt;
+                to.balance += amt;
+                from.balance -= withFee;
 
-                if (a.updateAccountDB(conn) && b.updateAccountDB(conn)) {
-                    status.setText("Wire successful.");
-                    if (Transaction.createTopUp(conn, day, amt, aid, id)) {
-                        status.setText("Transaction recorded.");
+                if (to.updateAccountDB(conn) && from.updateAccountDB(conn)) {
+                    if (Transaction.createWire(conn, day, amt, fromAid, toAid, id)) {
+                        status.setText("Wire successful. Transaction recorded.");
                     } else {
-                        status.setText("Bad behavior - Error recording  transaction.");
+                        status.setText("Bad behavior - Error recording wire transaction.");
                     }
                 }
             }
             else {
-                status.setText("Please choose only Savings or Checkings.");
+                status.setText("Please choose only Savings or Checkings to wire to.");
                 return;
             }
 
@@ -611,24 +620,18 @@ public class atmInterface extends javax.swing.JFrame {
     private void collectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_collectButtonActionPerformed
         // TODO add your handling code here:
         try{
-            int count = 0;
+            // Get account they want to pull from
             int pid = 0;
             Account pa = new Account();
-            while (count < 3) {
-                pid = chooseAccount();
-                if (pid == 0) {
-                    status.setText("Error when choosing account to collect.");
-                    return;
-                }
-
-                pa = accounts.get(pid);
-                if (pa.type.equals("Pocket")) break;
-                status.setText("Please choose only a pocket account.");
-                count += 1;
+            pid = chooseAccount();
+            if (pid == 0) {
+                status.setText("Error when choosing pocket account to collect from.");
+                return;
             }
-
-            if (count > 2) {
-                status.setText("Failed to choose valid account.");
+            // Pull account, place in Account object, check if its savings or checkings
+            pa = accounts.get(pid);
+            if (!(pa.type.equals("Pocket"))) {
+                status.setText("Please select a Pocket account.");
                 return;
             }
 
@@ -656,12 +659,12 @@ public class atmInterface extends javax.swing.JFrame {
             }
 
             pa.balance -= finalAmt;
-            la.balance += finalAmt;
+            la.balance += amt;
 
             if (pa.updateAccountDB(conn) && la.updateAccountDB(conn)) {
                 status.setText("Collection successful.");
-                if (Transaction.createTopUp(conn, day, amt, pid, id)) {
-                    status.setText("Transaction recorded.");
+                if (Transaction.createCollect(conn, day, amt, pid, id)) {
+                    status.setText("Collection successful. Transaction recorded.");
                 } else {
                     status.setText("Bad behavior - Error recording COLLECT transaction.");
                 }

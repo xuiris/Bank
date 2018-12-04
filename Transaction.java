@@ -121,6 +121,28 @@ public class Transaction {
             }	
 	}
         
+        public static boolean createCollect(Connection conn, String day, double amt, int pid, String taxID) {
+		try {
+			Statement stmt = conn.createStatement();
+			int tid = newTid(conn);
+			String qry = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (" 
+					+ tid 
+                                        + ", " + taxID
+					+ ", TO_DATE('" + day + "', 'MM-DD-YYYY')"
+					+ ", 'Collect')";
+			System.out.println(qry);
+			stmt.executeQuery(qry);
+			qry = "INSERT INTO Collect(tid, amt, fromPid) VALUES (" 
+					+ tid 
+					+ ", " + amt
+					+ ", " + pid  + ")";
+			stmt.executeQuery(qry);
+			return true;
+		} catch (SQLException e) {
+			return false;
+		}	
+	}
+        
         public static boolean createPayFriend(Connection conn, String day, double amt, int from, int to, String taxID) {
             try {
                 Statement stmt = conn.createStatement();
@@ -144,6 +166,29 @@ public class Transaction {
             }	
 	}
 	
+        public static boolean createWire(Connection conn, String day, double amt, int from, int to, String taxID) {
+            try {
+                Statement stmt = conn.createStatement();
+                int tid = newTid(conn);
+                String qry = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (" 
+                                + tid 
+                                + ", " + taxID
+                                + ", TO_DATE('" + day + "', 'MM-DD-YYYY')"
+                                + ", 'Wire')";
+                System.out.println(qry);
+                stmt.executeQuery(qry);
+                qry = "INSERT INTO Wire(tid, amt, fromAid, toAid) VALUES (" 
+                                + tid 
+                                + ", " + amt
+                                + ", " + from
+                                + ", " + to + ")";
+                stmt.executeQuery(qry);
+                return true;
+            } catch (SQLException e) {
+                return false;
+            }	
+	}
+        
 	// Come up with an available and unique tid.
 	private static int newTid(Connection conn) throws SQLException {
 		Statement stmt = conn.createStatement();
