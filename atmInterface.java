@@ -51,6 +51,8 @@ public class atmInterface extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         verify = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jPasswordField1 = new javax.swing.JPasswordField();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         depositButton = new javax.swing.JButton();
@@ -64,9 +66,7 @@ public class atmInterface extends javax.swing.JFrame {
         from = new javax.swing.JLabel();
         money = new javax.swing.JLabel();
         to = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        custName = new javax.swing.JLabel();
         status = new javax.swing.JLabel();
         fromAcc = new javax.swing.JComboBox<>();
         toAcc = new javax.swing.JTextField();
@@ -80,7 +80,7 @@ public class atmInterface extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(2000, 1300));
         setMinimumSize(new java.awt.Dimension(700, 500));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("ENTER YOUR PIN");
 
@@ -106,46 +106,63 @@ public class atmInterface extends javax.swing.JFrame {
         verify.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         verify.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel3.setText("ENTER YOUR TAXID");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(52, 52, 52))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(110, 110, 110)
-                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                .addGap(118, 118, 118))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(154, 154, 154)
+                .addComponent(PinField, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(verify, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(verify, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                        .addGap(158, 158, 158))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(133, 133, 133)
-                        .addComponent(PinField, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton2)
+                            .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(120, 120, 120))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(106, 106, 106))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(48, 48, 48)
+                .addGap(51, 51, 51)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
+                .addGap(38, 38, 38)
                 .addComponent(PinField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
-                .addComponent(verify, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(98, 98, 98))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
+                        .addComponent(verify, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(79, Short.MAX_VALUE))))
         );
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 2, 24)); // NOI18N
@@ -224,14 +241,8 @@ public class atmInterface extends javax.swing.JFrame {
         to.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         to.setText("TO:");
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel6.setText("ACCOUNT HOLDER: ");
-
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel7.setText("Enter date:");
-
-        custName.setFont(new java.awt.Font("Tahoma", 2, 18)); // NOI18N
-        custName.setText("jLabel8");
 
         status.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         status.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -252,103 +263,87 @@ public class atmInterface extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(custName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(199, 199, 199))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(131, 131, 131)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(124, 124, 124))
-            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(depositButton)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(transferButton)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(topupButton)
-                            .addComponent(collectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(from)
-                            .addComponent(to)
-                            .addComponent(money))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(fromAcc, 0, 93, Short.MAX_VALUE)
-                            .addComponent(toAcc)
-                            .addComponent(amount))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(109, 109, 109))
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(wireButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(payButton))
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(depositButton)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(transferButton)
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(topupButton)
+                                    .addComponent(collectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(from)
+                                    .addComponent(to)
+                                    .addComponent(money))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(fromAcc, 0, 93, Short.MAX_VALUE)
+                                    .addComponent(toAcc)
+                                    .addComponent(amount))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(wireButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(payButton))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(withdrawButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(purchaseButton))
+                            .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(withdrawButton)
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(purchaseButton))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(189, 189, 189)))
-                .addGap(8, 8, 8))
+                        .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(custName))
-                        .addGap(31, 31, 31)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(41, 41, 41)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(topupButton)
-                            .addComponent(depositButton)
-                            .addComponent(withdrawButton)
-                            .addComponent(purchaseButton))
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(transferButton)
-                            .addComponent(collectButton)
-                            .addComponent(wireButton)
-                            .addComponent(payButton))
-                        .addGap(32, 32, 32)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(from)
-                            .addComponent(fromAcc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(25, 25, 25)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(toAcc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(to))
-                        .addGap(33, 57, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(amount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(money, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                    .addComponent(jLabel7)
+                    .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(52, 52, 52)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(topupButton)
+                    .addComponent(depositButton)
+                    .addComponent(withdrawButton)
+                    .addComponent(purchaseButton))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(transferButton)
+                    .addComponent(collectButton)
+                    .addComponent(wireButton)
+                    .addComponent(payButton))
+                .addGap(32, 32, 32)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(from)
+                    .addComponent(fromAcc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(toAcc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(to))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(amount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(money, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(status)
-                .addGap(39, 39, 39))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -363,7 +358,7 @@ public class atmInterface extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -447,6 +442,557 @@ public class atmInterface extends javax.swing.JFrame {
 			}
        
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void amountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_amountActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_amountActionPerformed
+
+    private void payButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_payButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            // Get account they want to pull from
+            int pid = 0;
+            Account from = new Account();
+            pid = chooseAccount();
+            if (pid == 0) {
+                status.setText("Error when choosing pocket account to pay from.");
+                return;
+            }
+            // Pull account, place in Account object, check if its savings or checkings
+            from = accounts.get(pid);
+            if (!(from.type.equals("Pocket"))) {
+                status.setText("Please select a Pocket account.");
+                return;
+            }
+
+            // Get account they want to pay to
+            Account to = new Account();
+            pid = 0;
+            try {
+                pid = Integer.parseInt(toAcc.getText());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                status.setText("Not a number");
+            }
+
+            // Pull account, place in Account object, check if its savings or checkings
+            try {
+                to = Account.getAccount(conn, pid);
+            } catch (Exception e) {
+                e.printStackTrace();
+                status.setText("Error finding the pocket account to pay to.");
+            }
+            if (!(to.type.equals("Pocket"))) {
+                status.setText("Cannot pay to a non-Pocket account.");
+                return;
+            }
+
+            // Check this is a different account.
+            if (from.aid == to.aid) {
+                status.setText("Cannot pay to the same account.");
+                return;
+            }
+
+            int amt = 0;
+            try {
+                amt = Integer.parseInt(amount.getText());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                status.setText("Not a number");
+            }
+
+            if (amt < 0) {
+                status.setText("Cannot pay a negative amount.");
+                return;
+            }
+            if (amt > from.balance) {
+                status.setText("Insufficient funds for this payment.");
+                return;
+            }
+
+            // Update this in the DB using account object.
+            from.balance -= amt;
+            to.balance += amt;
+            // Update this in the DB using account object.
+            if (from.updateAccountDB(conn) && to.updateAccountDB(conn)) {
+                status.setText("Payment completed.");
+                // Add transaction.
+                if (Transaction.createPayFriend(conn, day, amt, from.aid, to.aid, id)) {
+                    status.setText("Payment completed and Transaction recorded.");
+                } else {
+                    status.setText("Bad behavior - Error recording transfer transaction.");
+                }
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+            status.setText("Error processing payment");
+        }
+    }//GEN-LAST:event_payButtonActionPerformed
+
+    private void wireButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wireButtonActionPerformed
+        // TODO add your handling code here:
+        try{
+            int count = 0;
+            int aid = 0;
+            Account a = new Account();
+            while (count < 3) {
+                aid = chooseAccount();
+                if (aid == 0) {
+                    status.setText("Error when choosing account to wire from.");
+                    return;
+                }
+                // Pull account, place in Account object, check if its savings or checkings
+                a = accounts.get(aid);
+                if (a.type.equals("Savings") || a.type.equals("Student-Checking") || a.type.equals("Interest-Checking")) break;
+                status.setText("Please choose only Savings or Checkings.");
+                count += 1;
+            }
+            if (count > 2) {
+                status.setText("Failed to choose valid account.");
+                return;
+            }
+
+            //receiving account
+            Account b = new Account();
+            int aid1 = 0;
+            try {
+
+                aid1 = Integer.parseInt(toAcc.getText());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                status.setText("Not a number");
+            }
+            b = Account.getAccount(conn, aid1);
+
+            if (b.type.equals("Savings") || b.type.equals("Student-Checking") || b.type.equals("Interest-Checking")){
+                int amt = 0;
+                try {
+                    amt = Integer.parseInt(amount.getText());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    status.setText("Not a number");
+                }
+
+                if (amt < 0) {
+                    status.setText("Cannot wire negative amount.");
+                    return;
+                }
+
+                double finalAmt = amt + (amt*0.02);
+
+                if (finalAmt > a.balance) {
+                    status.setText("Insufficient funds.");
+                    return;
+                }
+
+                b.balance += finalAmt;
+                a.balance -= finalAmt;
+
+                if (a.updateAccountDB(conn) && b.updateAccountDB(conn)) {
+                    status.setText("Wire successful.");
+                    //printAccounts();
+                    if (Transaction.createTopUp(conn, day, amt, aid, id)) {
+                        status.setText("Transaction recorded.");
+                    } else {
+                        status.setText("Bad behavior - Error recording  transaction.");
+                    }
+                }
+            }
+            else {
+                status.setText("Please choose only Savings or Checkings.");
+                return;
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+            status.setText("Error wiring from account");
+        }
+    }//GEN-LAST:event_wireButtonActionPerformed
+
+    private void collectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_collectButtonActionPerformed
+        // TODO add your handling code here:
+        try{
+            int count = 0;
+            int pid = 0;
+            Account pa = new Account();
+            while (count < 3) {
+                pid = chooseAccount();
+                if (pid == 0) {
+                    status.setText("Error when choosing account to collect.");
+                    return;
+                }
+
+                pa = accounts.get(pid);
+                if (pa.type.equals("Pocket")) break;
+                status.setText("Please choose only a pocket account.");
+                count += 1;
+            }
+
+            if (count > 2) {
+                status.setText("Failed to choose valid account.");
+                return;
+            }
+
+            // find the linked Saving/Checking acct
+            int link = linked.get(pid);
+            Account la = accounts.get(link);
+
+            double amt = 0;
+            try {
+                amt = Integer.parseInt(amount.getText());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                status.setText("Not a number");
+            }
+
+            if (amt < 0) {
+                status.setText("Cannot collect negative amount.");
+                return;
+            }
+
+            double finalAmt = amt + (amt*0.03);
+            if (finalAmt > pa.balance) {
+                status.setText("Insufficient funds.");
+                return;
+            }
+
+            pa.balance -= finalAmt;
+            la.balance += finalAmt;
+
+            if (pa.updateAccountDB(conn) && la.updateAccountDB(conn)) {
+                status.setText("Collection successful.");
+                //printAccounts();
+                if (Transaction.createTopUp(conn, day, amt, pid, id)) {
+                    status.setText("Transaction recorded.");
+                } else {
+                    status.setText("Bad behavior - Error recording COLLECT transaction.");
+                }
+            }
+
+        } catch(Exception e){
+
+            e.printStackTrace();
+            status.setText("Error collecting from account");
+        }
+
+    }//GEN-LAST:event_collectButtonActionPerformed
+
+    private void transferButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transferButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            // Get account they want to pull from
+            int aid = 0;
+            Account from = new Account();
+            aid = chooseAccount();
+            if (aid == 0) {
+                status.setText("Error when choosing account to deposit to.");
+                return;
+            }
+            // Pull account, place in Account object, check if its savings or checkings
+            from = accounts.get(aid);
+            if (!(from.type.equals("Savings") || from.type.equals("Student-Checking") || from.type.equals("Interest-Checking"))){
+                status.setText("Please choose only Savings or Checkings.");
+                return;
+            }
+
+            // Get account they want to add to
+            Account to = new Account();
+            aid = 0;
+            try {
+                aid = Integer.parseInt(toAcc.getText());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                status.setText("Not a number");
+            }
+            if (!(accounts.containsKey(aid))) {
+                status.setText("Invalid account number.");
+                return;
+            }
+            // Pull account, place in Account object, check if its savings or checkings
+            to = accounts.get(aid);
+            if (!(to.type.equals("Savings") || to.type.equals("Student-Checking") || to.type.equals("Interest-Checking"))){
+                status.setText("Please choose only Savings or Checkings.");
+                return;
+            }
+
+            double amt = 0;
+            try {
+                amt = Double.parseDouble(amount.getText());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                status.setText("Not a number");
+            }
+
+            if (amt < 0) {
+                status.setText("Cannot transfer a negative amount.");
+                return;
+            }
+            if (amt > from.balance) {
+                status.setText("Insufficient funds.");
+                return;
+            }
+            if (amt > 2000) {
+                status.setText("Cannot transfer over $2,000.");
+                return;
+            }
+
+            from.balance -= amt;
+            to.balance += amt;
+            // Update this in the DB using account object.
+            if (from.updateAccountDB(conn) && to.updateAccountDB(conn)) {
+                status.setText("Transfer successful.");
+                // Add transaction.
+                if (Transaction.createTransfer(conn, day, amt, from.aid, to.aid, id)) {
+                    status.setText("Transaction recorded.");
+                } else {
+                    status.setText("Bad behavior - Error recording transfer transaction.");
+                }
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+            status.setText("Error transfering into account");
+        }
+    }//GEN-LAST:event_transferButtonActionPerformed
+
+    private void purchaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            // Ask user for account they want to transact on
+            int count = 0;
+            int pid = 0;
+            Account pa = new Account();
+            while (count < 3) {
+                pid = chooseAccount();
+                if (pid == 0) {
+                    status.setText("Error when choosing account to purchase from.");
+                    return;
+                }
+
+                pa = accounts.get(pid);
+                if (pa.type.equals("Pocket")) break;
+                status.setText("Please choose only a pocket account.");
+                count += 1;
+            }
+            if (count > 2) {
+                status.setText("Failed to choose valid account.");
+                return;
+            }
+
+            int amt = 0;
+            try {
+                amt = Integer.parseInt(amount.getText());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                status.setText("Not a number");
+            }
+
+            if (amt < 0) {
+                status.setText("Cannot purchase a negative amount.");
+                return;
+            }
+            if (amt > pa.balance) {
+                status.setText("Insufficient funds for this purchase.");
+                return;
+            }
+
+            pa.balance -= amt;
+
+            // Update this in the DB using account object.
+            if (pa.updateAccountDB(conn)) {
+                status.setText("Purchase successful.");
+                //printAccounts();
+                if (Transaction.createPurchase(conn, day, amt, pid, id)) {
+                    status.setText("Transaction recorded.");
+                } else {
+                    status.setText("Bad behavior - Error recording purchase transaction.");
+                }
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+            status.setText("Error using account to purchase");
+        }
+
+    }//GEN-LAST:event_purchaseButtonActionPerformed
+
+    private void withdrawButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_withdrawButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            // Ask user for account they want to transact on
+            int count = 0;
+            int aid = 0;
+            Account a = new Account();
+            while (count < 3) {
+                aid = chooseAccount();
+                if (aid == 0) {
+                    status.setText("Error when choosing account to withdraw from.");
+                    return;
+                }
+                // Pull account, place in Account object, check if its savings or checkings
+                a = accounts.get(aid);
+                if (a.type.equals("Savings") || a.type.equals("Student-Checking") || a.type.equals("Interest-Checking")) break;
+                status.setText("Please choose only Savings or Checkings.");
+                count += 1;
+            }
+            if (count > 2) {
+                status.setText("Failed to choose valid account.");
+                return;
+            }
+
+            int amt = 0;
+            try {
+                amt = Integer.parseInt(amount.getText());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                status.setText("Not a number");
+            }
+
+            if (amt < 0) {
+                status.setText("Cannot withdraw negative amount.");
+                return;
+            }
+            if (amt > a.balance) {
+                status.setText("Insufficient funds.");
+                return;
+            }
+
+            a.balance -= amt;
+            // Update this in the DB using account object.
+            if (a.updateAccountDB(conn)) {
+                status.setText("Withdrawal successful.");
+                //printAccounts();
+                if (Transaction.createWithdraw(conn, day, amt, aid, id)) {
+                    status.setText("Transaction recorded.");
+                } else {
+                    status.setText("Bad behavior - Error recording withdraw transaction.");
+                }
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+            status.setText("Error withdrawing from account");
+        }
+
+    }//GEN-LAST:event_withdrawButtonActionPerformed
+
+    private void topupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_topupButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            // Ask user for account they want to transact on
+            int count = 0;
+            int pid = 0;
+            Account pa = new Account();
+            while (count < 3) {
+                pid = chooseAccount();
+                if (pid == 0) {
+                    status.setText("Error when choosing account to topup.");
+                    return;
+                }
+
+                pa = accounts.get(pid);
+                if (pa.type.equals("Pocket")) break;
+                status.setText("Please choose only a pocket account.");
+                count += 1;
+            }
+            if (count > 2) {
+                status.setText("Failed to choose valid account.");
+                return;
+            }
+
+            // find the linked Saving/Checking acct
+            int link = linked.get(pid);
+            Account la = accounts.get(link);
+
+            int amt = 0;
+            try {
+                amt = Integer.parseInt(amount.getText());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                status.setText("Not a number");
+            }
+
+            if (amt < 0) {
+                status.setText("Cannot topup negative amount.");
+                return;
+            }
+            if (amt > la.balance) {
+                status.setText("Insufficient funds.");
+                return;
+            }
+
+            pa.balance += amt;
+            la.balance -= amt;
+
+            // Update this in the DB using account object.
+            if (pa.updateAccountDB(conn) && la.updateAccountDB(conn)) {
+                status.setText("Top up successful.");
+                //printAccounts();
+                if (Transaction.createTopUp(conn, day, amt, pid, id)) {
+                    status.setText("Transaction recorded.");
+                } else {
+                    status.setText("Bad behavior - Error recording TopUp transaction.");
+                }
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+            status.setText("Error topping up account");
+        }
+    }//GEN-LAST:event_topupButtonActionPerformed
+
+    private void depositButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_depositButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            // Ask user for account they want to transact on
+            int count = 0;
+            int aid = 0;
+            Account a = new Account();
+            while (count < 3) {
+                aid = chooseAccount();
+                if (aid == 0) {
+                    status.setText("Error when choosing account to deposit to.");
+                    return;
+                }
+                // Pull account, place in Account object, check if its savings or checkings
+                a = accounts.get(aid);
+                if (a.type.equals("Savings") || a.type.equals("Student-Checking") || a.type.equals("Interest-Checking")) break;
+                status.setText("Please choose only Savings or Checkings.");
+                count += 1;
+            }
+            if (count > 2) {
+                status.setText("Failed to choose valid account.");
+                return;
+            }
+            double amt = 0;
+            try {
+                amt = Double.parseDouble(amount.getText());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                status.setText("Not a number");
+            }
+
+            if (amt < 0) {
+                status.setText("Cannot deposit negative amount.");
+                return;
+            }
+
+            a.balance += amt;
+            // Update this in the DB using account object.
+            if (a.updateAccountDB(conn)) {
+                status.setText("Deposit successful.");
+                //printAccounts();
+                // Add transaction.
+                if (Transaction.createDeposit(conn, day, amt, aid, id)) {
+                    status.setText("Transaction recorded.");
+                } else {
+                    status.setText("Bad behavior - Error recording deposit transaction.");
+                }
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+            status.setText("Error depositing into account");
+        }
+
+    }//GEN-LAST:event_depositButtonActionPerformed
     private int chooseAccount() {
 		try {
 		
@@ -480,566 +1026,7 @@ public class atmInterface extends javax.swing.JFrame {
             fromAcc.addItem(a.getKey().toString());
 	}
     }
-    private void depositButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_depositButtonActionPerformed
-        // TODO add your handling code here:
-        try {
-			// Ask user for account they want to transact on
-			int count = 0;
-			int aid = 0;
-			Account a = new Account();
-			while (count < 3) {
-				aid = chooseAccount();
-				if (aid == 0) {
-					status.setText("Error when choosing account to deposit to.");
-					return;
-				}
-				// Pull account, place in Account object, check if its savings or checkings
-				a = accounts.get(aid);
-				if (a.type.equals("Savings") || a.type.equals("Student-Checking") || a.type.equals("Interest-Checking")) break;
-				status.setText("Please choose only Savings or Checkings.");
-				count += 1;
-			}
-			if (count > 2) {
-				status.setText("Failed to choose valid account.");
-				return;
-			}
-                        double amt = 0;
-			try {
-				amt = Double.parseDouble(amount.getText());
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				status.setText("Not a number");
-			}
-			
-			if (amt < 0) {
-				status.setText("Cannot deposit negative amount.");
-				return;
-			}
-			
-			a.balance += amt;
-			// Update this in the DB using account object.
-			if (a.updateAccountDB(conn)) {
-				status.setText("Deposit successful.");
-				//printAccounts();
-				// Add transaction.
-				if (Transaction.createDeposit(conn, day, amt, aid, id)) {
-					status.setText("Transaction recorded.");
-				} else {
-					status.setText("Bad behavior - Error recording deposit transaction.");
-				}
-			} 
-		} catch(Exception e){
-			e.printStackTrace();
-			status.setText("Error depositing into account");
-		}
-                        
-    }//GEN-LAST:event_depositButtonActionPerformed
-
-    
-    private void amountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_amountActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_amountActionPerformed
-
-    private void withdrawButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_withdrawButtonActionPerformed
-        // TODO add your handling code here:
-        try {
-			// Ask user for account they want to transact on
-			int count = 0;
-			int aid = 0;
-			Account a = new Account();
-			while (count < 3) {
-				aid = chooseAccount();
-				if (aid == 0) {
-					status.setText("Error when choosing account to withdraw from.");
-					return;
-				}
-				// Pull account, place in Account object, check if its savings or checkings
-				a = accounts.get(aid);
-				if (a.type.equals("Savings") || a.type.equals("Student-Checking") || a.type.equals("Interest-Checking")) break;
-				status.setText("Please choose only Savings or Checkings.");
-				count += 1;
-			}
-			if (count > 2) {
-				status.setText("Failed to choose valid account.");
-				return;
-			}
-			
-			int amt = 0;
-			try {
-				amt = Integer.parseInt(amount.getText());
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				status.setText("Not a number");
-			}
-			
-			if (amt < 0) {
-				status.setText("Cannot withdraw negative amount.");
-				return;
-			}
-			if (amt > a.balance) {
-				status.setText("Insufficient funds.");
-				return;
-			}
-			
-			a.balance -= amt;
-			// Update this in the DB using account object.
-			if (a.updateAccountDB(conn)) {
-				status.setText("Withdrawal successful.");
-				//printAccounts();
-				if (Transaction.createWithdraw(conn, day, amt, aid, id)) {
-					status.setText("Transaction recorded.");
-				} else {
-					status.setText("Bad behavior - Error recording withdraw transaction.");
-				}
-			} 
-		} catch(Exception e){
-			e.printStackTrace();
-			status.setText("Error withdrawing from account");
-		}
        
-    }//GEN-LAST:event_withdrawButtonActionPerformed
-
-    private void purchaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseButtonActionPerformed
-        // TODO add your handling code here:
-        try {
-			// Ask user for account they want to transact on
-			int count = 0;
-			int pid = 0;
-			Account pa = new Account();
-			while (count < 3) {
-				pid = chooseAccount();
-				if (pid == 0) {
-					status.setText("Error when choosing account to purchase from.");
-					return;
-				}
-				
-				pa = accounts.get(pid);
-				if (pa.type.equals("Pocket")) break;
-				status.setText("Please choose only a pocket account.");
-				count += 1;
-			}
-			if (count > 2) {
-				status.setText("Failed to choose valid account.");
-				return;
-			}
-			
-			
-			int amt = 0;
-			try {
-				amt = Integer.parseInt(amount.getText());
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				status.setText("Not a number");
-			}
-			
-			if (amt < 0) {
-				status.setText("Cannot purchase a negative amount.");
-				return;
-			}
-			if (amt > pa.balance) {
-				status.setText("Insufficient funds for this purchase.");
-				return;
-			}
-			
-			pa.balance -= amt;
-			
-			// Update this in the DB using account object.
-			if (pa.updateAccountDB(conn)) {
-				status.setText("Purchase successful.");
-				//printAccounts();
-				if (Transaction.createPurchase(conn, day, amt, pid, id)) {
-					status.setText("Transaction recorded.");
-				} else {
-					status.setText("Bad behavior - Error recording purchase transaction.");
-				}
-			} 
-			
-		} catch(Exception e){
-			e.printStackTrace();
-			status.setText("Error using account to purchase");
-		}
-	
-    }//GEN-LAST:event_purchaseButtonActionPerformed
-
-    private void topupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_topupButtonActionPerformed
-        // TODO add your handling code here:
-        try {
-			// Ask user for account they want to transact on
-			int count = 0;
-			int pid = 0;
-			Account pa = new Account();
-			while (count < 3) {
-				pid = chooseAccount();
-				if (pid == 0) {
-					status.setText("Error when choosing account to topup.");
-					return;
-				}
-				
-				pa = accounts.get(pid);
-				if (pa.type.equals("Pocket")) break;
-				status.setText("Please choose only a pocket account.");
-				count += 1;
-			}
-			if (count > 2) {
-				status.setText("Failed to choose valid account.");
-				return;
-			}
-			
-			// find the linked Saving/Checking acct
-			int link = linked.get(pid);
-			Account la = accounts.get(link);
-			
-		
-			int amt = 0;
-			try {
-				amt = Integer.parseInt(amount.getText());
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				status.setText("Not a number");
-			}
-			
-			if (amt < 0) {
-				status.setText("Cannot topup negative amount.");
-				return;
-			}
-			if (amt > la.balance) {
-				status.setText("Insufficient funds.");
-				return;
-			}
-			
-			pa.balance += amt;
-			la.balance -= amt;
-			
-			// Update this in the DB using account object.
-			if (pa.updateAccountDB(conn) && la.updateAccountDB(conn)) {
-				status.setText("Top up successful.");
-				//printAccounts();
-				if (Transaction.createTopUp(conn, day, amt, pid, id)) {
-					status.setText("Transaction recorded.");
-				} else {
-					status.setText("Bad behavior - Error recording TopUp transaction.");
-				}
-			} 
-			
-		} catch(Exception e){
-			e.printStackTrace();
-			status.setText("Error topping up account");
-		}
-    }//GEN-LAST:event_topupButtonActionPerformed
-
-    private void transferButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transferButtonActionPerformed
-        // TODO add your handling code here:
-        try {
-                // Get account they want to pull from
-                int aid = 0;
-                Account from = new Account();
-                aid = chooseAccount();
-                if (aid == 0) {
-                        status.setText("Error when choosing account to deposit to.");
-                        return;
-                }
-                // Pull account, place in Account object, check if its savings or checkings
-                from = accounts.get(aid);
-                if (!(from.type.equals("Savings") || from.type.equals("Student-Checking") || from.type.equals("Interest-Checking"))){
-                    status.setText("Please choose only Savings or Checkings.");
-                    return;
-                }
-                
-                // Get account they want to add to
-                Account to = new Account();
-                aid = 0;
-                try {
-                        aid = Integer.parseInt(toAcc.getText());
-                } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        status.setText("Not a number");
-                }
-                if (!(accounts.containsKey(aid))) {
-                    status.setText("Invalid account number.");
-                    return;
-                }
-                // Pull account, place in Account object, check if its savings or checkings
-                to = accounts.get(aid);
-                if (!(to.type.equals("Savings") || to.type.equals("Student-Checking") || to.type.equals("Interest-Checking"))){
-                    status.setText("Please choose only Savings or Checkings.");
-                    return;
-                }
-
-                double amt = 0;
-                try {
-                    amt = Double.parseDouble(amount.getText());
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                    status.setText("Not a number");
-                }
-
-                if (amt < 0) {
-                    status.setText("Cannot transfer a negative amount.");
-                    return;
-                }
-                if (amt > from.balance) {
-                    status.setText("Insufficient funds.");
-                    return;
-                }
-                if (amt > 2000) {
-                    status.setText("Cannot transfer over $2,000.");
-                    return;
-                }
-
-                from.balance -= amt;
-                to.balance += amt;
-                // Update this in the DB using account object.
-                if (from.updateAccountDB(conn) && to.updateAccountDB(conn)) {
-                    status.setText("Transfer successful.");
-                    // Add transaction.
-                    if (Transaction.createTransfer(conn, day, amt, from.aid, to.aid, id)) {
-                            status.setText("Transaction recorded.");
-                    } else {
-                            status.setText("Bad behavior - Error recording transfer transaction.");
-                    }
-                } 
-        } catch(Exception e){
-                e.printStackTrace();
-                status.setText("Error transfering into account");
-        }
-
-    }//GEN-LAST:event_transferButtonActionPerformed
-
-    private void payButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_payButtonActionPerformed
-        // TODO add your handling code here:
-        try {
-            // Get account they want to pull from
-            int pid = 0;
-            Account from = new Account();
-            pid = chooseAccount();
-            if (pid == 0) {
-                    status.setText("Error when choosing pocket account to pay from.");
-                    return;
-            }
-            // Pull account, place in Account object, check if its savings or checkings
-            from = accounts.get(pid);
-            if (!(from.type.equals("Pocket"))) {
-                status.setText("Please select a Pocket account.");
-                return;
-            }
-
-            // Get account they want to pay to
-            Account to = new Account();
-            pid = 0;
-            try {
-                pid = Integer.parseInt(toAcc.getText());
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                status.setText("Not a number");
-            }
-
-            // Pull account, place in Account object, check if its savings or checkings
-            try {
-                to = Account.getAccount(conn, pid);
-            } catch (Exception e) {
-                e.printStackTrace();
-                status.setText("Error finding the pocket account to pay to.");
-            }
-            if (!(to.type.equals("Pocket"))) {
-                status.setText("Cannot pay to a non-Pocket account.");
-                return;
-            }
-            
-            // Check this is a different account.
-            if (from.aid == to.aid) {
-                status.setText("Cannot pay to the same account.");
-                return;
-            }
-            
-            int amt = 0;
-            try {
-                amt = Integer.parseInt(amount.getText());
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                status.setText("Not a number");
-            }
-
-            if (amt < 0) {
-                status.setText("Cannot pay a negative amount.");
-                return;
-            }
-            if (amt > from.balance) {
-                status.setText("Insufficient funds for this payment.");
-                return;
-            }
-
-            // Update this in the DB using account object.
-            from.balance -= amt;
-            to.balance += amt;
-            // Update this in the DB using account object.
-            if (from.updateAccountDB(conn) && to.updateAccountDB(conn)) {
-                status.setText("Payment completed.");
-                // Add transaction.
-                if (Transaction.createPayFriend(conn, day, amt, from.aid, to.aid, id)) {
-                        status.setText("Payment completed and Transaction recorded.");
-                } else {
-                        status.setText("Bad behavior - Error recording transfer transaction.");
-                }
-            } 
-        } catch(Exception e){
-            e.printStackTrace();
-            status.setText("Error processing payment");
-        }
-    }//GEN-LAST:event_payButtonActionPerformed
-
-    private void collectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_collectButtonActionPerformed
-        // TODO add your handling code here:
-        try{
-                        int count = 0;
-			int pid = 0;
-			Account pa = new Account();
-			while (count < 3) {
-				pid = chooseAccount();
-				if (pid == 0) {
-					status.setText("Error when choosing account to collect.");
-					return;
-                                }
-				
-				pa = accounts.get(pid);
-				if (pa.type.equals("Pocket")) break;
-				status.setText("Please choose only a pocket account.");
-				count += 1;
-                        }
-                                
-                        if (count > 2) {
-                            status.setText("Failed to choose valid account.");
-                            return;
-			}
-			
-			// find the linked Saving/Checking acct
-			int link = linked.get(pid);
-			Account la = accounts.get(link);
-                        
-                        double amt = 0;
-			try {
-				amt = Integer.parseInt(amount.getText());
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				status.setText("Not a number");
-			}
-			
-			if (amt < 0) {
-				status.setText("Cannot collect negative amount.");
-				return;
-			}
-		
-                        
-                        double finalAmt = amt + (amt*0.03);
-                         if (finalAmt > pa.balance) {
-				status.setText("Insufficient funds.");
-				return;
-			}
-                       
-                        
-                        
-                        pa.balance -= finalAmt;
-                        la.balance += finalAmt;
-                        
-                        if (pa.updateAccountDB(conn) && la.updateAccountDB(conn)) {
-				status.setText("Collection successful.");
-				//printAccounts();
-				if (Transaction.createTopUp(conn, day, amt, pid, id)) {
-					status.setText("Transaction recorded.");
-				} else {
-					status.setText("Bad behavior - Error recording COLLECT transaction.");
-				}
-			} 
-			
-		} catch(Exception e){
-                    
-			e.printStackTrace();
-			status.setText("Error collecting from account");
-                }                       
-                                              	                  
-    }//GEN-LAST:event_collectButtonActionPerformed
-
-    private void wireButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wireButtonActionPerformed
-        // TODO add your handling code here:
-        try{
-            int count = 0;
-			int aid = 0;
-			Account a = new Account();
-			while (count < 3) {
-				aid = chooseAccount();
-				if (aid == 0) {
-					status.setText("Error when choosing account to wire from.");
-					return;
-				}
-				// Pull account, place in Account object, check if its savings or checkings
-				a = accounts.get(aid);
-				if (a.type.equals("Savings") || a.type.equals("Student-Checking") || a.type.equals("Interest-Checking")) break;
-				status.setText("Please choose only Savings or Checkings.");
-				count += 1;
-			}
-			if (count > 2) {
-				status.setText("Failed to choose valid account.");
-				return;
-			}
-                        
-                       //receiving account
-                      Account b = new Account();
-                      int aid1 = 0;
-			try {
-         
-				aid1 = Integer.parseInt(toAcc.getText());
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				status.setText("Not a number");
-			}
-                        b = Account.getAccount(conn, aid1);
-                        
-		
-                        if (b.type.equals("Savings") || b.type.equals("Student-Checking") || b.type.equals("Interest-Checking")){
-                            int amt = 0;
-			try {
-				amt = Integer.parseInt(amount.getText());
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				status.setText("Not a number");
-			}
-			
-			if (amt < 0) {
-				status.setText("Cannot wire negative amount.");
-				return;
-			}
-			
-                        
-                        double finalAmt = amt + (amt*0.02);
-                        
-                        if (finalAmt > a.balance) {
-				status.setText("Insufficient funds.");
-				return;
-			}
-			
-			b.balance += finalAmt;
-			a.balance -= finalAmt;
-                        
-                        if (a.updateAccountDB(conn) && b.updateAccountDB(conn)) {
-				status.setText("Wire successful.");
-				//printAccounts();
-				if (Transaction.createTopUp(conn, day, amt, aid, id)) {
-					status.setText("Transaction recorded.");
-				} else {
-					status.setText("Bad behavior - Error recording  transaction.");
-				}
-			} 
-                        }
-                        else {
-                            status.setText("Please choose only Savings or Checkings.");
-                            return;	
-                        }
-			
-		} catch(Exception e){
-			e.printStackTrace();
-			status.setText("Error wiring from account");    
-        }
-    }//GEN-LAST:event_wireButtonActionPerformed
-   
     /**
      * @param args the command line arguments
      */
@@ -1081,7 +1068,6 @@ public class atmInterface extends javax.swing.JFrame {
     private javax.swing.JPasswordField PinField;
     private javax.swing.JTextField amount;
     private javax.swing.JButton collectButton;
-    private javax.swing.JLabel custName;
     private javax.swing.JTextField date;
     private javax.swing.JButton depositButton;
     private javax.swing.JLabel from;
@@ -1091,10 +1077,11 @@ public class atmInterface extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JLabel money;
     private javax.swing.JButton payButton;
     private javax.swing.JButton purchaseButton;
