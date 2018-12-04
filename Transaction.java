@@ -10,17 +10,17 @@ public class Transaction {
 		try {
 			Statement stmt = conn.createStatement();
 			int tid = newTid(conn);
-			String qry = "INSERT INTO Transactions(tid, day, type) VALUES (" 
+			String qry = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (" 
 					+ tid 
+                                        + ", " + taxID
 					+ ", TO_DATE('" + day + "', 'MM-DD-YYYY')"
 					+ ", 'Deposit')";
 			System.out.println(qry);
 			stmt.executeQuery(qry);
-			qry = "INSERT INTO Deposit(tid, amt, aid, taxID) VALUES (" 
+			qry = "INSERT INTO Deposit(tid, amt, aid) VALUES (" 
 					+ tid 
 					+ ", " + added
-					+ ", " + aid
-					+ ", " + taxID + ")";
+					+ ", " + aid + ")";
 			stmt.executeQuery(qry);
 			return true;
 		} catch (SQLException e) {
@@ -36,17 +36,17 @@ public class Transaction {
 		try {
 			Statement stmt = conn.createStatement();
 			int tid = newTid(conn);
-			String qry = "INSERT INTO Transactions(tid, day, type) VALUES (" 
+			String qry = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (" 
 					+ tid 
-					+ ", TO_DATE('" + day + "', 'MM-DD-YYYY')"
+                                        + ", " + taxID
+                                        + ", TO_DATE('" + day + "', 'MM-DD-YYYY')"
 					+ ", 'TopUp')";
 			System.out.println(qry);
 			stmt.executeQuery(qry);
-			qry = "INSERT INTO TopUp(tid, amt, pid, taxID) VALUES (" 
+			qry = "INSERT INTO TopUp(tid, amt, pid) VALUES (" 
 					+ tid 
 					+ ", " + added
-					+ ", " + pid 
-					+ ", " + taxID + ")";
+					+ ", " + pid + ")";
 			stmt.executeQuery(qry);
 			return true;
 		} catch (SQLException e) {
@@ -58,17 +58,17 @@ public class Transaction {
 		try {
 			Statement stmt = conn.createStatement();
 			int tid = newTid(conn);
-			String qry = "INSERT INTO Transactions(tid, day, type) VALUES (" 
+			String qry = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (" 
 					+ tid 
+                                        + ", " + taxID
 					+ ", TO_DATE('" + day + "', 'MM-DD-YYYY')"
 					+ ", 'Withdraw')";
 			System.out.println(qry);
 			stmt.executeQuery(qry);
-			qry = "INSERT INTO Withdraw(tid, amt, aid, taxID) VALUES (" 
+			qry = "INSERT INTO Withdraw(tid, amt, aid) VALUES (" 
 					+ tid 
 					+ ", " + subtracted
-					+ ", " + aid 
-					+ ", " + taxID + ")";
+					+ ", " + aid  + ")";
 			stmt.executeQuery(qry);
 			return true;
 		} catch (SQLException e) {
@@ -80,17 +80,17 @@ public class Transaction {
 		try {
 			Statement stmt = conn.createStatement();
 			int tid = newTid(conn);
-			String qry = "INSERT INTO Transactions(tid, day, type) VALUES (" 
+			String qry = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (" 
 					+ tid 
+                                        + ", " + taxID
 					+ ", TO_DATE('" + day + "', 'MM-DD-YYYY')"
 					+ ", 'Purchase')";
 			System.out.println(qry);
 			stmt.executeQuery(qry);
-			qry = "INSERT INTO Purchase(tid, amt, pid, taxID) VALUES (" 
+			qry = "INSERT INTO Purchase(tid, amt, pid) VALUES (" 
 					+ tid 
 					+ ", " + amt
-					+ ", " + pid 
-					+ ", " + taxID + ")";
+					+ ", " + pid  + ")";
 			stmt.executeQuery(qry);
 			return true;
 		} catch (SQLException e) {
@@ -102,18 +102,18 @@ public class Transaction {
             try {
                 Statement stmt = conn.createStatement();
                 int tid = newTid(conn);
-                String qry = "INSERT INTO Transactions(tid, day, type) VALUES (" 
+                String qry = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (" 
                                 + tid 
+                                + ", " + taxID
                                 + ", TO_DATE('" + day + "', 'MM-DD-YYYY')"
                                 + ", 'Transfer')";
                 System.out.println(qry);
                 stmt.executeQuery(qry);
-                qry = "INSERT INTO Transfer(tid, amt, fromAid, toAid, taxID) VALUES (" 
+                qry = "INSERT INTO Transfer(tid, amt, fromAid, toAid) VALUES (" 
                                 + tid 
                                 + ", " + amt
                                 + ", " + from
-                                + ", " + to
-                                + ", " + taxID + ")";
+                                + ", " + to + ")";
                 stmt.executeQuery(qry);
                 return true;
             } catch (SQLException e) {
@@ -125,18 +125,18 @@ public class Transaction {
             try {
                 Statement stmt = conn.createStatement();
                 int tid = newTid(conn);
-                String qry = "INSERT INTO Transactions(tid, day, type) VALUES (" 
+                String qry = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (" 
                                 + tid 
+                                + ", " + taxID
                                 + ", TO_DATE('" + day + "', 'MM-DD-YYYY')"
                                 + ", 'PayFriend')";
                 System.out.println(qry);
                 stmt.executeQuery(qry);
-                qry = "INSERT INTO PayFriend(tid, amt, fromPid, toPid, taxID) VALUES (" 
+                qry = "INSERT INTO PayFriend(tid, amt, fromPid, toPid) VALUES (" 
                                 + tid 
                                 + ", " + amt
                                 + ", " + from
-                                + ", " + to
-                                + ", " + taxID + ")";
+                                + ", " + to + ")";
                 stmt.executeQuery(qry);
                 return true;
             } catch (SQLException e) {

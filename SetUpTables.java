@@ -58,9 +58,11 @@ public class SetUpTables {
 			
 			//Transactions Table
 			createTable = "CREATE TABLE Transactions(tid INTEGER," +
+                                                        " taxID CHAR(9)," +
 							" day DATE," + 
 							" type VARCHAR(15)," + 
 							" PRIMARY KEY(tid)," +
+                                                        " FOREIGN KEY (taxID) REFERENCES Customers," +
 							" CHECK (type in ('Deposit','TopUp', 'Withdraw', 'Purchase', 'Transfer', 'Collect', 'PayFriend', 'Wire', 'WriteCheck', 'AccrueInterest')))";;
 			st.executeQuery(createTable);
 			System.out.println("Transactions table created");
@@ -69,10 +71,8 @@ public class SetUpTables {
 			createTable = "CREATE TABLE Deposit(tid INTEGER," +
 					" amt FLOAT," + 
 					" aid INTEGER," +
-					" taxID CHAR(9)," +
 					" PRIMARY KEY(tid)," + 
 					" FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE," +
-					" FOREIGN KEY (taxID) REFERENCES Customers," +
 					" FOREIGN KEY(aid) REFERENCES Accounts)";
 			st.executeQuery(createTable);
 			System.out.println("Deposit table created");
@@ -81,10 +81,8 @@ public class SetUpTables {
 			createTable = "CREATE TABLE TopUp(tid INTEGER," +
 					" amt FLOAT," + 
 					" pid INTEGER," +
-					" taxID CHAR(9)," +
 					" PRIMARY KEY(tid)," + 
 					" FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE," +
-					" FOREIGN KEY (taxID) REFERENCES Customers," +
 					" FOREIGN KEY(pid) REFERENCES Accounts)";
 			st.executeQuery(createTable);
 			System.out.println("TopUp table created");
@@ -93,10 +91,8 @@ public class SetUpTables {
 			createTable = "CREATE TABLE Withdraw(tid INTEGER," +
 					" amt FLOAT," + 
 					" aid INTEGER," +
-					" taxID CHAR(9)," +
 					" PRIMARY KEY(tid)," + 
 					" FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE," +
-					" FOREIGN KEY (taxID) REFERENCES Customers," +
 					" FOREIGN KEY(aid) REFERENCES Accounts)";
 			st.executeQuery(createTable);
 			System.out.println("Withdraw table created");
@@ -105,10 +101,8 @@ public class SetUpTables {
 			createTable = "CREATE TABLE Purchase(tid INTEGER," +
 					" amt FLOAT," + 
 					" pid INTEGER," +
-					" taxID CHAR(9)," +
 					" PRIMARY KEY(tid)," + 
 					" FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE," +
-					" FOREIGN KEY (taxID) REFERENCES Customers," +
 					" FOREIGN KEY(pid) REFERENCES Accounts)";
 			st.executeQuery(createTable);
 			System.out.println("Deposit table created");
@@ -118,10 +112,8 @@ public class SetUpTables {
 					" amt FLOAT," + 
 					" fromAid INTEGER," +
                                         " toAid INTEGER," +
-					" taxID CHAR(9)," +
 					" PRIMARY KEY(tid)," + 
 					" FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE," +
-					" FOREIGN KEY (taxID) REFERENCES Customers," +
 					" FOREIGN KEY(fromAid) REFERENCES Accounts," +
                                         " FOREIGN KEY(toAid) REFERENCES Accounts)";
 			st.executeQuery(createTable);
@@ -132,10 +124,8 @@ public class SetUpTables {
 					" amt FLOAT," + 
 					" fromPid INTEGER," +
                                         " toPid INTEGER," +
-					" taxID CHAR(9)," +
 					" PRIMARY KEY(tid)," + 
 					" FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE," +
-					" FOREIGN KEY (taxID) REFERENCES Customers," +
 					" FOREIGN KEY(fromPid) REFERENCES Accounts," +
                                         " FOREIGN KEY(toPid) REFERENCES Accounts)";
 			st.executeQuery(createTable);
