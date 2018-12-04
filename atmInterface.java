@@ -426,7 +426,7 @@ public class atmInterface extends javax.swing.JFrame {
 			        	day = "12-01-2018";
 			        }
                                 
-                                printAccounts();
+                                updateSelectableAccounts();
                                                     
            }
            
@@ -590,7 +590,6 @@ public class atmInterface extends javax.swing.JFrame {
 
                 if (a.updateAccountDB(conn) && b.updateAccountDB(conn)) {
                     status.setText("Wire successful.");
-                    //printAccounts();
                     if (Transaction.createTopUp(conn, day, amt, aid, id)) {
                         status.setText("Transaction recorded.");
                     } else {
@@ -661,7 +660,6 @@ public class atmInterface extends javax.swing.JFrame {
 
             if (pa.updateAccountDB(conn) && la.updateAccountDB(conn)) {
                 status.setText("Collection successful.");
-                //printAccounts();
                 if (Transaction.createTopUp(conn, day, amt, pid, id)) {
                     status.setText("Transaction recorded.");
                 } else {
@@ -800,7 +798,6 @@ public class atmInterface extends javax.swing.JFrame {
             // Update this in the DB using account object.
             if (pa.updateAccountDB(conn)) {
                 status.setText("Purchase successful.");
-                //printAccounts();
                 if (Transaction.createPurchase(conn, day, amt, pid, id)) {
                     status.setText("Transaction recorded.");
                 } else {
@@ -860,7 +857,6 @@ public class atmInterface extends javax.swing.JFrame {
             // Update this in the DB using account object.
             if (a.updateAccountDB(conn)) {
                 status.setText("Withdrawal successful.");
-                //printAccounts();
                 if (Transaction.createWithdraw(conn, day, amt, aid, id)) {
                     status.setText("Transaction recorded.");
                 } else {
@@ -925,7 +921,6 @@ public class atmInterface extends javax.swing.JFrame {
             // Update this in the DB using account object.
             if (pa.updateAccountDB(conn) && la.updateAccountDB(conn)) {
                 status.setText("Top up successful.");
-                //printAccounts();
                 if (Transaction.createTopUp(conn, day, amt, pid, id)) {
                     status.setText("Transaction recorded.");
                 } else {
@@ -979,7 +974,6 @@ public class atmInterface extends javax.swing.JFrame {
             // Update this in the DB using account object.
             if (a.updateAccountDB(conn)) {
                 status.setText("Deposit successful.");
-                //printAccounts();
                 // Add transaction.
                 if (Transaction.createDeposit(conn, day, amt, aid, id)) {
                     status.setText("Transaction recorded.");
@@ -1018,11 +1012,11 @@ public class atmInterface extends javax.swing.JFrame {
 		return 0;
 	}
    
-    private void printAccounts() {
-        
+    private void updateSelectableAccounts() {
+        // clear all accounts.
+        fromAcc.removeAllItems();
  
-        for (Map.Entry<Integer, Account> a: accounts.entrySet()) {
-                    
+        for (Map.Entry<Integer, Account> a: accounts.entrySet()) {                   
             fromAcc.addItem(a.getKey().toString());
 	}
     }

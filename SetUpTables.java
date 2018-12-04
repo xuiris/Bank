@@ -38,10 +38,10 @@ public class SetUpTables {
 			
 			//Customers Table
 			createTable = "CREATE TABLE Customers ( taxID CHAR(9)," + 
-						   							"PIN INTEGER," + 
-						   							"address CHAR(40)," +
-						   							"name CHAR(20)," +
-						   							"PRIMARY KEY(taxID))";
+                                                                "PIN INTEGER," + 
+                                                                "address CHAR(40)," +
+                                                                "name CHAR(20)," +
+                                                                "PRIMARY KEY(taxID))";
 			st.executeQuery(createTable);
 			System.out.println("Customers table created");
 			
@@ -195,52 +195,54 @@ public class SetUpTables {
 	
 	public void initData()
 	{
-		try {
-        System.out.println("Adding data tables...");
-        Statement stmt = conn.createStatement();
-        String data = "";
-        data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('361721022', 1234, '6667 El Colegio #40', 'Alfred Hitchcock')";
-        stmt.executeQuery(data);
-        data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('231403227', 1468, '5777 Hollister', 'Billy Clinton')";
-        stmt.executeQuery(data);
-        data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('207843218', 8582, '1357 State St', 'David Copperfill')";
-        stmt.executeQuery(data);
-        data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('412231856', 3764, '7000 Hollister', 'Cindy Laugher')";
-        stmt.executeQuery(data);
+            try {
+                System.out.println("Adding data tables...");
+                Statement stmt = conn.createStatement();
+                String data = "";
+                data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('361721022', 1234, '6667 El Colegio #40', 'Alfred Hitchcock')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('231403227', 1468, '5777 Hollister', 'Billy Clinton')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('207843218', 8582, '1357 State St', 'David Copperfill')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('412231856', 3764, '7000 Hollister', 'Cindy Laugher')";
+                stmt.executeQuery(data);
 
-		    data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (43942, 1000.0, 7.5, '1', 'Savings')";
-		    stmt.executeQuery(data);
-		    data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (60413, 500.0, 0.0, '1', 'Pocket')";
-		    stmt.executeQuery(data);
-        data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (12121, 800.0, 0.0, '1', 'Student-Checking')";
-		    stmt.executeQuery(data);
-        data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (53027, 200.0, 0.0, '1', 'Pocket')";
-		    stmt.executeQuery(data);
-        data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (17431, 2000.0, 1.0, '1', 'Student-Checking')";
-		    stmt.executeQuery(data);
-                    
-		    data = "INSERT INTO LinkedPockets(pid, aid) VALUES (60413, 43942)";
-		    stmt.executeQuery(data);
-		    data = "INSERT INTO LinkedPockets(pid, aid) VALUES (53027, 12121)";
-		    stmt.executeQuery(data);
-		    
-		    data = "INSERT INTO Owners(taxID, aid, type) VALUES ('361721022', 43942, 'Primary')";
-		    stmt.executeQuery(data);
-		    data = "INSERT INTO Owners(taxID, aid, type) VALUES ('231403227', 60413, 'Co-Owner')";
-		    stmt.executeQuery(data);
-		    data = "INSERT INTO Owners(taxID, aid, type) VALUES ('412231856', 17431, 'Primary')";
-		    stmt.executeQuery(data);
-        data = "INSERT INTO Owners(taxID, aid, type) VALUES ('207843218', 12121, 'Primary')";
-		    stmt.executeQuery(data);
-        data = "INSERT INTO Owners(taxID, aid, type) VALUES ('207843218', 53027, 'Primary')";
-		    stmt.executeQuery(data);
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (43942, 1000.0, 7.5, '1', 'Savings')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (60413, 500.0, 0.0, '1', 'Pocket')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (12121, 800.0, 0.0, '1', 'Student-Checking')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (53027, 200.0, 0.0, '1', 'Pocket')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (17431, 2000.0, 1.0, '1', 'Student-Checking')";
+                stmt.executeQuery(data);
 
-		    System.out.println("Done with setup...");
-		}catch(Exception e){
-			e.printStackTrace();
-			System.out.println("error");
-			System.exit(0);
-		}
-	}
+                data = "INSERT INTO LinkedPockets(pid, aid) VALUES (60413, 43942)";
+                stmt.executeQuery(data);
+                data = "INSERT INTO LinkedPockets(pid, aid) VALUES (53027, 12121)";
+                stmt.executeQuery(data);
+
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('361721022', 43942, 'Primary')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('361721022', 60413, 'Co-Owner')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('231403227', 60413, 'Co-Owner')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('412231856', 17431, 'Primary')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('207843218', 12121, 'Primary')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('207843218', 53027, 'Primary')";
+                stmt.executeQuery(data);
+
+                System.out.println("Done with setup...");
+            }catch(Exception e){
+                    e.printStackTrace();
+                    System.out.println("error");
+                    System.exit(0);
+            }
+        }
 	
 }
