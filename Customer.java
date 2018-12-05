@@ -62,6 +62,19 @@ public class Customer implements Serializable {
         
         return c;
     }
+    
+    public static String getName(Connection conn, String taxID) throws SQLException {
+        String qry = "SELECT C.name from Customers c where c.taxID = '" + taxID + "'";
+	Statement stmt = conn.createStatement();
+	ResultSet rs = stmt.executeQuery(qry);
+        if (rs.next()) {
+            return rs.getString("name");
+        }
+        else {
+            System.out.println("No customer found with this taxID");
+            throw new SQLException("No such customer exists in DB");
+        }
+    }
         
     @Override
     public String toString(){

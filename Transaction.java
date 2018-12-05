@@ -28,8 +28,10 @@ public class Transaction {
 		}
 	}
         
-        public static String stringDeposit(String day, double added, int aid, String taxID) {
-            return "";
+        public static String stringDeposit(Connection conn, double added, int aid, String taxID) throws SQLException {
+            return Customer.getName(conn, taxID) 
+                    + " deposits $" + added 
+                    + " to accout " + aid;
         }
 	
 	public static boolean createTopUp(Connection conn, String day, double added, int pid, String taxID){
@@ -54,7 +56,24 @@ public class Transaction {
 		}
 	}
 
-	public static boolean createWithdraw(Connection conn, String day, double subtracted, int aid, String taxID) {
+	public static String stringTopUp(Connection conn, double added, int pid, String taxID) throws SQLException {
+                Statement stmt = conn.createStatement();
+                String qry = "SELECT * from LinkedPockets p where p.pid = " + pid;
+                ResultSet rs = stmt.executeQuery(qry);
+                int la;
+                if (rs.next()) {
+                    la = rs.getInt("aid");
+                } else {
+                    System.out.println("No linked account");
+                    throw new SQLException("No linked account exists in DB");
+                }
+                return Customer.getName(conn, taxID) 
+                    + " tops up $" + added 
+                    + " to accout " + pid
+                    + " from account " + la;
+        }
+        
+        public static boolean createWithdraw(Connection conn, String day, double subtracted, int aid, String taxID) {
 		try {
 			Statement stmt = conn.createStatement();
 			int tid = newTid(conn);
@@ -76,7 +95,13 @@ public class Transaction {
 		}	
 	}
 	
-	public static boolean createPurchase(Connection conn, String day, double amt, int pid, String taxID) {
+	public static String stringWithdraw(Connection conn, double subtracted, int aid, String taxID) throws SQLException {
+                return Customer.getName(conn, taxID) 
+                    + " withdraws $" + subtracted 
+                    + " from accout " + aid;
+        }
+        
+        public static boolean createPurchase(Connection conn, String day, double amt, int pid, String taxID) {
 		try {
 			Statement stmt = conn.createStatement();
 			int tid = newTid(conn);
@@ -97,6 +122,12 @@ public class Transaction {
 			return false;
 		}	
 	}
+        
+        public static String stringPurchase(Connection conn, double amt, int pid, String taxID) throws SQLException {
+                return Customer.getName(conn, taxID) 
+                    + " purchases $" + amt 
+                    + " from account " + pid;
+        }
         
         public static boolean createTransfer(Connection conn, String day, double amt, int from, int to, String taxID) {
             try {
@@ -121,6 +152,13 @@ public class Transaction {
             }	
 	}
         
+        public static String stringTransfer(Connection conn, double amt, int from, int to, String taxID) throws SQLException {
+                return Customer.getName(conn, taxID) 
+                    + " transfers $" + amt 
+                    + " from accout " + from
+                    + " to account " + to;
+        }
+        
         public static boolean createCollect(Connection conn, String day, double amt, int pid, String taxID) {
 		try {
 			Statement stmt = conn.createStatement();
@@ -142,6 +180,23 @@ public class Transaction {
 			return false;
 		}	
 	}
+        
+        public static String stringCollect(Connection conn, double amt, int pid, String taxID) throws SQLException {
+                Statement stmt = conn.createStatement();
+                String qry = "SELECT * from LinkedPockets p where p.pid = " + pid;
+                ResultSet rs = stmt.executeQuery(qry);
+                int la;
+                if (rs.next()) {
+                    la = rs.getInt("aid");
+                } else {
+                    System.out.println("No linked account");
+                    throw new SQLException("No linked account exists in DB");
+                }
+                return Customer.getName(conn, taxID) 
+                    + " collects $" + amt 
+                    + " from accout " + pid
+                    + " to account " + la;
+        }
         
         public static boolean createPayFriend(Connection conn, String day, double amt, int from, int to, String taxID) {
             try {
@@ -166,6 +221,13 @@ public class Transaction {
             }	
 	}
 	
+        public static String stringPayFriend(Connection conn, double amt, int from, int to, String taxID) throws SQLException {
+                return Customer.getName(conn, taxID) 
+                    + " pay-friends $" + amt 
+                    + " from accout " + from
+                    + " to account " + to;
+        }
+        
         public static boolean createWire(Connection conn, String day, double amt, int from, int to, String taxID) {
             try {
                 Statement stmt = conn.createStatement();
@@ -188,6 +250,13 @@ public class Transaction {
                 return false;
             }	
 	}
+        
+        public static String stringWire(Connection conn, double amt, int from, int to, String taxID) throws SQLException {
+                return Customer.getName(conn, taxID) 
+                    + " wires $" + amt 
+                    + " from accout " + from
+                    + " to account " + to;
+        }
         
 	// Come up with an available and unique tid.
 	private static int newTid(Connection conn) throws SQLException {
