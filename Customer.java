@@ -44,7 +44,7 @@ public class Customer implements Serializable {
         return c;  
     }
     
-    public static Customer getCustomer(Connection conn, int taxID) throws SQLException {
+    public static Customer getCustomer(Connection conn, String taxID) throws SQLException {
         // Tries to find customer in database and return as Customer object
         String qry = "SELECT * from Customers c where c.taxID = '" + taxID + "'";
 	Statement stmt = conn.createStatement();
@@ -68,7 +68,7 @@ public class Customer implements Serializable {
 	Statement stmt = conn.createStatement();
 	ResultSet rs = stmt.executeQuery(qry);
         if (rs.next()) {
-            return rs.getString("name");
+            return rs.getString("name").trim();
         }
         else {
             System.out.println("No customer found with this taxID");

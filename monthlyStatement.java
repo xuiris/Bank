@@ -1,3 +1,4 @@
+import java.sql.*;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,12 +10,99 @@
  * @author kenkh
  */
 public class monthlyStatement extends javax.swing.JFrame {
-
+    
+    private Connection conn = null;
+    
     /**
      * Creates new form monthlyStatement
      */
     public monthlyStatement() {
         initComponents();
+        Bank bank = new Bank();
+        conn = bank.getConnection();
+    }
+    
+    private String stringTransaction(String type, int tid, String taxID) {
+        String res = "";
+        try {
+            Statement stmt = conn.createStatement();
+            
+            if (type.equals("Deposit")) {
+                String qry = "SELECT * from Deposit t where t.tid = " + tid;
+                ResultSet rs = stmt.executeQuery(qry);
+                if (rs.next()) 
+                    res = Transaction.stringDeposit(conn, rs.getDouble("amt"), rs.getInt("aid"), taxID);
+                rs.close();
+            }
+            else if (type.equals("TopUp")){
+                String qry = "SELECT * from TopUp t where t.tid = " + tid;
+                ResultSet rs = stmt.executeQuery(qry);
+                if (rs.next()) 
+                    res = Transaction.stringTopUp(conn, rs.getDouble("amt"), rs.getInt("pid"), taxID);
+                rs.close();
+            }
+            else if (type.equals("Withdraw")){
+                String qry = "SELECT * from Withdraw t where t.tid = " + tid;
+                ResultSet rs = stmt.executeQuery(qry);
+                if (rs.next()) 
+                    res = Transaction.stringWithdraw(conn, rs.getDouble("amt"), rs.getInt("aid"), taxID);
+                rs.close();
+            }
+            else if (type.equals("Purchase")){
+                String qry = "SELECT * from Purchase t where t.tid = " + tid;
+                ResultSet rs = stmt.executeQuery(qry);
+                if (rs.next()) 
+                    res = Transaction.stringPurchase(conn, rs.getDouble("amt"), rs.getInt("pid"), taxID);
+                rs.close();
+            }
+            else if (type.equals("Transfer")){
+                String qry = "SELECT * from Transfer t where t.tid = " + tid;
+                ResultSet rs = stmt.executeQuery(qry);
+                if (rs.next()) 
+                    res = Transaction.stringTransfer(conn, rs.getDouble("amt"), rs.getInt("fromAid"), rs.getInt("toAid"), taxID);
+                rs.close();
+            }
+            else if (type.equals("Collect")){
+                String qry = "SELECT * from Collect t where t.tid = " + tid;
+                ResultSet rs = stmt.executeQuery(qry);
+                if (rs.next()) 
+                    res = Transaction.stringCollect(conn, rs.getDouble("amt"), rs.getInt("pid"), taxID);
+                rs.close();
+            }
+            else if (type.equals("PayFriend")){
+                String qry = "SELECT * from PayFriend t where t.tid = " + tid;
+                ResultSet rs = stmt.executeQuery(qry);
+                if (rs.next()) 
+                    res = Transaction.stringPayFriend(conn, rs.getDouble("amt"), rs.getInt("fromPid"), rs.getInt("toPid"), taxID);
+                rs.close();
+            }
+            else if (type.equals("Wire")){
+                String qry = "SELECT * from Wire t where t.tid = " + tid;
+                ResultSet rs = stmt.executeQuery(qry);
+                if (rs.next()) 
+                    res = Transaction.stringWire(conn, rs.getDouble("amt"), rs.getInt("fromAid"), rs.getInt("toAid"), taxID);
+                rs.close();
+            }
+            else if (type.equals("WriteCheck")){
+                String qry = "SELECT * from WriteCheck t where t.tid = " + tid;
+                ResultSet rs = stmt.executeQuery(qry);
+                if (rs.next()) 
+                    res = ""; // Not implemented
+                rs.close();
+            }
+            else if (type.equals("AccrueInterest")){
+                String qry = "SELECT * from AccrueInterest t where t.tid = " + tid;
+                ResultSet rs = stmt.executeQuery(qry);
+                if (rs.next()) 
+                    res = ""; // Not implemented
+                rs.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error getting specific transaction");
+        }
+        
+        return res;
     }
 
     /**
@@ -27,8 +115,18 @@ public class monthlyStatement extends javax.swing.JFrame {
     private void initComponents() {
 
         back = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        monthlyStatement = new javax.swing.JTextArea();
+        taxIDField = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        generateButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         back.setText("BACK");
         back.addActionListener(new java.awt.event.ActionListener() {
@@ -37,19 +135,58 @@ public class monthlyStatement extends javax.swing.JFrame {
             }
         });
 
+        monthlyStatement.setColumns(20);
+        monthlyStatement.setRows(5);
+        jScrollPane1.setViewportView(monthlyStatement);
+
+        taxIDField.setText("taxID");
+        taxIDField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                taxIDFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Customer taxID:");
+
+        generateButton.setText("Generate");
+        generateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(331, Short.MAX_VALUE)
-                .addComponent(back)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 600, Short.MAX_VALUE)
+                        .addComponent(back)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel1)
+                .addGap(31, 31, 31)
+                .addComponent(taxIDField, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(generateButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(266, Short.MAX_VALUE)
+                .addContainerGap(28, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(taxIDField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(generateButton))
+                .addGap(23, 23, 23)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(back)
                 .addContainerGap())
         );
@@ -62,6 +199,54 @@ public class monthlyStatement extends javax.swing.JFrame {
         dispose();
         new bankTeller().setVisible(true);
     }//GEN-LAST:event_backActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        try{
+            if(conn!=null){
+               conn.close();
+               System.out.println("From MonthlyStatements: Closed connection...");
+            }
+         }catch(SQLException se){
+            se.printStackTrace();
+         }
+    }//GEN-LAST:event_formWindowClosed
+
+    private void taxIDFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_taxIDFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_taxIDFieldActionPerformed
+
+    private void generateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateButtonActionPerformed
+        // TODO add your handling code here:
+        String taxID = taxIDField.getText();
+        try {
+            Customer c = Customer.getCustomer(conn, taxID);
+        }catch(SQLException se){
+            se.printStackTrace();
+            monthlyStatement.setText("No such customer with this taxID.");
+            return;
+        }
+        
+        String ms = "";
+        String qry = "SELECT t.type, t.tid FROM Transactions t WHERE t.taxID = '" + taxID + "'";
+        String type;
+        int tid;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(qry);
+            while (rs.next()) {
+                type = rs.getString("type");
+                tid = rs.getInt("tid");
+                ms = ms + System.lineSeparator() + stringTransaction(type, tid, taxID);
+            }
+            rs.close();
+            monthlyStatement.setText(ms);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error getting list of transactions");
+            monthlyStatement.setText("Error getting list of transactions");
+        } 
+    }//GEN-LAST:event_generateButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -100,5 +285,10 @@ public class monthlyStatement extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back;
+    private javax.swing.JButton generateButton;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea monthlyStatement;
+    private javax.swing.JTextField taxIDField;
     // End of variables declaration//GEN-END:variables
 }

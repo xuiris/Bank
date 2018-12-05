@@ -31,7 +31,7 @@ public class Transaction {
         public static String stringDeposit(Connection conn, double added, int aid, String taxID) throws SQLException {
             return Customer.getName(conn, taxID) 
                     + " deposits $" + added 
-                    + " to accout " + aid;
+                    + " to account " + aid;
         }
 	
 	public static boolean createTopUp(Connection conn, String day, double added, int pid, String taxID){
@@ -69,7 +69,7 @@ public class Transaction {
                 }
                 return Customer.getName(conn, taxID) 
                     + " tops up $" + added 
-                    + " to accout " + pid
+                    + " to account " + pid
                     + " from account " + la;
         }
         
@@ -98,7 +98,7 @@ public class Transaction {
 	public static String stringWithdraw(Connection conn, double subtracted, int aid, String taxID) throws SQLException {
                 return Customer.getName(conn, taxID) 
                     + " withdraws $" + subtracted 
-                    + " from accout " + aid;
+                    + " from account " + aid;
         }
         
         public static boolean createPurchase(Connection conn, String day, double amt, int pid, String taxID) {
@@ -155,7 +155,7 @@ public class Transaction {
         public static String stringTransfer(Connection conn, double amt, int from, int to, String taxID) throws SQLException {
                 return Customer.getName(conn, taxID) 
                     + " transfers $" + amt 
-                    + " from accout " + from
+                    + " from account " + from
                     + " to account " + to;
         }
         
@@ -194,7 +194,7 @@ public class Transaction {
                 }
                 return Customer.getName(conn, taxID) 
                     + " collects $" + amt 
-                    + " from accout " + pid
+                    + " from account " + pid
                     + " to account " + la;
         }
         
@@ -224,7 +224,7 @@ public class Transaction {
         public static String stringPayFriend(Connection conn, double amt, int from, int to, String taxID) throws SQLException {
                 return Customer.getName(conn, taxID) 
                     + " pay-friends $" + amt 
-                    + " from accout " + from
+                    + " from account " + from
                     + " to account " + to;
         }
         
@@ -254,7 +254,7 @@ public class Transaction {
         public static String stringWire(Connection conn, double amt, int from, int to, String taxID) throws SQLException {
                 return Customer.getName(conn, taxID) 
                     + " wires $" + amt 
-                    + " from accout " + from
+                    + " from account " + from
                     + " to account " + to;
         }
         
