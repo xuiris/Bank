@@ -1,3 +1,6 @@
+
+import java.sql.*;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10,11 +13,15 @@
  */
 public class bankTeller extends javax.swing.JFrame {
 
+    private final Bank bank;
+    private Connection conn;
     /**
      * Creates new form bankTeller
      */
     public bankTeller() {
         initComponents();
+        bank = new Bank();
+        conn = bank.getConnection();
     }
 
     /**
@@ -40,6 +47,11 @@ public class bankTeller extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1000, 700));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         checkTrans.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         checkTrans.setText("Enter Check Transaction");
@@ -250,6 +262,18 @@ public class bankTeller extends javax.swing.JFrame {
         new DTER().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_DTERActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        try{
+            if(conn!=null){
+               conn.close();
+               System.out.println("From BankTeller: Closed connection...");
+            }
+         }catch(SQLException se){
+            se.printStackTrace();
+         }
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

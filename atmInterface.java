@@ -1,10 +1,7 @@
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JButton;
@@ -31,8 +28,8 @@ public class atmInterface extends javax.swing.JFrame {
     
     public atmInterface() {
         initComponents();
-        this.bank=new Bank();
-        
+        bank = new Bank();
+        conn = bank.getConnection();
     }
 
     /**
@@ -79,6 +76,11 @@ public class atmInterface extends javax.swing.JFrame {
         setTitle("ATM \n");
         setMaximumSize(new java.awt.Dimension(2000, 1300));
         setMinimumSize(new java.awt.Dimension(700, 500));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -505,8 +507,8 @@ public class atmInterface extends javax.swing.JFrame {
                 status.setText("Not a number");
             }
 
-            if (amt < 0) {
-                status.setText("Cannot pay a negative amount.");
+            if (amt <= 0) {
+                status.setText("Invalid amount.");
                 return;
             }
             if (amt > from.balance) {
@@ -582,8 +584,8 @@ public class atmInterface extends javax.swing.JFrame {
                     status.setText("Not a number");
                 }
 
-                if (amt < 0) {
-                    status.setText("Cannot wire negative amount.");
+                if (amt <= 0) {
+                    status.setText("Invalid amount.");
                     return;
                 }
                 
@@ -647,8 +649,8 @@ public class atmInterface extends javax.swing.JFrame {
                 status.setText("Not a number");
             }
 
-            if (amt < 0) {
-                status.setText("Cannot collect negative amount.");
+            if (amt <= 0) {
+                status.setText("Invalid amount.");
                 return;
             }
 
@@ -724,8 +726,8 @@ public class atmInterface extends javax.swing.JFrame {
                 status.setText("Not a number");
             }
 
-            if (amt < 0) {
-                status.setText("Cannot transfer a negative amount.");
+            if (amt <= 0) {
+                status.setText("Invalid amount.");
                 return;
             }
             if (amt > from.balance) {
@@ -787,8 +789,8 @@ public class atmInterface extends javax.swing.JFrame {
                 status.setText("Not a number");
             }
 
-            if (amt < 0) {
-                status.setText("Cannot purchase a negative amount.");
+            if (amt <= 0) {
+                status.setText("Invalid amount.");
                 return;
             }
             if (amt > pa.balance) {
@@ -847,8 +849,8 @@ public class atmInterface extends javax.swing.JFrame {
                 status.setText("Not a number");
             }
 
-            if (amt < 0) {
-                status.setText("Cannot withdraw negative amount.");
+            if (amt <= 0) {
+                status.setText("Invalid amount.");
                 return;
             }
             if (amt > a.balance) {
@@ -909,8 +911,8 @@ public class atmInterface extends javax.swing.JFrame {
                 status.setText("Not a number");
             }
 
-            if (amt < 0) {
-                status.setText("Cannot topup negative amount.");
+            if (amt <= 0) {
+                status.setText("Invalid amount.");
                 return;
             }
             if (amt > la.balance) {
@@ -968,8 +970,8 @@ public class atmInterface extends javax.swing.JFrame {
                 status.setText("Not a number");
             }
 
-            if (amt < 0) {
-                status.setText("Cannot deposit negative amount.");
+            if (amt <= 0) {
+                status.setText("Invalid amount.");
                 return;
             }
 
@@ -990,6 +992,19 @@ public class atmInterface extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_depositButtonActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        try{
+            if(conn!=null){
+               conn.close();
+               System.out.println("From ATM: Closed connection...");
+            }
+         }catch(SQLException se){
+            se.printStackTrace();
+         }
+    }//GEN-LAST:event_formWindowClosed
+    
     private int chooseAccount() {
 		try {
 		

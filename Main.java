@@ -1,3 +1,4 @@
+import java.sql.Connection;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -17,7 +18,12 @@ public class Main {
     
     
     public static void main(String[] args) {
-        
+        Bank bank = new Bank();
+        Connection conn = bank.getConnection();
+        SetUpTables su = new SetUpTables(conn);
+        su.destroy();
+        su.create();
+        su.initData();
         BankForm form = new BankForm();
         form.setVisible(true);
         // TODO code application logic here

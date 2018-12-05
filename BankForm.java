@@ -1,6 +1,6 @@
 
 import java.awt.Container;
-import java.sql.Connection;
+import java.sql.*;
 import javafx.scene.paint.Color;
 import javax.swing.JFrame;
 
@@ -18,17 +18,15 @@ import javax.swing.JFrame;
  */
 public class BankForm extends javax.swing.JFrame {
 
-    //private final Bank bank;
+    private final Bank bank;
     //private final customerInterface cust;
-    //private Connection conn;
+    private Connection conn;
     
     
     public BankForm() {
         initComponents();
-       // new Bank();
-        
-        
-        
+        bank = new Bank();
+        conn = bank.getConnection();
     }
 
     /**
@@ -51,6 +49,11 @@ public class BankForm extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1000, 700));
         setName("Bank System"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1000, 700));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         atmButton.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         atmButton.setText("ATM");
@@ -123,6 +126,18 @@ public class BankForm extends javax.swing.JFrame {
         new atmInterface().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_atmButtonActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        try{
+            if(conn!=null){
+               conn.close();
+               System.out.println("From BankForm: Closed connection...");
+            }
+         }catch(SQLException se){
+            se.printStackTrace();
+         }
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

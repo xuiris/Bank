@@ -5,9 +5,9 @@ public class SetUpTables {
 	
 	private Connection conn;
 
-	SetUpTables(Connection c) throws SQLException
+	SetUpTables(Connection c)
 	{
-		conn = c;
+            conn = c;
 	}
 	
 	public void create() 
@@ -165,6 +165,14 @@ public class SetUpTables {
 		}catch(Exception e){
 			e.printStackTrace();
 			System.out.println("error");
+                        try{
+                            if(conn!=null){
+                                conn.close();
+                                System.out.println("Closed connection to database...");
+                             }
+                         }catch(SQLException se){
+                            se.printStackTrace();
+                         }
 			System.exit(0);
 		}
 	}
@@ -218,6 +226,12 @@ public class SetUpTables {
 		}catch(Exception e){
 			e.printStackTrace();
 			System.out.println("error");
+                        try{
+                            if(conn!=null)
+                               conn.close();
+                         }catch(SQLException se){
+                            se.printStackTrace();
+                         }
 			System.exit(0);		}
 	}
 	
@@ -269,6 +283,12 @@ public class SetUpTables {
             }catch(Exception e){
                     e.printStackTrace();
                     System.out.println("error");
+                    try{
+                        if(conn!=null)
+                           conn.close();
+                     }catch(SQLException se){
+                        se.printStackTrace();
+                     }
                     System.exit(0);
             }
         }
