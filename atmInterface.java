@@ -498,6 +498,11 @@ public class atmInterface extends javax.swing.JFrame {
                 return;
             }
 
+            // Check if accounts open
+            if (!(from.isOpen && to.isOpen)) {
+                status.setText("Cannot transact on closed accounts.");
+                return;
+            }
             // Check this is a different account.
             if (from.aid == to.aid) {
                 status.setText("Cannot pay to the same account.");
@@ -574,6 +579,11 @@ public class atmInterface extends javax.swing.JFrame {
                 e.printStackTrace();
                 status.setText("Error finding the account to wire to.");
             }
+            // Check if accounts open
+            if (!(from.isOpen && to.isOpen)) {
+                status.setText("Cannot transact on closed accounts.");
+                return;
+            }
             // Check this is a different account.
             if (from.aid == to.aid) {
                 status.setText("Cannot wire to the same account.");
@@ -645,6 +655,12 @@ public class atmInterface extends javax.swing.JFrame {
             // find the linked Saving/Checking acct
             int link = linked.get(pid);
             Account la = accounts.get(link);
+            
+            // Check if accounts open
+            if (!(pa.isOpen && la.isOpen)) {
+                status.setText("Cannot transact on closed accounts.");
+                return;
+            }
 
             double amt = 0;
             try {
@@ -723,6 +739,17 @@ public class atmInterface extends javax.swing.JFrame {
                 return;
             }
 
+            // Check if accounts open
+            if (!(from.isOpen && to.isOpen)) {
+                status.setText("Cannot transact on closed accounts.");
+                return;
+            }
+            // Check this is a different account.
+            if (from.aid == to.aid) {
+                status.setText("Cannot pay to the same account.");
+                return;
+            }
+            
             double amt = 0;
             try {
                 amt = Double.parseDouble(amount.getText());
@@ -786,6 +813,12 @@ public class atmInterface extends javax.swing.JFrame {
                 return;
             }
 
+            // Check if accounts open
+            if (!(pa.isOpen)) {
+                status.setText("Cannot transact on closed accounts.");
+                return;
+            }
+            
             int amt = 0;
             try {
                 amt = Integer.parseInt(amount.getText());
@@ -846,6 +879,13 @@ public class atmInterface extends javax.swing.JFrame {
                 return;
             }
 
+            // Check if accounts open
+            if (!(a.isOpen)) {
+                status.setText("Cannot transact on closed accounts.");
+                return;
+            }
+
+            
             int amt = 0;
             try {
                 amt = Integer.parseInt(amount.getText());
@@ -907,6 +947,12 @@ public class atmInterface extends javax.swing.JFrame {
             // find the linked Saving/Checking acct
             int link = linked.get(pid);
             Account la = accounts.get(link);
+            
+            // Check if accounts open
+            if (!(la.isOpen && pa.isOpen)) {
+                status.setText("Cannot transact on closed accounts.");
+                return;
+            }
 
             int amt = 0;
             try {
@@ -967,6 +1013,13 @@ public class atmInterface extends javax.swing.JFrame {
                 status.setText("Failed to choose valid account.");
                 return;
             }
+            
+            // Check if accounts open
+            if (!(a.isOpen)) {
+                status.setText("Cannot transact on closed accounts.");
+                return;
+            }
+            
             double amt = 0;
             try {
                 amt = Double.parseDouble(amount.getText());
