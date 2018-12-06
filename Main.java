@@ -21,9 +21,9 @@ public class Main {
         Bank bank = new Bank();
         Connection conn = bank.getConnection();
         SetUpTables su = new SetUpTables(conn);
-        //su.destroy();
-        //su.create();
-        //su.initData();
+        su.destroy();
+        su.create();
+        su.initData();
         BankForm form = new BankForm();
         form.setVisible(true);
         // TODO code application logic here
