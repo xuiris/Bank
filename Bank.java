@@ -8,8 +8,8 @@ public class Bank {
    static final String DB_URL = "jdbc:oracle:thin:@cloud-34-133.eci.ucsb.edu:1521:XE";
 
    //  Database credentials
-   static final String USERNAME = "irisxu";
-   static final String PASSWORD = "9893025"; 
+   static final String USERNAME = "e_khurelbaatar";
+   static final String PASSWORD = "enjilove"; 
    Connection conn = null;
    
   public Bank(){}//end main

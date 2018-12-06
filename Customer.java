@@ -36,15 +36,15 @@ public class Customer implements Serializable {
         Statement stmt = conn.createStatement();
         String qry = "INSERT INTO Customers(taxID, PIN, address, name)" +
                 " VALUES (" +
-                "'" + taxID + "', " +
+                "'" + c.taxID + "', " +
                 "'1717', " +
-                "'" + address + "'," +
-                "'" + name + "')";
+                "'" + c.address + "'," +
+                "'" + c.name + "')";
         stmt.executeQuery(qry);
         return c;  
     }
     
-    public static Customer getCustomer(Connection conn, int taxID) throws SQLException {
+    public static Customer getCustomer(Connection conn, String taxID) throws SQLException {
         // Tries to find customer in database and return as Customer object
         String qry = "SELECT * from Customers c where c.taxID = '" + taxID + "'";
 	Statement stmt = conn.createStatement();

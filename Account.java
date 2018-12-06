@@ -10,7 +10,7 @@ public class Account {
 	
 	Account() {}
 	
-	Account(int Aid, double Interest, double Balance, boolean Open, String Type) {
+	Account(int Aid, double Balance, double Interest, boolean Open, String Type) {
 		aid = Aid;
 		interest = Interest;
 		balance = Balance;
@@ -18,20 +18,22 @@ public class Account {
 		type = Type;
 	}
         
-        public static Account createAccount(Connection conn, int aid, double interest, double balance, boolean open, String type) throws SQLException {
+        public static Account createAccount(Connection conn, int aid, double balance, double interest, boolean open, String type) throws SQLException {
             if ((balance <= 0) || (interest < 0)) {
                 throw new SQLException("Cannot create Account instance with invalid balance/interest");
             }
             
             //Creates account and stores in database
-            Account a = new Account(aid, interest, balance, true, type);
+            Account a = new Account(aid, balance, interest, true, type);
+            
+            
 
             Statement stmt = conn.createStatement();
             String qry = "INSERT INTO Accounts(aid, balance, interest, open, type)" +
                     " VALUES (" +
-                    aid + "', " +
-                    balance + "', " +
-                    interest + "', " +
+                    aid + ", " +
+                    balance + ", " +
+                    interest + ", " +
                     "'1', " +
                     "'" + type + "')";
             stmt.executeQuery(qry);
