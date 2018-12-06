@@ -286,6 +286,21 @@ public class monthlyStatement extends javax.swing.JFrame {
                 monthlyStatement.setText("Error getting customers who own this account");
             } 
             
+            // Print intial balance of this account
+            qry = "SELECT b.balance FROM InitialBalances b"
+		+ " WHERE b.aid = '" + aid + "'";
+            try {
+                Statement stmt = conn.createStatement();
+                ResultSet ib = stmt.executeQuery(qry);
+                if(ib.next()){
+                    ms = ms + System.lineSeparator() + "INITIAL BALANCE: " + ib.getDouble("balance");
+                }
+                ib.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Error getting initial balance of account");
+                monthlyStatement.setText("Error getting initial balance of account");
+            } 
             
             // Need to now print the transactions for this specific account.
             // Get all the TIDs from each Transaction where account is referenced
@@ -379,6 +394,11 @@ public class monthlyStatement extends javax.swing.JFrame {
                     monthlyStatement.setText("Error getting list of transactions");
                 } 
             }
+            
+            
+            // Now print the final account balance
+            ms = ms + System.lineSeparator() + "FINAL BALANCE: " + a.getValue().balance;
+            
             // loop through other accounts.
         }
         
