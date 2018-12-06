@@ -53,7 +53,7 @@ public class Customer implements Serializable {
         if (rs.next()) {
 	    c.taxID = rs.getString("taxID");
             c.name = rs.getString("name");
-            c.address = rs.getString("address");
+            c.address = rs.getString("address").trim();
             c.PIN = rs.getInt("PIN");
         } else {
             System.out.println("No customer found with this taxID");
@@ -62,13 +62,25 @@ public class Customer implements Serializable {
         
         return c;
     }
+    
+    public static String getName(Connection conn, String taxID) throws SQLException {
+        String qry = "SELECT C.name from Customers c where c.taxID = '" + taxID + "'";
+	Statement stmt = conn.createStatement();
+	ResultSet rs = stmt.executeQuery(qry);
+        if (rs.next()) {
+            return rs.getString("name").trim();
+        }
+        else {
+            System.out.println("No customer found with this taxID");
+            throw new SQLException("No such customer exists in DB");
+        }
+    }
         
     @Override
     public String toString(){
         return  "taxID: " + gettaxID() + 
-                " Address: " + getaddress() + 
-                " Name: " + getname() + 
-                " PIN:" + getPIN();
+                ",     Address: " + getaddress() + 
+                ",     Name: " + getname();
                 
     }
       

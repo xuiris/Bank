@@ -87,6 +87,11 @@ public class atmInterface extends javax.swing.JFrame {
         jLabel1.setText("ENTER YOUR PIN");
 
         PinField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        PinField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PinFieldActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton2.setText("ENTER");
@@ -1004,6 +1009,10 @@ public class atmInterface extends javax.swing.JFrame {
             se.printStackTrace();
          }
     }//GEN-LAST:event_formWindowClosed
+
+    private void PinFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PinFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PinFieldActionPerformed
     
     private int chooseAccount() {
 		try {

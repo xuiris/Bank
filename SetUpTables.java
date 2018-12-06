@@ -249,34 +249,170 @@ public class SetUpTables {
                 stmt.executeQuery(data);
                 data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('412231856', 3764, '7000 Hollister', 'Cindy Laugher')";
                 stmt.executeQuery(data);
-
-                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (43942, 1000.0, 7.5, '1', 'Savings')";
+                data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('122219876', 3856, '4321 State St', 'Elizabeth Sailor')";
                 stmt.executeQuery(data);
-                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (60413, 500.0, 0.0, '1', 'Pocket')";
+                data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('401605312', 8193, '3756 La Cumbre Plaza', 'Fatal Castro')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('201674933', 9824, '5346 Foothill Av', 'George Brush')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('212431965', 3532, '678 State St', 'Hurryson Ford')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('322175130', 8471, '1235 Johnson Dr', 'Ivan Lendme')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('344151573', 3692, '3210 State St', 'Joe Pepsi')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('209378521', 4659, 'Santa Cruz #3579', 'Kelvin Coster')";
+                stmt.executeQuery(data);   
+                data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('212116070', 9173, '2 Peoples Rd Beijing', 'Li Kung')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('188212217', 7351, '3852 Court Rd', 'Magic Jordon')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('203491209', 5340, '1997 Peoples St HK', 'Nam-hoi Chung')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('210389768', 8452, '6689 El Colegio #151', 'Olive Stoner')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('400651982', 1821, '911 State St', 'Pit Wilson')";
+                stmt.executeQuery(data);
+
+		data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (17431, 2000.0, 0.0, '1', 'Student-Checking')";
+                stmt.executeQuery(data);					
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (54321, 800.0, 0.0, '1', 'Student-Checking')";
                 stmt.executeQuery(data);
                 data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (12121, 800.0, 0.0, '1', 'Student-Checking')";
                 stmt.executeQuery(data);
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (41725, 2000.0, 0.0, '1', 'Student-Checking')";
+                stmt.executeQuery(data);
+                
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (76543, 2000.0, 5.5, '1', 'Interest-Checking')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (93156, 2000.0, 5.5, '1', 'Interest-Checking')";
+                stmt.executeQuery(data);
+                
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (43942, 1000.0, 7.5, '1', 'Savings')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (29107, 1000.0, 7.5, '1', 'Savings')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (19023, 1000.0, 7.5, '1', 'Savings')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (32156, 1000.0, 7.5, '1', 'Savings')";
+                stmt.executeQuery(data);
+                
                 data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (53027, 200.0, 0.0, '1', 'Pocket')";
                 stmt.executeQuery(data);
-                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (17431, 2000.0, 1.0, '1', 'Student-Checking')";
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (43947, 500.0, 0.0, '1', 'Pocket')";
                 stmt.executeQuery(data);
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (60413, 500.0, 0.0, '1', 'Pocket')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (67521, 2000.0, 0.0, '1', 'Pocket')";
+                stmt.executeQuery(data);
+                
 
                 data = "INSERT INTO LinkedPockets(pid, aid) VALUES (60413, 43942)";
                 stmt.executeQuery(data);
                 data = "INSERT INTO LinkedPockets(pid, aid) VALUES (53027, 12121)";
                 stmt.executeQuery(data);
 
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('344151573', 17431, 'Primary')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('412231856', 17431, 'Co-Owner')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('322175130', 17431, 'Co-Owner')";
+                stmt.executeQuery(data);
+               
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('212431965', 54321, 'Primary')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('412231856', 54321, 'Co-Owner')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('122219876', 54321, 'Co-Owner')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('203491209', 54321, 'Co-Owner')";
+                stmt.executeQuery(data);
+                
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('207843218', 12121, 'Primary')";
+                stmt.executeQuery(data);
+                
+                
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('201674933', 41725, 'Primary')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('401605312', 41725, 'Co-Owner')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('231403227', 41725, 'Co-Owner')";
+                stmt.executeQuery(data);
+                
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('212116070', 76543, 'Primary')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('188212217', 76543, 'Co-Owner')";
+                stmt.executeQuery(data);
+                
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('209378521', 93156, 'Primary')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('188212217', 93156, 'Co-Owner')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('210389768', 93156, 'Co-Owner')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('122219876', 93156, 'Co-Owner')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('203491209', 93156, 'Co-Owner')";
+                stmt.executeQuery(data);
+                
                 data = "INSERT INTO Owners(taxID, aid, type) VALUES ('361721022', 43942, 'Primary')";
                 stmt.executeQuery(data);
-                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('361721022', 60413, 'Co-Owner')";
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('400651982', 43942, 'Co-Owner')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('212431965', 43942, 'Co-Owner')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('322175130', 43942, 'Co-Owner')";
+                stmt.executeQuery(data);
+                
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('209378521', 29107, 'Primary')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('212116070', 29107, 'Co-Owner')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('210389768', 29107, 'Co-Owner')";
+                stmt.executeQuery(data);
+                
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('412231856', 19023, 'Primary')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('201674933', 19023, 'Co-Owner')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('401605312', 19023, 'Co-Owner')";
+                stmt.executeQuery(data);
+                
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('188212217', 32156, 'Primary')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('207843218', 32156, 'Co-Owner')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('122219876', 32156, 'Co-Owner')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('344151573', 32156, 'Co-Owner')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('203491209', 32156, 'Co-Owner')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('210389768', 32156, 'Co-Owner')";
+                stmt.executeQuery(data);
+                
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('207843218', 53027, 'Primary')";
+                stmt.executeQuery(data);
+                
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('212116070', 43947, 'Primary')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('210389768', 43947, 'Co-Owner')";
+                stmt.executeQuery(data);
+                
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('361721022', 60413, 'Primary')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('400651982', 60413, 'Co-Owner')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('122219876', 60413, 'Co-Owner')";
                 stmt.executeQuery(data);
                 data = "INSERT INTO Owners(taxID, aid, type) VALUES ('231403227', 60413, 'Co-Owner')";
                 stmt.executeQuery(data);
-                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('412231856', 17431, 'Primary')";
+                
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('209378521', 67521, 'Primary')";
                 stmt.executeQuery(data);
-                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('207843218', 12121, 'Primary')";
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('401605312', 67521, 'Co-Owner')";
                 stmt.executeQuery(data);
-                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('207843218', 53027, 'Primary')";
+                data = "INSERT INTO Owners(taxID, aid, type) VALUES ('212431965', 67521, 'Co-Owner')";
                 stmt.executeQuery(data);
 
                 System.out.println("Done with setup...");
