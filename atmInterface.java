@@ -462,15 +462,15 @@ public class atmInterface extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             // Get account they want to pull from
-            int pid = 0;
+            int fromPid = 0;
             Account from = new Account();
-            pid = chooseAccount();
-            if (pid == 0) {
+            fromPid = chooseAccount();
+            if (fromPid == 0) {
                 status.setText("Error when choosing pocket account to pay from.");
                 return;
             }
             // Pull account, place in Account object, check if its savings or checkings
-            from = accounts.get(pid);
+            from = accounts.get(fromPid);
             if (!(from.type.equals("Pocket"))) {
                 status.setText("Please select a Pocket account.");
                 return;
@@ -478,9 +478,9 @@ public class atmInterface extends javax.swing.JFrame {
 
             // Get account they want to pay to
             Account to = new Account();
-            pid = 0;
+            int toPid = 0;
             try {
-                pid = Integer.parseInt(toAcc.getText());
+                toPid = Integer.parseInt(toAcc.getText());
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 status.setText("Not a number");
@@ -488,7 +488,7 @@ public class atmInterface extends javax.swing.JFrame {
 
             // Pull account, place in Account object, check if its savings or checkings
             try {
-                to = Account.getAccount(conn, pid);
+                to = Account.getAccount(conn, toPid);
             } catch (Exception e) {
                 e.printStackTrace();
                 status.setText("Error finding the pocket account to pay to.");
@@ -509,9 +509,9 @@ public class atmInterface extends javax.swing.JFrame {
                 return;
             }
 
-            int amt = 0;
+            double amt = 0;
             try {
-                amt = Integer.parseInt(amount.getText());
+                amt = Double.parseDouble(amount.getText());
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 status.setText("Not a number");
@@ -521,13 +521,15 @@ public class atmInterface extends javax.swing.JFrame {
                 status.setText("Invalid amount.");
                 return;
             }
-            if (amt > from.balance) {
+            
+            double total = amt + flatFee(fromPid);
+            if (total > from.balance) {
                 status.setText("Insufficient funds for this payment.");
                 return;
             }
 
             // Update this in the DB using account object.
-            from.balance -= amt;
+            from.balance -= total;
             to.balance += amt;
             // Update this in the DB using account object.
             if (from.updateAccountDB(conn) && to.updateAccountDB(conn)) {
@@ -591,9 +593,9 @@ public class atmInterface extends javax.swing.JFrame {
             }
 
             if (to.type.equals("Savings") || to.type.equals("Student-Checking") || to.type.equals("Interest-Checking")){
-                int amt = 0;
+                double amt = 0;
                 try {
-                    amt = Integer.parseInt(amount.getText());
+                    amt = Double.parseDouble(amount.getText());
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                     status.setText("Not a number");
@@ -664,7 +666,7 @@ public class atmInterface extends javax.swing.JFrame {
 
             double amt = 0;
             try {
-                amt = Integer.parseInt(amount.getText());
+                amt = Double.parseDouble(amount.getText());
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 status.setText("Not a number");
@@ -675,7 +677,7 @@ public class atmInterface extends javax.swing.JFrame {
                 return;
             }
 
-            double finalAmt = amt + (amt*0.03);
+            double finalAmt = amt + (amt*0.03) + flatFee(pid);
             if (finalAmt > pa.balance) {
                 status.setText("Insufficient funds.");
                 return;
@@ -818,10 +820,10 @@ public class atmInterface extends javax.swing.JFrame {
                 status.setText("Cannot transact on closed accounts.");
                 return;
             }
-            
-            int amt = 0;
+                       
+            double amt = 0;
             try {
-                amt = Integer.parseInt(amount.getText());
+                amt = Double.parseDouble(amount.getText());
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 status.setText("Not a number");
@@ -831,17 +833,19 @@ public class atmInterface extends javax.swing.JFrame {
                 status.setText("Invalid amount.");
                 return;
             }
-            if (amt > pa.balance) {
+            
+            double total = amt + flatFee(pid);           
+            if ((total) > pa.balance) {
                 status.setText("Insufficient funds for this purchase.");
                 return;
             }
 
-            pa.balance -= amt;
+            pa.balance -= total;
 
             // Update this in the DB using account object.
             if (pa.updateAccountDB(conn)) {
                 status.setText("Purchase successful.");
-                if (Transaction.createPurchase(conn, day, amt, pid, id)) {
+                if (Transaction.createPurchase(conn, day, total, pid, id)) {
                     status.setText("Transaction recorded.");
                 } else {
                     status.setText("Bad behavior - Error recording purchase transaction.");
@@ -886,9 +890,9 @@ public class atmInterface extends javax.swing.JFrame {
             }
 
             
-            int amt = 0;
+            double amt = 0;
             try {
-                amt = Integer.parseInt(amount.getText());
+                amt = Double.parseDouble(amount.getText());
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 status.setText("Not a number");
@@ -954,9 +958,9 @@ public class atmInterface extends javax.swing.JFrame {
                 return;
             }
 
-            int amt = 0;
+            double amt = 0;
             try {
-                amt = Integer.parseInt(amount.getText());
+                amt = Double.parseDouble(amount.getText());
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 status.setText("Not a number");
@@ -1099,6 +1103,30 @@ public class atmInterface extends javax.swing.JFrame {
         for (Map.Entry<Integer, Account> a: accounts.entrySet()) {                   
             fromAcc.addItem(a.getKey().toString());
 	}
+    }
+    
+    private double flatFee(int p) {
+        // Check if we need to apply flat fee. If there exists no other transaction
+        // made on the pocket then we return $5, ow $0
+        double fee = 0.0;
+        String qry = "SELECT DISTINCT t.tid FROM Transactions t, Purchase p, Collect c, PayFriend f"
+                + " WHERE p.pid = " + p 
+                + " OR c.fromPid = " + p 
+                + " OR f.fromPid = " + p ;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(qry);
+            if (!(rs.next())) {
+                fee = 5.0;
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error getting list of transactions");
+            status.setText("Error getting list of transactions");
+        } 
+        
+        return fee;
     }
        
     /**
