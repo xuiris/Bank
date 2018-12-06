@@ -255,7 +255,9 @@ public class monthlyStatement extends javax.swing.JFrame {
             monthlyStatement.setText("Error getting the primary accounts of this customer");
         } 
         
-        // FOR EACH ACCOUNT: Print the info for each account
+        // FOR EACH ACCOUNT: Print the info for each account,
+        // Keep track of how much acct balance has changed, 
+        // subtract from current to get init balance.
         for (Map.Entry<Integer, Account> a: accounts.entrySet()) {
             // Print out the account info
             ms = ms + System.lineSeparator() + System.lineSeparator() + a.getValue().toString();
@@ -358,7 +360,7 @@ public class monthlyStatement extends javax.swing.JFrame {
             // Now go through sorted TIDs and print each transaction for the specific account.
             Collections.sort(relatedTids);
             for (Integer tid: relatedTids) {
-                qry = "SELECT t.type, t.day FROM Transactions t WHERE t.tid = '" + tid + "'";
+                qry = "SELECT t.type, t.day, t.taxID FROM Transactions t WHERE t.tid = '" + tid + "'";
                 String type;
                 java.sql.Date day;
                 try {
@@ -367,7 +369,8 @@ public class monthlyStatement extends javax.swing.JFrame {
                     if (rs.next()) {
                         type = rs.getString("type");
                         day = rs.getDate("day");
-                        ms = ms + System.lineSeparator() + day + " " + stringTransaction(type, tid, taxID);
+                        String id = rs.getString("taxID");
+                        ms = ms + System.lineSeparator() + day + " " + stringTransaction(type, tid, id);
                     }
                     rs.close();
                 } catch (SQLException e) {
