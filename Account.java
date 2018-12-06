@@ -81,7 +81,7 @@ public class Account {
 	}
 	
 	public String toString() {
-		return ("aid: " + aid +  ", balance: " + balance + ", interest: " + interest + ", open: " + isOpen + ", type: " + type);
+		return ("aid: " + aid +  ",     balance: " + balance + ",     interest: " + interest + ",     open: " + isOpen + ",     type: " + type);
 	}
 		
 	

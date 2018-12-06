@@ -53,7 +53,7 @@ public class Customer implements Serializable {
         if (rs.next()) {
 	    c.taxID = rs.getString("taxID");
             c.name = rs.getString("name");
-            c.address = rs.getString("address");
+            c.address = rs.getString("address").trim();
             c.PIN = rs.getInt("PIN");
         } else {
             System.out.println("No customer found with this taxID");
@@ -79,9 +79,8 @@ public class Customer implements Serializable {
     @Override
     public String toString(){
         return  "taxID: " + gettaxID() + 
-                " Address: " + getaddress() + 
-                " Name: " + getname() + 
-                " PIN:" + getPIN();
+                ",     Address: " + getaddress() + 
+                ",     Name: " + getname();
                 
     }
       

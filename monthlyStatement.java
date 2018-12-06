@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.util.*;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -228,24 +230,156 @@ public class monthlyStatement extends javax.swing.JFrame {
         }
         
         String ms = "";
-        String qry = "SELECT t.type, t.tid FROM Transactions t WHERE t.taxID = '" + taxID + "'";
-        String type;
-        int tid;
+        
+        // Get all accounts of the customer they are primary owners of
+        HashMap<Integer, Account> accounts = new HashMap<Integer, Account>();
+        String qry = "SELECT DISTINCT a.aid, a.interest, a.balance, a.open, a.type FROM Accounts a, Owners o"
+                    + " WHERE o.taxID = '" + taxID + "'"
+                    + " AND a.aid = o.aid" 
+                    + " AND o.type = 'Primary'";
         try {
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(qry);
-            while (rs.next()) {
-                type = rs.getString("type");
-                tid = rs.getInt("tid");
-                ms = ms + System.lineSeparator() + stringTransaction(type, tid, taxID);
+            ResultSet accts = stmt.executeQuery(qry);
+
+            while(accts.next()){
+                    //Retrieve by column name
+                    int aid  = accts.getInt("aid");
+
+                    //Add to list of accounts for this customer
+                    accounts.put(aid, Account.getAccount(conn, aid));
             }
-            rs.close();
-            monthlyStatement.setText(ms);
+            accts.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Error getting list of transactions");
-            monthlyStatement.setText("Error getting list of transactions");
+            System.out.println("Error getting accounts of this owner");
+            monthlyStatement.setText("Error getting the primary accounts of this customer");
         } 
+        
+        // FOR EACH ACCOUNT: Print the info for each account
+        for (Map.Entry<Integer, Account> a: accounts.entrySet()) {
+            // Print out the account info
+            ms = ms + System.lineSeparator() + System.lineSeparator() + a.getValue().toString();
+            int aid = a.getValue().aid;
+            
+            // Print info of all customers who own this account
+            qry = "SELECT DISTINCT o.taxID, o.type FROM Owners o"
+		+ " WHERE o.aid = '" + aid + "'";
+            try {
+                Statement stmt = conn.createStatement();
+                ResultSet owners = stmt.executeQuery(qry);
+
+                while(owners.next()){
+                        //Retrieve by column name
+                        String id  = owners.getString("taxID");
+                        String type = owners.getString("type");
+                        
+                        //Get this customer info
+                        Customer c = Customer.getCustomer(conn, id);
+                        ms = ms + System.lineSeparator() + "Owner type: " + type + " " + c.toString();
+                }
+                owners.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Error getting customers who own this account");
+                monthlyStatement.setText("Error getting customers who own this account");
+            } 
+            
+            
+            // Need to now print the transactions for this specific account.
+            // Get all the TIDs from each Transaction where account is referenced
+            ArrayList<Integer> relatedTids = new ArrayList<Integer>();
+            try {
+                qry = "SELECT t.tid from Deposit t where t.aid = " + aid;
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(qry);
+                while (rs.next()) 
+                    relatedTids.add(rs.getInt("tid"));
+                rs.close();
+
+                qry = "SELECT t.tid from TopUp t where t.pid = " + aid;
+                rs = stmt.executeQuery(qry);
+                while (rs.next()) 
+                    relatedTids.add(rs.getInt("tid"));
+                rs.close();
+
+                qry = "SELECT t.tid from Withdraw t where t.aid = " + aid;
+                rs = stmt.executeQuery(qry);
+                while (rs.next()) 
+                    relatedTids.add(rs.getInt("tid"));
+                rs.close();
+
+                qry = "SELECT t.tid from Purchase t where t.pid = " + aid;
+                rs = stmt.executeQuery(qry);
+                while (rs.next()) 
+                    relatedTids.add(rs.getInt("tid"));
+                rs.close();
+
+                qry = "SELECT t.tid from Transfer t where t.fromAid = " + aid + " or t.toAid = " + aid;
+                rs = stmt.executeQuery(qry);
+                while (rs.next()) 
+                    relatedTids.add(rs.getInt("tid"));
+                rs.close();
+
+                qry = "SELECT t.tid from Collect t where t.fromPid = " + aid;
+                rs = stmt.executeQuery(qry);
+                while (rs.next()) 
+                    relatedTids.add(rs.getInt("tid"));
+                rs.close();
+
+                qry = "SELECT t.tid from PayFriend t where t.fromPid = " + aid + " or t.toPid = " + aid;
+                rs = stmt.executeQuery(qry);
+                while (rs.next()) 
+                    relatedTids.add(rs.getInt("tid"));
+                rs.close();
+
+                qry = "SELECT t.tid from Wire t where t.fromAid = " + aid + " or t.toAid = " + aid;
+                rs = stmt.executeQuery(qry);
+                while (rs.next()) 
+                    relatedTids.add(rs.getInt("tid"));
+                rs.close();
+
+//                qry = "SELECT t.tid from WriteCheck t where t.aid = " + aid;
+//                rs = stmt.executeQuery(qry);
+//                while (rs.next()) 
+//                    relatedTids.add(rs.getInt("tid"));
+//                rs.close();
+//            
+//                qry = "SELECT t.tid from AccrueInterest t where t.aid = " + aid;
+//                rs = stmt.executeQuery(qry);
+//                while (rs.next()) 
+//                    relatedTids.add(rs.getInt("tid"));
+//                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Error getting transactions related to this account");
+                monthlyStatement.setText("Error getting transactions related to this account");
+            }
+            
+            // Now go through sorted TIDs and print each transaction for the specific account.
+            Collections.sort(relatedTids);
+            for (Integer tid: relatedTids) {
+                qry = "SELECT t.type, t.day FROM Transactions t WHERE t.tid = '" + tid + "'";
+                String type;
+                java.sql.Date day;
+                try {
+                    Statement stmt = conn.createStatement();
+                    ResultSet rs = stmt.executeQuery(qry);
+                    if (rs.next()) {
+                        type = rs.getString("type");
+                        day = rs.getDate("day");
+                        ms = ms + System.lineSeparator() + day + " " + stringTransaction(type, tid, taxID);
+                    }
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    System.out.println("Error getting list of transactions");
+                    monthlyStatement.setText("Error getting list of transactions");
+                } 
+            }
+            // loop through other accounts.
+        }
+        
+        monthlyStatement.setText(ms);
     }//GEN-LAST:event_generateButtonActionPerformed
 
     /**
