@@ -158,7 +158,7 @@ public class SetUpTables {
                         createTable = "CREATE TABLE WriteCheck(tid INTEGER," +
                                         "checkNum INTEGER," +
                                         "cid INTEGER," +
-                                        "amt FLOAT," +
+                                        "amt FLOAT" +
                                         "PRIMARY KEY (tid)," +
                                         "FOREIGN KEY(cid) REFERENCES Accounts ON DELETE CASCADE," +
                                         "FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE)";
@@ -235,11 +235,13 @@ public class SetUpTables {
                         deleteTable = "DROP TABLE Wire";
 			st.executeQuery(deleteTable);
                         
-                        deleteTable = "DROP TABLE WriteCheck";
-                        st.executeQuery(deleteTable);
-
+           
                         deleteTable = "DROP TABLE AccrueInterest";
                         st.executeQuery(deleteTable);
+      
+                        deleteTable = "DROP TABLE WriteCheck";
+			st.executeQuery(deleteTable);
+
 			
 			deleteTable = "DROP TABLE Transactions";
 			st.executeQuery(deleteTable);
@@ -408,6 +410,11 @@ public class SetUpTables {
                 stmt.executeQuery(data);
                 data = "INSERT INTO LinkedPockets(pid, aid) VALUES (53027, 12121)";
                 stmt.executeQuery(data);
+                data = "INSERT INTO LinkedPockets(pid, aid) VALUES (43947, 29107)";
+                stmt.executeQuery(data);
+                data = "INSERT INTO LinkedPockets(pid, aid) VALUES (67521, 19023)";
+                stmt.executeQuery(data);
+                
 
                 data = "INSERT INTO Owners(taxID, aid, type) VALUES ('344151573', 17431, 'Primary')";
                 stmt.executeQuery(data);
@@ -512,6 +519,137 @@ public class SetUpTables {
                 data = "INSERT INTO Owners(taxID, aid, type) VALUES ('212431965', 67521, 'Co-Owner')";
                 stmt.executeQuery(data);
                 
+                data= "INSERT INTO Balances(aid, balance, day) VALUES (17431, 9000.0, TO_DATE('03-02-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (1, 344151573, TO_DATE('03-02-2011', 'MM-DD-YYYY'), 'Deposit')";
+                stmt.executeQuery(data);
+                data= "INSERT INTO Deposit(tid, amt, aid) VALUES (1, 8800.0, 17431)";
+                stmt.executeQuery(data);
+                
+                data= "INSERT INTO Balances(aid, balance, day) VALUES (54321, 18000.0, TO_DATE('03-03-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (2, 122219876, TO_DATE('03-03-2011', 'MM-DD-YYYY'), 'Withdraw')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Withdraw(tid, amt, aid) VALUES (2, 3000.0, 54321)";
+                stmt.executeQuery(data);
+                
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (76543, 4456.0, TO_DATE('03-05-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "NSERT INTO Transactions(tid, taxID, day, type) VALUES (4, 212116070, TO_DATE('03-05-2011', 'MM-DD-YYYY'), 'Withdraw')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Withdraw(tid, amt, aid) VALUES (4, 2000.0, 76543)";
+                stmt.executeQuery(data);
+                
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (53027, 40.0, TO_DATE('03-05-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (5, 207843218, TO_DATE('03-05-2011', 'MM-DD-YYYY'), 'Purchase')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Purchase(tid, amt, pid) VALUES (5, 5.0, 53027)";
+                stmt.executeQuery(data);
+                
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (93156, 1000000.0, TO_DATE('03-06-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (6, 188212217, TO_DATE('03-06-2011', 'MM-DD-YYYY'), 'Withdraw')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Withdraw(tid, amt, aid) VALUES (6, 1000000.0, 93156)";
+                stmt.executeQuery(data);
+                
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (29107, 29970.0, TO_DATE('03-06-2011', 'MM-DD-YYYY'))";               
+                stmt.executeQuery(data);        
+                data = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (7, 212116070, TO_DATE('03-06-2011', 'MM-DD-YYYY'), 'Withdraw')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Withdraw(tid, amt, aid) VALUES (7, 4000.0, 29107)";
+                stmt.executeQuery(data);
+                
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (93156, 1050000.0, TO_DATE('03-06-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (1, 209378521, TO_DATE('03-06-2011', 'MM-DD-YYYY'), 'WriteCheck')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO WriteCheck(tid, checkNum, cid, amt) VALUES (1, 1, 93156, 950000.0)";
+                stmt.executeQuery(data);
+        
+        
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (43942, 980.0, TO_DATE('03-07-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (17431, 489.0, TO_DATE('03-07-2011', 'MM-DD-YYYY')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (2, 322175130, TO_DATE('03-07-2011', 'MM-DD-YYYY'), 'Transfer')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Transfer(tid, amt, fromAid, toAid) VALUES (2, 289.0, 43942, 17431)";
+                stmt.executeQuery(data);
+        
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (43942, 691.0, TO_DATE('03-07-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (3, 400651982, TO_DATE('03-07-2011', 'MM-DD-YYYY'), 'Withdraw')";
+                stmt.executeQuery(data);
+
+                data = "INSERT INTO Withdraw(tid, amt, aid) VALUES (3, 289.0, 43942)";
+                stmt.executeQuery(data);
+
+
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (60413, 5.0, TO_DATE('03-08-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (67521, 110.0, TO_DATE('03-08-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (4, 400651982, TO_DATE('03-08-2011', 'MM-DD-YYYY'), 'PayFriend')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO PayFriend(tid, amt, fromPid, toPid) VALUES (4, 10.0, 60413, 67521)";
+                stmt.executeQuery(data);
+        
+                data ="INSERT INTO Balances(aid, balance, day) VALUES (93156, 1100000.0, TO_DATE('03-08-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (5, 210389768, TO_DATE('03-08-2011', 'MM-DD-YYYY'), 'Deposit')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Deposit(tid, amt, aid) VALUES (5, 50000.0, 93156)";
+                stmt.executeQuery(data);
+
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (12121, 950.0, TO_DATE('03-08-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+data = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (6, 207843218, TO_DATE('03-08-2011', 'MM-DD-YYYY'), 'WriteCheck')";
+stmt.executeQuery(data);
+data = "INSERT INTO WriteCheck(tid, checkNum, cid, amt) VALUES (6, 2, 12121, 200.0)";
+stmt.executeQuery(data);
+        
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (41725, 14000.0, TO_DATE('03-08-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+data = "INSERT INTO Balances(aid, balance, day) VALUES (19023, 3200.0, TO_DATE('03-08-2011', 'MM-DD-YYYY'))";
+stmt.executeQuery(data);
+data = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (7, 201674933, TO_DATE('03-08-2011', 'MM-DD-YYYY'), 'Transfer')";
+stmt.executeQuery(data);
+data = "INSERT INTO Transfer(tid, amt, fromAid, toAid) VALUES (7, 1000.0, 41725, 19023)";
+stmt.executeQuery(data);
+        
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (32156, 5000.0, TO_DATE('03-09-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+data = "INSERT INTO Balances(aid, balance, day) VALUES (41725, 9920.0, TO_DATE('03-09-2011', 'MM-DD-YYYY'))";
+stmt.executeQuery(data);
+data = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (8, 401605312, TO_DATE('03-09-2011', 'MM-DD-YYYY'), 'Wire')";
+stmt.executeQuery(data);
+data = "INSERT INTO Wire(tid, amt, fromAid, toAid) VALUES (8, 4000.0, 41725, 32156)";
+stmt.executeQuery(data);
+        
+//                data = "INSERT INTO Balances(aid, balance, day) VALUES (53027, 35.0, TO_DATE('03-09-2011', 'MM-DD-YYYY'))"
+//data = "INSERT INTO Balances(aid, balance, day) VALUES (60413, 15.0, TO_DATE('03-09-2011', 'MM-DD-YYYY'))"
+//data = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (9, 207843218, TO_DATE('03-09-2011', 'MM-DD-YYYY'), 'PayFriend')
+//data = "INSERT INTO PayFriend(tid, amt, fromPid, toPid) VALUES (9, 10.0, 53027, 60413)
+//        
+//                data = "INSERT INTO Balances(aid, balance, day) VALUES (60413, 0.0, TO_DATE('03-10-2011', 'MM-DD-YYYY'))"
+//data = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (10, 122219876, TO_DATE('03-10-2011', 'MM-DD-YYYY'), 'Purchase')
+//data = "INSERT INTO Purchase(tid, amt, pid) VALUES (10, 15.0, 60413)
+//        
+//                data = "INSERT INTO Balances(aid, balance, day) VALUES (93156, 1080000.0, TO_DATE('03-12-2011', 'MM-DD-YYYY'))"
+//data = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (11, 203491209, TO_DATE('03-12-2011', 'MM-DD-YYYY'), 'Withdraw')
+//data = "INSERT INTO Withdraw(tid, amt, aid) VALUES (11, 20000.0, 93156)
+//        
+//                data = "INSERT INTO Balances(aid, balance, day) VALUES (76543, 8000.0, TO_DATE('03-12-2011', 'MM-DD-YYYY'))"
+//data = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (12, 188212217, TO_DATE('03-12-2011', 'MM-DD-YYYY'), 'WriteCheck')
+//data = "INSERT INTO WriteCheck(tid, checkNum, cid, amt) VALUES (12, 3, 76543, 456.0)
+//        
+//                data = "INSERT INTO Balances(aid, balance, day) VALUES (67521, 85.0, TO_DATE('03-14-2011', 'MM-DD-YYYY'))"
+//data = "INSERT INTO Balances(aid, balance, day) VALUES (53027, 55.0, TO_DATE('03-14-2011', 'MM-DD-YYYY'))"
+//data = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (13, 212431965, TO_DATE('03-14-2011', 'MM-DD-YYYY'), 'PayFriend')
+//data = "INSERT INTO PayFriend(tid, amt, fromPid, toPid) VALUES (13, 20.0, 67521, 53027)
+        
                 
                 data = "UPDATE Accounts SET balance = 9289.0  WHERE aid = 17431";
                 stmt.executeQuery(data);
@@ -541,8 +679,6 @@ public class SetUpTables {
                 stmt.executeQuery(data);
                 data = "UPDATE Accounts SET balance = 140 WHERE aid = 67521";
                 stmt.executeQuery(data);
-                
-                
                 
 
                 System.out.println("Done with setup...");
