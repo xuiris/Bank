@@ -127,11 +127,11 @@ public class addInterest extends javax.swing.JFrame {
         } 
         
         double sum = 0.0; 
-        double days = diffDays(sysDate, daily.get(0).getKey());
+        double days = diffDays(sysDate, daily.get(0).getKey()) + 1;
         for (int i = 1; i <= daily.size()-1; i++) {
             // get diff in the days since last balance change
             java.util.Date last = daily.get(i-1).getKey();
-            int elapsed = diffDays(daily.get(i).getKey(), last); 
+            int elapsed = diffDays(daily.get(i).getKey(), last) + 1; 
             
             System.out.println("Was at " + daily.get(i).getValue() + " for " + elapsed + " days.");
             System.out.println(last + " to " + daily.get(i).getKey());
@@ -140,7 +140,7 @@ public class addInterest extends javax.swing.JFrame {
             sum += bal * (elapsed/days);
         }
         int lastElement = daily.size()-1;
-        int elapsed = diffDays(sysDate, daily.get(lastElement).getKey());
+        int elapsed = diffDays(sysDate, daily.get(lastElement).getKey()) + 1;
         double bal = daily.get(lastElement).getValue();
         System.out.println("Was at " + bal + " for " + elapsed + " days.");
         System.out.println(sysDate + " to " + daily.get(lastElement).getKey());

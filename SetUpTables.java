@@ -175,7 +175,7 @@ public class SetUpTables {
                         //InitialBalances Table
 			createTable = "CREATE TABLE InitialBalances(aid INTEGER," +
 					" balance FLOAT," + 
-          " PRIMARY KEY (aid)," +
+                                        " PRIMARY KEY (aid)," +
 					" FOREIGN KEY(aid) REFERENCES Accounts ON DELETE CASCADE)";                      
 			st.executeQuery(createTable);
 			System.out.println("InitialBalances table created");
@@ -235,13 +235,13 @@ public class SetUpTables {
                         deleteTable = "DROP TABLE Wire";
 			st.executeQuery(deleteTable);
                         
-      
            
                         deleteTable = "DROP TABLE AccrueInterest";
                         st.executeQuery(deleteTable);
       
                         deleteTable = "DROP TABLE WriteCheck";
 			st.executeQuery(deleteTable);
+
 			
 			deleteTable = "DROP TABLE Transactions";
 			st.executeQuery(deleteTable);
@@ -651,23 +651,34 @@ stmt.executeQuery(data);
 //data = "INSERT INTO PayFriend(tid, amt, fromPid, toPid) VALUES (13, 20.0, 67521, 53027)
         
                 
-
-                
-        
-                
-        
-                
-
-        
-                
-        
-                
-
-                
-                
-                
-        
-        
+                data = "UPDATE Accounts SET balance = 9289.0  WHERE aid = 17431";
+                stmt.executeQuery(data);
+                data = "UPDATE Accounts SET balance = 18000.0 WHERE aid = 54321";
+                stmt.executeQuery(data);
+                data = "UPDATE Accounts SET balance = 950.0 WHERE aid = 12121";
+                stmt.executeQuery(data);
+                data = "UPDATE Accounts SET balance = 10000 WHERE aid = 41725";
+                stmt.executeQuery(data);
+                data = "UPDATE Accounts SET balance = 80000 WHERE aid = 93156";
+                stmt.executeQuery(data);
+                data = "UPDATE Accounts SET balance = 50 WHERE aid = 53027";
+                stmt.executeQuery(data);
+                data = "UPDATE Accounts SET balance = 691 WHERE aid = 43942";
+                stmt.executeQuery(data);
+                data = "UPDATE Accounts SET balance = 29965 WHERE aid = 29107";
+                stmt.executeQuery(data);
+                data = "UPDATE Accounts SET balance = 3150 WHERE aid = 19023";
+                stmt.executeQuery(data);
+                data = "UPDATE Accounts SET balance = 5 WHERE aid = 60413";
+                stmt.executeQuery(data);
+                data = "UPDATE Accounts SET balance = 5000 WHERE aid = 32156";
+                stmt.executeQuery(data);
+                data = "UPDATE Accounts SET balance = 6000 WHERE aid = 76543";
+                stmt.executeQuery(data);
+                data = "UPDATE Accounts SET balance = 35 WHERE aid = 43947";
+                stmt.executeQuery(data);
+                data = "UPDATE Accounts SET balance = 140 WHERE aid = 67521";
+                stmt.executeQuery(data);
                 
 
                 System.out.println("Done with setup...");
