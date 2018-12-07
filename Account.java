@@ -80,6 +80,7 @@ public class Account {
 					+ ", balance = " + balance 
 					+ ", open = " + status 				
 					+ " WHERE aid = " + aid;
+			System.out.println(qry);
 			stmt.executeQuery(qry);
                         String day = SystemTime.getSystemDate();
 			qry = "INSERT INTO Balances(aid, balance, day) VALUES (" 

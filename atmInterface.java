@@ -78,9 +78,10 @@ public class atmInterface extends javax.swing.JFrame {
         fromAcc = new javax.swing.JComboBox<>();
         toAcc = new javax.swing.JTextField();
         amount = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        CustName = new javax.swing.JLabel();
 
         setPass.setMinimumSize(new java.awt.Dimension(700, 500));
-        setPass.setPreferredSize(new java.awt.Dimension(700, 500));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("RESET YOUR PASSWORD");
@@ -228,7 +229,7 @@ public class atmInterface extends javax.swing.JFrame {
                 .addComponent(PinField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
                 .addComponent(enterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -242,7 +243,7 @@ public class atmInterface extends javax.swing.JFrame {
                             .addComponent(jLabel5))
                         .addGap(18, 18, 18)
                         .addComponent(verify, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(91, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 2, 24)); // NOI18N
@@ -331,6 +332,12 @@ public class atmInterface extends javax.swing.JFrame {
 
         amount.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
+        jLabel8.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        jLabel8.setText("Welcome");
+
+        CustName.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
+        CustName.setText("Customer");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -376,11 +383,21 @@ public class atmInterface extends javax.swing.JFrame {
                             .addComponent(payButton)
                             .addComponent(purchaseButton))
                         .addContainerGap(27, Short.MAX_VALUE))))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel8)
+                .addGap(18, 18, 18)
+                .addComponent(CustName)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(123, 123, 123)
+                .addGap(89, 89, 89)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(CustName))
+                .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -408,7 +425,7 @@ public class atmInterface extends javax.swing.JFrame {
                     .addComponent(money, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(status)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -456,6 +473,7 @@ public class atmInterface extends javax.swing.JFrame {
            if(rs.next()){
                verify.setText("Verification successful");
                id = rs.getString("taxID");
+               CustName.setText(Customer.getName(conn, id));
 	        	
 	        	// find all OPEN accounts associated with this person
 	        	accounts = new HashMap<Integer, Account>();
@@ -1254,6 +1272,7 @@ public class atmInterface extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel CustName;
     private javax.swing.JPasswordField PinField;
     private javax.swing.JTextField amount;
     private javax.swing.JButton collectButton;
@@ -1269,6 +1288,7 @@ public class atmInterface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel money;
