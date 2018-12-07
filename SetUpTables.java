@@ -175,7 +175,6 @@ public class SetUpTables {
 			createTable = "CREATE TABLE InitialBalances(aid INTEGER," +
 					" balance FLOAT," + 
           " PRIMARY KEY (aid)," +
-					" FOREIGN KEY(aid) REFERENCES Accounts)";                      
 					" FOREIGN KEY(aid) REFERENCES Accounts ON DELETE CASCADE)";                      
 			st.executeQuery(createTable);
 			System.out.println("InitialBalances table created");
