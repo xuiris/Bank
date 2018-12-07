@@ -53,6 +53,7 @@ public class AddCustomer extends javax.swing.JFrame {
         taxidField = new javax.swing.JTextField();
         saveButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
+        status = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -97,6 +98,8 @@ public class AddCustomer extends javax.swing.JFrame {
             }
         });
 
+        status.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -127,7 +130,9 @@ public class AddCustomer extends javax.swing.JFrame {
                         .addComponent(jLabel1)))
                 .addContainerGap(65, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(64, 64, 64)
+                .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(cancelButton)
                 .addGap(18, 18, 18)
                 .addComponent(saveButton)
@@ -155,9 +160,11 @@ public class AddCustomer extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(taxidField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(saveButton)
-                    .addComponent(cancelButton))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(saveButton)
+                        .addComponent(cancelButton))
+                    .addComponent(status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -174,39 +181,39 @@ public class AddCustomer extends javax.swing.JFrame {
          int aid = 0;
          
           if( nameField.getText().isEmpty()){
-            warnings.append("Must enter a customer name");
+            status.setText("Must enter a customer name");
+            return;
+            
             }
             else {
             name = nameField.getText();
             }
           if( addressField.getText().isEmpty()){
-            warnings.append("Must enter address");
+            status.setText("Must enter address");
+            return;
             }
             else{
             address = addressField.getText();
             }
           if( taxidField.getText().isEmpty()){
-            warnings.append("Must enter tax ID");
+            status.setText("Must enter tax ID");
             }
             else {
             taxID = taxidField.getText();
             }
            if(aidField.getText().isEmpty()){
-            warnings.append("Must enter account ID");
+            status.setText("Must enter account ID");
+            return;
             }
             else{
             aid = Integer.parseInt(aidField.getText());
             }
-           if( warnings.length()> 0) {
-            JOptionPane.showMessageDialog(this, warnings.toString(), "Input Warnings", JOptionPane.WARNING_MESSAGE);
-            }
-            else {
-            
+           
             customer = Customer.createCustomer(conn, taxID, name, address);
             owners = Owners.createOwners(conn, taxID, aid, "Co-Owner");
+            status.setText("New Customer added");
             
-            }
-           
+                       
     } catch (SQLException ex) {
             Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }  
@@ -281,6 +288,7 @@ public class AddCustomer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField nameField;
     private javax.swing.JButton saveButton;
+    private javax.swing.JLabel status;
     private javax.swing.JTextField taxidField;
     // End of variables declaration//GEN-END:variables
 }

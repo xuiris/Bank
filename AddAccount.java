@@ -1,6 +1,7 @@
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -61,6 +62,7 @@ public class AddAccount extends javax.swing.JFrame {
         pidField = new javax.swing.JTextField();
         saveButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
+        status = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -119,6 +121,8 @@ public class AddAccount extends javax.swing.JFrame {
             }
         });
 
+        status.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -144,27 +148,30 @@ public class AddAccount extends javax.swing.JFrame {
                             .addComponent(balanceField)
                             .addComponent(interestField))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(240, 240, 240))
             .addGroup(layout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(existingIDField, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                    .addComponent(pidField))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(68, 68, 68)
                         .addComponent(cancelButton)
                         .addGap(18, 18, 18)
                         .addComponent(saveButton)
                         .addGap(53, 53, 53))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(240, 240, 240))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(existingIDField, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                            .addComponent(pidField))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,9 +209,11 @@ public class AddAccount extends javax.swing.JFrame {
                     .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(pidField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(saveButton)
-                    .addComponent(cancelButton))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(status, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(saveButton)
+                        .addComponent(cancelButton)))
                 .addGap(32, 32, 32))
         );
 
@@ -229,6 +238,7 @@ public class AddAccount extends javax.swing.JFrame {
          
          if( taxidField.getText().isEmpty()){
             warnings.append("Must enter your tax ID");
+            return;
             }
             else {
             taxID = taxidField.getText();
@@ -236,6 +246,7 @@ public class AddAccount extends javax.swing.JFrame {
             
             if( typeField.getText().isEmpty()){
             warnings.append("Must enter account type");
+            return;
             }
             else {
             accType = typeField.getText();
@@ -244,15 +255,18 @@ public class AddAccount extends javax.swing.JFrame {
             
             if(balanceField.getText().isEmpty()){
             warnings.append("Must enter initial deposit");
+            return;
             }
             else{
             balance = Double.parseDouble(balanceField.getText());
             }
             if(interestField.getText().isEmpty()){
             warnings.append(" Must enter initial interest");
+            return;
             }
             else {
             interest = Double.parseDouble(interestField.getText());
+           
             }
             
             if( warnings.length()> 0) {
@@ -262,45 +276,51 @@ public class AddAccount extends javax.swing.JFrame {
                 if (typeField.getText().equals("Pocket")){
                     
                         if( existingIDField.getText().isEmpty()){
-                            warnings.append("Must enter existing aid");
+                            status.setText("Must enter existing aid");
+                            return;
                         }
                         else{
                             aid2 = Integer.parseInt(existingIDField.getText());
                         }
                         if( pidField.getText().isEmpty()){
-                            warnings.append("Must enter an new pid");
+                            status.setText("Must enter an new pid");
+                            return;
                         }
                         else{
                             pid = Integer.parseInt(pidField.getText());
                         }
-                        if( warnings.length()> 0) {
-                        JOptionPane.showMessageDialog(this, warnings.toString(), "Input Warnings", JOptionPane.WARNING_MESSAGE);
-                        }
-                        else {
+                        
                         
                         account = Account.createAccount(conn, pid, balance, interest, true, accType);
                         owners = Owners.createOwners(conn, taxID, pid, "Primary");
                         linked = LinkedPockets.createPockets(conn, aid2, pid);
                         
-                        }
+                        
+                        Statement st = conn.createStatement();
+                        String qry = "INSERT INTO InitialBalances(aid, balance) VALUES (" + pid + ", " + balance + ")";
+                        st.executeQuery(qry);
+                        status.setText("New Pocket Account is Created");
+                        
+                        
                 }
                 else {
                     
                     if( newaidField.getText().isEmpty()){
-                        warnings.append("Must enter new account ID");
+                        status.setText("Must enter new account ID");
+                        return;
                         }
                     else{
                     aid = Integer.parseInt(newaidField.getText());
                     }
-                    if( warnings.length()> 0) {
-                    JOptionPane.showMessageDialog(this, warnings.toString(), "Input Warnings", JOptionPane.WARNING_MESSAGE);
-                    }
-                    else {
+                    
                     
                     account = Account.createAccount(conn, aid, balance, interest, true, accType);
                     owners = Owners.createOwners(conn, taxID, aid, "Primary");
-                    warnings.append("New" + typeField.getText().toString() + " Account Created");
-                    }  
+                    
+                    Statement st = conn.createStatement();
+                    String qry = "INSERT INTO InitialBalances(aid, balance) VALUES (" + aid + ", " + balance + ")";
+                    st.executeQuery(qry);
+                    status.setText("New " + typeField.getText().toString() + " Account Created"); 
                 }  
             }       
      
@@ -373,6 +393,7 @@ public class AddAccount extends javax.swing.JFrame {
     private javax.swing.JTextField newaidField;
     private javax.swing.JTextField pidField;
     private javax.swing.JButton saveButton;
+    private javax.swing.JLabel status;
     private javax.swing.JTextField taxidField;
     private javax.swing.JTextField typeField;
     // End of variables declaration//GEN-END:variables

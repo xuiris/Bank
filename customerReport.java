@@ -1,3 +1,13 @@
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -8,13 +18,24 @@
  *
  * @author kenkh
  */
+    
+
 public class customerReport extends javax.swing.JFrame {
 
     /**
-     * Creates new form customerReport
+     * Creates new form deleteTrans
      */
+    
+    private final Bank bank;
+    private Connection conn;
+    private Map<Integer, Account> accounts;
+   
+    
+    
     public customerReport() {
         initComponents();
+        bank = new Bank();
+        conn = bank.getConnection();
     }
 
     /**
@@ -27,6 +48,11 @@ public class customerReport extends javax.swing.JFrame {
     private void initComponents() {
 
         back = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textArea = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        taxidField = new javax.swing.JTextField();
+        listButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -37,19 +63,57 @@ public class customerReport extends javax.swing.JFrame {
             }
         });
 
+        textArea.setColumns(20);
+        textArea.setRows(5);
+        jScrollPane1.setViewportView(textArea);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setText("Enter taxID:");
+
+        taxidField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        listButton.setText("LIST");
+        listButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(331, Short.MAX_VALUE)
-                .addComponent(back)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 530, Short.MAX_VALUE)
+                        .addComponent(back))
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(taxidField, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(listButton)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(266, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(taxidField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(listButton)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(back)
                 .addContainerGap())
         );
@@ -63,9 +127,65 @@ public class customerReport extends javax.swing.JFrame {
         new bankTeller().setVisible(true);
     }//GEN-LAST:event_backActionPerformed
 
+    private void listButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listButtonActionPerformed
+        // TODO add your handling code here:
+        
+        String taxID = taxidField.getText();
+      
+        String ms = "";
+        
+        // Get all accounts of the customer they are primary owners of
+        HashMap<Integer, Account> accounts = new HashMap<Integer, Account>();
+        String qry = "SELECT DISTINCT a.aid, a.interest, a.balance, a.open, a.type FROM Accounts a, Owners o"
+                    + " WHERE o.taxID = '" + taxID + "'"
+                    + " AND a.aid = o.aid" ;
+                   
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet accts = stmt.executeQuery(qry);
+
+            while(accts.next()){
+                    //Retrieve by column name
+                    int aid  = accts.getInt("aid");
+
+                    //Add to list of accounts for this customer
+                    accounts.put(aid, Account.getAccount(conn, aid));
+            }
+            accts.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error getting accounts of this owner");
+            textArea.setText("Error getting the primary accounts of this customer");
+        } 
+        
+        // FOR EACH ACCOUNT: Print the info for each account,
+        // Keep track of how much acct balance has changed, 
+        // subtract from current to get init balance.
+        for (Map.Entry<Integer, Account> a: accounts.entrySet()) {
+            // Print out the account info
+            ms = ms + System.lineSeparator() + System.lineSeparator() + a.getValue().toString();
+        
+            
+        }
+        textArea.setText(ms);
+        
+    }//GEN-LAST:event_listButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
+    
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {                                  
+        // TODO add your handling code here:
+        try{
+            if(conn!=null){
+               conn.close();
+               System.out.println("From BankTeller: Closed connection...");
+            }
+         }catch(SQLException se){
+            se.printStackTrace();
+         }
+    }               
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -89,6 +209,7 @@ public class customerReport extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(customerReport.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -100,5 +221,10 @@ public class customerReport extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton listButton;
+    private javax.swing.JTextField taxidField;
+    private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
 }

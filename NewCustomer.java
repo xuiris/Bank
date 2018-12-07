@@ -1,6 +1,7 @@
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -62,6 +63,7 @@ public class NewCustomer extends javax.swing.JFrame {
         cancel = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         addressField = new javax.swing.JTextField();
+        status = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1000, 700));
@@ -124,6 +126,8 @@ public class NewCustomer extends javax.swing.JFrame {
         addressField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         addressField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
+        status.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -155,23 +159,22 @@ public class NewCustomer extends javax.swing.JFrame {
                                     .addComponent(typeField)
                                     .addComponent(balanceField)))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel8)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(165, 165, 165)
-                                        .addComponent(cancel)
-                                        .addGap(46, 46, 46)
-                                        .addComponent(save)))
-                                .addGap(0, 219, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
-                                .addComponent(Cname))))
+                                .addComponent(Cname))
+                            .addComponent(jLabel8)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(165, 165, 165)
+                                .addComponent(cancel)
+                                .addGap(46, 46, 46)
+                                .addComponent(save)
+                                .addGap(41, 41, 41)
+                                .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(207, 207, 207)
                         .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(17, 17, 17)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addGap(52, 52, 52))
         );
@@ -220,7 +223,8 @@ public class NewCustomer extends javax.swing.JFrame {
                                 .addGap(395, 395, 395)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(save, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cancel))
+                                    .addComponent(cancel)
+                                    .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(24, 24, 24))))))
         );
 
@@ -241,6 +245,7 @@ public class NewCustomer extends javax.swing.JFrame {
               
             if( Cname.getText().isEmpty()){
             warnings.append("Name must not be empty");
+            return;
             }
             else {
             name = Cname.getText();
@@ -248,6 +253,7 @@ public class NewCustomer extends javax.swing.JFrame {
             
             if( taxIDfield.getText().isEmpty()){
             warnings.append("Must enter tax ID");
+            return;
             }
             else {
             taxID = taxIDfield.getText();
@@ -255,6 +261,7 @@ public class NewCustomer extends javax.swing.JFrame {
             
             if( addressField.getText().isEmpty()){
             warnings.append("Must enter address");
+            return;
             }
             else{
             address = addressField.getText();
@@ -262,39 +269,48 @@ public class NewCustomer extends javax.swing.JFrame {
             
             if(aidField.getText().isEmpty()){
             warnings.append("Must enter account ID");
+            return;
             }
             else{
             aid = Integer.parseInt(aidField.getText());
             }
             if(typeField.getText().isEmpty()){
             warnings.append(" Must enter type of account");
+            return;
             }
             else {
             accType = typeField.getText();
             }
             if( balanceField.getText().isEmpty()){
             warnings.append("Must enter a balance");
+            return;
             }
             else{
             balance = Double.parseDouble(balanceField.getText());
             }
             if( interestField.getText().isEmpty()){
             warnings.append("Must enter an interest");
+            return;
+            
             }
             else{
             interest = Double.parseDouble(interestField.getText());
             }
             if(typeField.getText().equals("Pocket")){
-                warnings.append("Pocket account must be linked with an existing Checking or Savings account");
+                status.setText("Pocket account must be linked with an existing Checking or Savings account");
+                return;
             }
-            if( warnings.length()> 0) {
-            JOptionPane.showMessageDialog(this, warnings.toString(), "Input Warnings", JOptionPane.WARNING_MESSAGE);
-            }
+            
             else {
             
             customer = Customer.createCustomer(conn, taxID, name, address);
             account = Account.createAccount(conn, aid, balance, interest, true, accType);
             owners = Owners.createOwners(conn, taxID, aid, "Primary");
+            Statement st = conn.createStatement();
+            String qry = "INSERT INTO InitialBalances(aid, balance) VALUES (" + aid + ", " + balance + ")";
+            st.executeQuery(qry);
+                
+            status.setText("New Customer created");
             
             }
         } catch (SQLException ex) {
@@ -303,6 +319,14 @@ public class NewCustomer extends javax.swing.JFrame {
              
     }//GEN-LAST:event_saveActionPerformed
 
+   /* private void InitialBalance(String aid, double balance) throws SQLException{
+        Statement st = conn.createStatement();
+        String qry = "INSERT INTO InitialBalances(aid, balance) VALUES (" +
+                aid + ", " + balance + ")";
+        st.executeQuery(qry);
+                
+      
+    }*/
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         // TODO add your handling code here:
         new createAccount().setVisible(true);
@@ -379,6 +403,7 @@ public class NewCustomer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JButton save;
+    private javax.swing.JLabel status;
     private javax.swing.JTextField taxIDfield;
     private javax.swing.JTextField typeField;
     // End of variables declaration//GEN-END:variables
