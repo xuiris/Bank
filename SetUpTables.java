@@ -51,7 +51,7 @@ public class SetUpTables {
 							" type VARCHAR(8)," +
 							" PRIMARY KEY( taxID, aid)," + 
 							" FOREIGN KEY (taxID) REFERENCES Customers ON DELETE CASCADE," +
-							" FOREIGN KEY(aid) REFERENCES Accounts," +
+							" FOREIGN KEY(aid) REFERENCES Accounts ON DELETE CASCADE," +
 							" CHECK (type in ('Primary','Co-Owner')))";
 			st.executeQuery(createTable);
 			System.out.println("Owners table created");
@@ -62,7 +62,7 @@ public class SetUpTables {
 							" day DATE," + 
 							" type VARCHAR(15)," + 
 							" PRIMARY KEY(tid)," +
-                                                        " FOREIGN KEY (taxID) REFERENCES Customers," +
+                                                        " FOREIGN KEY (taxID) REFERENCES Customers ON DELETE CASCADE," +
 							" CHECK (type in ('Deposit','TopUp', 'Withdraw', 'Purchase', 'Transfer', 'Collect', 'PayFriend', 'Wire', 'WriteCheck', 'AccrueInterest')))";;
 			st.executeQuery(createTable);
 			System.out.println("Transactions table created");
@@ -73,7 +73,7 @@ public class SetUpTables {
 					" aid INTEGER," +
 					" PRIMARY KEY(tid)," + 
 					" FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE," +
-					" FOREIGN KEY(aid) REFERENCES Accounts)";
+					" FOREIGN KEY(aid) REFERENCES Accounts ON DELETE CASCADE)";
 			st.executeQuery(createTable);
 			System.out.println("Deposit table created");
 			
@@ -83,7 +83,7 @@ public class SetUpTables {
 					" pid INTEGER," +
 					" PRIMARY KEY(tid)," + 
 					" FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE," +
-					" FOREIGN KEY(pid) REFERENCES Accounts)";
+					" FOREIGN KEY(pid) REFERENCES Accounts ON DELETE CASCADE)";
 			st.executeQuery(createTable);
 			System.out.println("TopUp table created");
 			
@@ -93,7 +93,7 @@ public class SetUpTables {
 					" aid INTEGER," +
 					" PRIMARY KEY(tid)," + 
 					" FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE," +
-					" FOREIGN KEY(aid) REFERENCES Accounts)";
+					" FOREIGN KEY(aid) REFERENCES Accounts ON DELETE CASCADE )";
 			st.executeQuery(createTable);
 			System.out.println("Withdraw table created");
 			
@@ -103,7 +103,7 @@ public class SetUpTables {
 					" pid INTEGER," +
 					" PRIMARY KEY(tid)," + 
 					" FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE," +
-					" FOREIGN KEY(pid) REFERENCES Accounts)";
+					" FOREIGN KEY(pid) REFERENCES Accounts ON DELETE CASCADE)";
 			st.executeQuery(createTable);
 			System.out.println("Deposit table created");
                         
@@ -115,7 +115,7 @@ public class SetUpTables {
 					" PRIMARY KEY(tid)," + 
 					" FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE," +
 					" FOREIGN KEY(fromAid) REFERENCES Accounts," +
-                                        " FOREIGN KEY(toAid) REFERENCES Accounts)";
+                                        " FOREIGN KEY(toAid) REFERENCES Accounts ON DELETE CASCADE)";
 			st.executeQuery(createTable);
 			System.out.println("Transfer table created");
                         
@@ -125,7 +125,7 @@ public class SetUpTables {
                                         " fromPid INTEGER," +
 					" PRIMARY KEY(tid)," + 
 					" FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE," +
-                                        " FOREIGN KEY(fromPid) REFERENCES Accounts)";
+                                        " FOREIGN KEY(fromPid) REFERENCES Accounts ON DELETE CASCADE)";
 			st.executeQuery(createTable);
 			System.out.println("Collect table created");
                         
@@ -136,8 +136,8 @@ public class SetUpTables {
                                         " toPid INTEGER," +
 					" PRIMARY KEY(tid)," + 
 					" FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE," +
-					" FOREIGN KEY(fromPid) REFERENCES Accounts," +
-                                        " FOREIGN KEY(toPid) REFERENCES Accounts)";
+					" FOREIGN KEY(fromPid) REFERENCES Accounts ON DELETE CASCADE," +
+                                        " FOREIGN KEY(toPid) REFERENCES Accounts ON DELETE CASCADE)";
 			st.executeQuery(createTable);
 			System.out.println("PayFriend table created");
 			
@@ -148,8 +148,8 @@ public class SetUpTables {
                                         " toAid INTEGER," +
 					" PRIMARY KEY(tid)," + 
 					" FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE," +
-					" FOREIGN KEY(fromAid) REFERENCES Accounts," +
-                                        " FOREIGN KEY(toAid) REFERENCES Accounts)";
+					" FOREIGN KEY(fromAid) REFERENCES Accounts ON DELETE CASCADE," +
+                                        " FOREIGN KEY(toAid) REFERENCES Accounts ON DELETE CASCADE)";
 			st.executeQuery(createTable);
 			System.out.println("Wire table created");
                         
@@ -159,7 +159,7 @@ public class SetUpTables {
                                         "checkNum INTEGER," +
                                         "cid INTEGER," +
                                         "PRIMARY KEY (tid)," +
-                                        "FOREIGN KEY(cid) REFERENCES Accounts," +
+                                        "FOREIGN KEY(cid) REFERENCES Accounts ON DELETE CASCADE," +
                                         "FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE)";
                         st.executeQuery(createTable);
                         System.out.println("WriteCheck table created");
@@ -177,7 +177,7 @@ public class SetUpTables {
                         //InitialBalances Table
 			createTable = "CREATE TABLE InitialBalances(aid INTEGER," +
 					" balance FLOAT," + 
-					" FOREIGN KEY(aid) REFERENCES Accounts)";                      
+					" FOREIGN KEY(aid) REFERENCES Accounts ON DELETE CASCADE)";                      
 			st.executeQuery(createTable);
 			System.out.println("InitialBalances table created");
                         
@@ -226,6 +226,9 @@ public class SetUpTables {
                         
                         deleteTable = "DROP TABLE Wire";
 			st.executeQuery(deleteTable);
+                        
+                        deleteTable = "DROP TABLE WriteCheck";
+                        st.executeQuery(deleteTable);
 			
 			deleteTable = "DROP TABLE Transactions";
 			st.executeQuery(deleteTable);

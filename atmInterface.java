@@ -928,10 +928,7 @@ public class atmInterface extends javax.swing.JFrame {
                 status.setText("Please choose only a pocket account.");
                 count += 1;
             }
-            if (count > 2) {
-                status.setText("Failed to choose valid account.");
-                return;
-            }
+            
 
             // find the linked Saving/Checking acct
             int link = linked.get(pid);

@@ -1,3 +1,11 @@
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,8 +21,13 @@ public class closedAccount extends javax.swing.JFrame {
     /**
      * Creates new form closedAccount
      */
+    
+    private final Bank bank;
+    private Connection conn;
     public closedAccount() {
         initComponents();
+        bank = new Bank();
+        conn = bank.getConnection();
     }
 
     /**
@@ -27,6 +40,9 @@ public class closedAccount extends javax.swing.JFrame {
     private void initComponents() {
 
         back = new javax.swing.JButton();
+        generate = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -37,19 +53,44 @@ public class closedAccount extends javax.swing.JFrame {
             }
         });
 
+        generate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        generate.setText("Generate");
+        generate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateActionPerformed(evt);
+            }
+        });
+
+        textArea.setColumns(20);
+        textArea.setRows(5);
+        jScrollPane1.setViewportView(textArea);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(331, Short.MAX_VALUE)
-                .addComponent(back)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(499, Short.MAX_VALUE)
+                        .addComponent(back))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(238, 238, 238)
+                        .addComponent(generate)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(266, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(generate)
+                .addGap(14, 14, 14)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(back)
                 .addContainerGap())
         );
@@ -63,9 +104,58 @@ public class closedAccount extends javax.swing.JFrame {
         new bankTeller().setVisible(true);
     }//GEN-LAST:event_backActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void generateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateActionPerformed
+        // TODO add your handling code here:
+        String ms = "";
+        
+        // Get all accounts of the customer they are primary owners of
+        HashMap<Integer, Account> accounts = new HashMap<Integer, Account>();
+        String qry = "SELECT DISTINCT a.aid, a.interest, a.balance, a.open, a.type FROM Accounts a"
+                    + " WHERE a.open = '0'";
+                   
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet accts = stmt.executeQuery(qry);
+
+            while(accts.next()){
+                    //Retrieve by column name
+                    int aid  = accts.getInt("aid");
+
+                    //Add to list of accounts for this customer
+                    accounts.put(aid, Account.getAccount(conn, aid));
+            }
+            accts.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error getting closed accounts");
+            textArea.setText("Error getting closed accounts");
+        } 
+        
+        // FOR EACH ACCOUNT: Print the info for each account,
+        // Keep track of how much acct balance has changed, 
+        // subtract from current to get init balance.
+        for (Map.Entry<Integer, Account> a: accounts.entrySet()) {
+            // Print out the account info
+            ms = ms + System.lineSeparator() + System.lineSeparator() + a.getValue().toString();
+        
+            
+        }
+        textArea.setText(ms);
+        
+    }//GEN-LAST:event_generateActionPerformed
+
+    
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {                                  
+        // TODO add your handling code here:
+        try{
+            if(conn!=null){
+               conn.close();
+               System.out.println("From BankTeller: Closed connection...");
+            }
+         }catch(SQLException se){
+            se.printStackTrace();
+         }
+    }         
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -100,5 +190,8 @@ public class closedAccount extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back;
+    private javax.swing.JButton generate;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
 }

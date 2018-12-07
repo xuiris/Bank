@@ -1,5 +1,10 @@
 
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -15,6 +20,10 @@ public class bankTeller extends javax.swing.JFrame {
 
     private final Bank bank;
     private Connection conn;
+    private Map<Integer, Account> accounts;
+    private Map<String, Integer> owners;
+    
+    
     /**
      * Creates new form bankTeller
      */
@@ -152,15 +161,14 @@ public class bankTeller extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(checkTrans, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(customerReport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(monthlySt, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                                .addComponent(deleteTrans, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)))
-                        .addGap(198, 198, 198)
+                            .addComponent(deleteTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(monthlySt))
+                        .addGap(186, 186, 186)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(DTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(addInterest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(closedAcc, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                            .addComponent(createAcc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(createAcc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(closedAcc, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
                         .addGap(113, 113, 113))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(252, 252, 252)
@@ -234,15 +242,121 @@ public class bankTeller extends javax.swing.JFrame {
     }//GEN-LAST:event_customerReportActionPerformed
 
     private void deleteTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteTransActionPerformed
-        // TODO add your handling code here:
-        new deleteTrans().setVisible(true);
-        this.dispose();
+        try {
+            StringBuilder warnings = new StringBuilder();
+            //Deletes all current transactions
+            Statement st = conn.createStatement();
+            String qry = "DELETE FROM Transactions";
+            st.executeQuery(qry);
+            warnings.append("All Transactions have been deleted");
+            if( warnings.length()> 0) {
+            JOptionPane.showMessageDialog(this, warnings.toString(), "SUCCESSFUL", JOptionPane.WARNING_MESSAGE);
+            }
+            
+            qry = "DELETE FROM InitialBalances";
+            st.executeQuery(qry);
+            
+            //Initialize 
+           /*Statement stmt = conn.createStatement();
+            String data = "";
+            data = "INSERT INTO InitialBalances(aid, balance) VALUES (17431, 200.0)";
+            stmt.executeQuery(data);
+            data = "INSERT INTO InitialBalances(aid, balance) VALUES (54321, 2100.0)";
+            stmt.executeQuery(data);
+            data = "INSERT INTO InitialBalances(aid, balance) VALUES (12121, 1150.0)";
+            stmt.executeQuery(data);
+            data = "INSERT INTO InitialBalances(aid, balance) VALUES (41725, 15000.0)";
+            stmt.executeQuery(data);
+            data = "INSERT INTO InitialBalances(aid, balance) VALUES (93156, 2000000.0)";
+            stmt.executeQuery(data);
+            data = "INSERT INTO InitialBalances(aid, balance) VALUES (53027, 50.0)";
+            stmt.executeQuery(data);
+            data = "INSERT INTO InitialBalances(aid, balance) VALUES (43942, 1269.0)";
+            stmt.executeQuery(data);
+            data = "INSERT INTO InitialBalances(aid, balance) VALUES (29107, 33970.0)";
+            stmt.executeQuery(data);
+            data = "INSERT INTO InitialBalances(aid, balance) VALUES (19023, 2200.0)";
+            stmt.executeQuery(data);
+            data = "INSERT INTO InitialBalances(aid, balance) VALUES (60413, 20.0)";
+            stmt.executeQuery(data);
+            data = "INSERT INTO InitialBalances(aid, balance) VALUES (32156, 1000.0)";
+            stmt.executeQuery(data);
+            data = "INSERT INTO InitialBalances(aid, balance) VALUES (76543, 8456.0)";
+            stmt.executeQuery(data);
+            data = "INSERT INTO InitialBalances(aid, balance) VALUES (43947, 30.0)";
+            stmt.executeQuery(data);
+            data = "INSERT INTO InitialBalances(aid, balance) VALUES (67521, 100.0)";
+            stmt.executeQuery(data);*/
+ 
+            //get all aid       
+            accounts = new HashMap<Integer, Account>();
+            
+            qry = "SELECT * FROM Accounts";
+            ResultSet rs = st.executeQuery(qry);
+            while(rs.next()){
+                int aid = rs.getInt("aid");
+                accounts.put(aid, Account.getAccount(conn, aid));    
+            }
+            rs.close();    
+            
+            for (Map.Entry<Integer, Account> a: accounts.entrySet()){
+                Statement stmt = conn.createStatement();
+                qry = "INSERT INTO InitialBalances(aid, balance) VALUES (" + a.getKey() + ", " + a.getValue().balance + ")";
+                stmt.executeQuery(qry);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(bankTeller.class.getName()).log(Level.SEVERE, null, ex);
+        }                      
     }//GEN-LAST:event_deleteTransActionPerformed
 
     private void deleteClosedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteClosedActionPerformed
         // TODO add your handling code here:
-        new deleteAccount().setVisible(true);
-        this.dispose();
+        try{
+            StringBuilder warnings = new StringBuilder();
+            accounts = new HashMap<Integer, Account>();
+            String qry = "SELECT aid FROM Accounts WHERE open = '0'";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(qry);
+            
+            while(rs.next()){
+                int aid = rs.getInt("aid");
+                accounts.put(aid, Account.getAccount(conn, aid));
+            }
+            rs.close();
+            
+            
+            owners = new HashMap<String, Integer>();
+            for(Map.Entry<Integer, Account> a: accounts.entrySet()){
+                st= conn.createStatement();
+                qry = "SELECT * from Owners o where o.aid = " + a.getKey();
+                rs = st.executeQuery(qry);
+                if(rs.next()){
+                    owners.put(rs.getString("taxID"), rs.getInt("aid"));
+                }
+                
+            }
+            rs.close();
+            for(Map.Entry<String, Integer> c: owners.entrySet()){
+                st = conn.createStatement();
+                qry = "DELETE from Customers c where c.taxID = " + c.getKey();
+                rs = st.executeQuery(qry);    
+            }
+            rs.close();
+            for(Map.Entry<Integer, Account> a: accounts.entrySet()){
+                st= conn.createStatement();
+                String qry2 = "DELETE from Accounts a where a.aid = " + a.getKey();
+                rs = st.executeQuery(qry2);
+            }
+            rs.close();
+            warnings.append("Accounts and Customers have been deleted");
+            if( warnings.length()> 0) {
+            JOptionPane.showMessageDialog(this, warnings.toString(), "Input Warnings", JOptionPane.WARNING_MESSAGE);
+            }
+            
+                    
+        }catch (SQLException ex) {
+                Logger.getLogger(bankTeller.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }//GEN-LAST:event_deleteClosedActionPerformed
 
     private void createAccActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createAccActionPerformed
