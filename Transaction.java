@@ -290,6 +290,12 @@ public class Transaction {
             }   
         }
         
+        public static String stringCheck(Connection conn, double amt, int cid, String taxID) throws SQLException {
+                return Customer.getName(conn, taxID) 
+                    + " writes a check in the amount of $" + amt 
+                    + " from account " + cid;
+        }
+        
 	// Come up with an available and unique tid.
 	private static int newTid(Connection conn) throws SQLException {
 		Statement stmt = conn.createStatement();
