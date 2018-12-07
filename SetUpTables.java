@@ -164,22 +164,30 @@ public class SetUpTables {
                         st.executeQuery(createTable);
                         System.out.println("WriteCheck table created");
                         
-                        
-//			String createTrigger = "CREATE TRIGGER checkBalance" +
-//					" AFTER UPDATE OF balance ON Accounts" + 
-//					" FOR EACH ROW" +
-//					" UPDATE Accounts" +
-//					" SET open = 0" +
-//					" WHERE balance = 0";
-//			st.executeQuery(createTrigger);
-//			System.out.println("Trigger to close zero balance accounts created");
+                        //AccrueInterest Table
+			createTable = "CREATE TABLE AccrueInterest(tid INTEGER," +
+                                        " day DATE," +
+					" FOREIGN KEY(tid) REFERENCES Transactions ON DELETE CASCADE)";                      
+			st.executeQuery(createTable);
+			System.out.println("AccrueInterest table created");
 
                         //InitialBalances Table
 			createTable = "CREATE TABLE InitialBalances(aid INTEGER," +
 					" balance FLOAT," + 
+          " PRIMARY KEY (aid)," +
+					" FOREIGN KEY(aid) REFERENCES Accounts)";                      
 					" FOREIGN KEY(aid) REFERENCES Accounts ON DELETE CASCADE)";                      
 			st.executeQuery(createTable);
 			System.out.println("InitialBalances table created");
+                        
+                        //Balances Table
+			createTable = "CREATE TABLE Balances(aid INTEGER," +
+					" balance FLOAT," + 
+                                        " day DATE," +
+					" FOREIGN KEY(aid) REFERENCES Accounts ON DELETE CASCADE)";                      
+			st.executeQuery(createTable);
+			System.out.println("Balances table created");
+                       
                         
 		
 		}catch(Exception e){
@@ -227,7 +235,13 @@ public class SetUpTables {
                         deleteTable = "DROP TABLE Wire";
 			st.executeQuery(deleteTable);
                         
-                        deleteTable = "DROP TABLE WriteCheck";
+      deleteTable = "DROP TABLE WriteCheck";
+      st.executeQuery(deleteTable);
+           
+      deleteTable = "DROP TABLE AccrueInterest";
+      st.executeQuery(deleteTable);
+      
+      deleteTable = "DROP TABLE WriteCheck";
 			st.executeQuery(deleteTable);
 			
 			deleteTable = "DROP TABLE Transactions";
@@ -243,6 +257,9 @@ public class SetUpTables {
 			st.executeQuery(deleteTable);
 			
                         deleteTable = "DROP TABLE InitialBalances";
+			st.executeQuery(deleteTable);
+                        
+                        deleteTable = "DROP TABLE Balances";
 			st.executeQuery(deleteTable);
                         
 			deleteTable = "DROP TABLE Accounts";
@@ -302,7 +319,7 @@ public class SetUpTables {
 
 		data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (17431, 200.0, 0.0, '1', 'Student-Checking')";
                 stmt.executeQuery(data);					
-                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (54321, 2100.0, 0.0, '1', 'Student-Checking')";
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (54321, 21000.0, 0.0, '1', 'Student-Checking')";
                 stmt.executeQuery(data);
                 data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (12121, 1150.0, 0.0, '1', 'Student-Checking')";
                 stmt.executeQuery(data);
@@ -334,7 +351,7 @@ public class SetUpTables {
                 
                 data = "INSERT INTO InitialBalances(aid, balance) VALUES (17431, 200.0)";
                 stmt.executeQuery(data);
-                data = "INSERT INTO InitialBalances(aid, balance) VALUES (54321, 2100.0)";
+                data = "INSERT INTO InitialBalances(aid, balance) VALUES (54321, 21000.0)";
                 stmt.executeQuery(data);
                 data = "INSERT INTO InitialBalances(aid, balance) VALUES (12121, 1150.0)";
                 stmt.executeQuery(data);
@@ -359,6 +376,35 @@ public class SetUpTables {
                 data = "INSERT INTO InitialBalances(aid, balance) VALUES (43947, 30.0)";
                 stmt.executeQuery(data);
                 data = "INSERT INTO InitialBalances(aid, balance) VALUES (67521, 100.0)";
+                stmt.executeQuery(data);
+                
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (17431, 200.0, TO_DATE('03-02-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (54321, 21000.0, TO_DATE('03-03-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (12121, 1150.0, TO_DATE('03-03-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (41725, 15000.0, TO_DATE('03-03-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (93156, 2000000.0, TO_DATE('03-03-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (53027, 50.0, TO_DATE('03-04-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (43942, 1269.0, TO_DATE('03-04-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (29107, 33970.0, TO_DATE('03-04-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (19023, 2200.0, TO_DATE('03-05-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (60413, 20.0, TO_DATE('03-05-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (32156, 1000.0, TO_DATE('03-05-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (76543, 8456.0, TO_DATE('03-05-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (43947, 30.0, TO_DATE('03-05-2011', 'MM-DD-YYYY'))";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Balances(aid, balance, day) VALUES (67521, 100.0, TO_DATE('03-06-2011', 'MM-DD-YYYY'))";
                 stmt.executeQuery(data);
 
                 data = "INSERT INTO LinkedPockets(pid, aid) VALUES (60413, 43942)";

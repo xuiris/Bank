@@ -305,6 +305,29 @@ public class Transaction {
                     + " from account " + cid;
         }
         
+        public static boolean createAccrueInterest(Connection conn, String day) throws SQLException{
+            try{
+                Statement stmt = conn.createStatement();
+                int tid = newTid(conn);
+                String qry = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (" +
+                        tid +
+                        ", NULL"  +
+                        ", TO_DATE('" + day + "', 'MM-DD-YYYY')" +
+                        ", 'AccrueInterest')";
+                System.out.println(qry);
+                stmt.executeQuery(qry);
+                qry = "INSERT INTO AccrueInterest(tid, day) VALUES ("
+                        + tid
+                        +", TO_DATE('" + day + "', 'MM-DD-YYYY'))";
+		System.out.println(qry);
+                stmt.executeQuery(qry);
+                return true;
+            }catch( SQLException e){
+                e.printStackTrace();
+                return false;
+            }   
+        }
+        
 	// Come up with an available and unique tid.
 	private static int newTid(Connection conn) throws SQLException {
 		Statement stmt = conn.createStatement();

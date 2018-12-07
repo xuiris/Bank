@@ -81,7 +81,14 @@ public class Account {
 					+ ", open = " + status 				
 					+ " WHERE aid = " + aid;
 			stmt.executeQuery(qry);
-			return true;	
+                        String day = SystemTime.getSystemDate();
+			qry = "INSERT INTO Balances(aid, balance, day) VALUES (" 
+					+ aid 
+					+ ", " + balance
+					+ ", TO_DATE('" + day + "', 'MM-DD-YYYY'))";
+			System.out.println(qry);
+			stmt.executeQuery(qry);
+                        return true;	
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error updating account " + aid);
@@ -90,7 +97,7 @@ public class Account {
 	}
 	
 	public String toString() {
-		return ("aid: " + aid +  ",     balance: " + balance + ",     interest: " + interest + ",     open: " + isOpen + ",     type: " + type);
+		return ("aid: " + aid +  ",     balance: " + String.format("%.2f", balance) + ",     interest: " + interest + ",     open: " + isOpen + ",     type: " + type);
 	}
 		
 	
