@@ -99,6 +99,7 @@ public class NewCustomer extends javax.swing.JFrame {
         balanceField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         interestField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        interestField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("TaxID:");
