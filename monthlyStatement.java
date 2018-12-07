@@ -89,7 +89,7 @@ public class monthlyStatement extends javax.swing.JFrame {
                 String qry = "SELECT * from WriteCheck t where t.tid = " + tid;
                 ResultSet rs = stmt.executeQuery(qry);
                 if (rs.next()) 
-                    res = ""; // Not implemented
+                    res = Transaction.stringCheck(conn, rs.getDouble("amt"), rs.getInt("cid"), taxID);
                 rs.close();
             }
             else if (type.equals("AccrueInterest")){
@@ -230,6 +230,7 @@ public class monthlyStatement extends javax.swing.JFrame {
         }
         
         String ms = "";
+        double totalBalance = 0.0; // get total from all account balances added.
         
         // Get all accounts of the customer they are primary owners of
         HashMap<Integer, Account> accounts = new HashMap<Integer, Account>();
@@ -262,6 +263,7 @@ public class monthlyStatement extends javax.swing.JFrame {
             // Print out the account info
             ms = ms + System.lineSeparator() + System.lineSeparator() + a.getValue().toString();
             int aid = a.getValue().aid;
+            totalBalance += a.getValue().balance; // add this balance to total
             
             // Print info of all customers who own this account
             qry = "SELECT DISTINCT o.taxID, o.type FROM Owners o"
@@ -355,11 +357,11 @@ public class monthlyStatement extends javax.swing.JFrame {
                     relatedTids.add(rs.getInt("tid"));
                 rs.close();
 
-//                qry = "SELECT t.tid from WriteCheck t where t.aid = " + aid;
-//                rs = stmt.executeQuery(qry);
-//                while (rs.next()) 
-//                    relatedTids.add(rs.getInt("tid"));
-//                rs.close();
+                qry = "SELECT t.tid from WriteCheck t where t.cid = " + aid;
+                rs = stmt.executeQuery(qry);
+                while (rs.next()) 
+                    relatedTids.add(rs.getInt("tid"));
+                rs.close();
 //            
 //                qry = "SELECT t.tid from AccrueInterest t where t.aid = " + aid;
 //                rs = stmt.executeQuery(qry);
@@ -402,6 +404,12 @@ public class monthlyStatement extends javax.swing.JFrame {
             // loop through other accounts.
         }
         
+        // Warn customers of limit if exceeded.
+        if (totalBalance > 100000) {
+            ms = "WARNING: Your total balance $" + totalBalance 
+                    + " exceeds $100,000. The limit of insurance has been reached."
+                    + ms;
+        }
         monthlyStatement.setText(ms);
     }//GEN-LAST:event_generateButtonActionPerformed
 

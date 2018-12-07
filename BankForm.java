@@ -3,7 +3,8 @@ import java.awt.Container;
 import java.sql.*;
 import javafx.scene.paint.Color;
 import javax.swing.JFrame;
-
+import java.text.SimpleDateFormat;
+import java.util.Set;
 
 
 /*
@@ -21,12 +22,17 @@ public class BankForm extends javax.swing.JFrame {
     private final Bank bank;
     //private final customerInterface cust;
     private Connection conn;
+    private String date;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("mm-dd-yyyy");
+
     
     
     public BankForm() {
         initComponents();
         bank = new Bank();
         conn = bank.getConnection();
+        date = SystemTime.getSystemDate();
+        dateLabel.setText(date);
     }
 
     /**
@@ -42,6 +48,12 @@ public class BankForm extends javax.swing.JFrame {
         bankButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        dateField = new javax.swing.JTextField();
+        setDate = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        label = new javax.swing.JLabel();
+        errorLabel = new javax.swing.JLabel();
+        dateLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Bank System");
@@ -79,35 +91,83 @@ public class BankForm extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Choose your interface");
 
+        setDate.setText("Set");
+        setDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setDateActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel3.setText("Set System Time: ");
+
+        label.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        label.setText("System Time: ");
+
+        errorLabel.setForeground(new java.awt.Color(204, 0, 0));
+        errorLabel.setText("Status");
+
+        dateLabel.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        dateLabel.setText("12-07-2018");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(349, 349, 349)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(bankButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(atmButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(388, 388, 388))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(421, 421, 421)
+                        .addComponent(errorLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(273, 273, 273)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(setDate))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(287, 287, 287)
+                        .addComponent(label)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dateLabel)))
+                .addGap(280, 280, 280))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(185, 185, 185)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(176, 176, 176))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(349, 349, 349)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(bankButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(atmButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(344, 344, 344))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(91, 91, 91)
+                .addGap(42, 42, 42)
                 .addComponent(jLabel1)
-                .addGap(40, 40, 40)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(atmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(bankButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addGap(17, 17, 17)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dateLabel)
+                    .addComponent(label))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(setDate)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(errorLabel)
+                .addGap(29, 29, 29))
         );
 
         jLabel1.getAccessibleContext().setAccessibleDescription("");
@@ -139,6 +199,39 @@ public class BankForm extends javax.swing.JFrame {
          }
     }//GEN-LAST:event_formWindowClosed
 
+    private void setDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setDateActionPerformed
+        // TODO add your handling code here:
+        try {
+            String d = getDate();
+            SystemTime.setSystemDate(d);
+            errorLabel.setText("Set.");
+            dateLabel.setText(d);
+        } catch (Exception e) {
+            errorLabel.setText("Invalid. Using Default: 12-07-2018");
+        }
+    }//GEN-LAST:event_setDateActionPerformed
+
+    private String getDate() throws Exception {
+        String input = dateField.getText();
+        if (input.isEmpty()) {
+            errorLabel.setText("Invalid. Using Default: 12-07-2018");
+            return "12-07-2018";
+        }
+        else {
+            try {
+                java.util.Date d = dateFormat.parse(input);
+                if (!input.equals(dateFormat.format(d))) {
+                    errorLabel.setText("Invalid. Using Default: 12-07-2018");
+                    return "12-07-2018";
+                }
+            } catch (Exception e) {
+                errorLabel.setText("Invalid date.");
+                throw e;
+            }
+            return input;
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -178,7 +271,13 @@ public class BankForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton atmButton;
     private javax.swing.JButton bankButton;
+    private javax.swing.JTextField dateField;
+    private javax.swing.JLabel dateLabel;
+    private javax.swing.JLabel errorLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel label;
+    private javax.swing.JButton setDate;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JButton;
+import java.text.SimpleDateFormat;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,13 +24,14 @@ public class atmInterface extends javax.swing.JFrame {
     private Map<Integer, Account> accounts;
     private String id;
     private Map<Integer, Integer> linked; // pid, aid
-    private String day;
     
+    private String day;    
     
     public atmInterface() {
         initComponents();
         bank = new Bank();
         conn = bank.getConnection();
+        day = SystemTime.getSystemDate();
     }
 
     /**
@@ -63,12 +65,10 @@ public class atmInterface extends javax.swing.JFrame {
         from = new javax.swing.JLabel();
         money = new javax.swing.JLabel();
         to = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         status = new javax.swing.JLabel();
         fromAcc = new javax.swing.JComboBox<>();
         toAcc = new javax.swing.JTextField();
         amount = new javax.swing.JTextField();
-        date = new javax.swing.JTextField();
 
         jButton3.setText("jButton3");
 
@@ -243,9 +243,6 @@ public class atmInterface extends javax.swing.JFrame {
         to.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         to.setText("TO:");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel7.setText("Enter date:");
-
         status.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         status.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         status.setText("status\n");
@@ -265,43 +262,36 @@ public class atmInterface extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(109, 109, 109))
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(from)
+                            .addComponent(to)
+                            .addComponent(money))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(toAcc, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                                .addComponent(amount))
+                            .addComponent(fromAcc, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(transferButton)
+                            .addComponent(depositButton))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(withdrawButton)
+                            .addComponent(collectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(20, 20, 20)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(from)
-                                    .addComponent(to)
-                                    .addComponent(money))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(toAcc, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
-                                        .addComponent(amount))
-                                    .addComponent(fromAcc, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(transferButton)
-                                    .addComponent(depositButton))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(withdrawButton)
-                                    .addComponent(collectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(20, 20, 20)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(topupButton)
-                            .addComponent(wireButton))
-                        .addGap(27, 27, 27)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(payButton)
-                            .addComponent(purchaseButton)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(topupButton)
+                    .addComponent(wireButton))
+                .addGap(27, 27, 27)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(payButton)
+                    .addComponent(purchaseButton))
                 .addContainerGap(27, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -311,11 +301,7 @@ public class atmInterface extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52)
+                .addGap(123, 123, 123)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -417,15 +403,7 @@ public class atmInterface extends javax.swing.JFrame {
 						}
 					}
 				}     
-                                
-			        String dateInput = date.getText();
-			        if (null != dateInput && dateInput.trim().length() > 0){
-			            day = dateInput;
-			        } else {
-			        	
-			        	day = "12-01-2018";
-			        }
-                                
+                                                                
                                 updateSelectableAccounts();
                                                     
            }
@@ -443,9 +421,24 @@ public class atmInterface extends javax.swing.JFrame {
        
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        try{
+            if(conn!=null){
+               conn.close();
+               System.out.println("From ATM: Closed connection...");
+            }
+         }catch(SQLException se){
+            se.printStackTrace();
+         }
+    }//GEN-LAST:event_formWindowClosed
+
     private void payButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_payButtonActionPerformed
         // TODO add your handling code here:
         try {
+
+            
+
             // Get account they want to pull from
             int fromPid = 0;
             Account from = new Account();
@@ -468,7 +461,8 @@ public class atmInterface extends javax.swing.JFrame {
                 toPid = Integer.parseInt(toAcc.getText());
             } catch (NumberFormatException e) {
                 e.printStackTrace();
-                status.setText("Not a number");
+                status.setText("Error: Enter valid account number.");
+                return;
             }
 
             // Pull account, place in Account object, check if its savings or checkings
@@ -506,7 +500,7 @@ public class atmInterface extends javax.swing.JFrame {
                 status.setText("Invalid amount.");
                 return;
             }
-            
+
             double total = amt + flatFee(fromPid);
             if (total > from.balance) {
                 status.setText("Insufficient funds for this payment.");
@@ -535,6 +529,7 @@ public class atmInterface extends javax.swing.JFrame {
     private void wireButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wireButtonActionPerformed
         // TODO add your handling code here:
         try{
+            
 
             // Get account they want to pull from
             int fromAid = 0;
@@ -550,7 +545,7 @@ public class atmInterface extends javax.swing.JFrame {
                 status.setText("Please choose only Savings or Checkings.");
                 return;
             }
-            
+
             //receiving account
             Account to = new Account();
             int toAid = 0;
@@ -558,13 +553,15 @@ public class atmInterface extends javax.swing.JFrame {
                 toAid = Integer.parseInt(toAcc.getText());
             } catch (NumberFormatException e) {
                 e.printStackTrace();
-                status.setText("Not a number");
+                status.setText("Error: Enter valid account number.");
+                return;
             }
             try {
                 to = Account.getAccount(conn, toAid);
             } catch (Exception e) {
                 e.printStackTrace();
                 status.setText("Error finding the account to wire to.");
+                return;
             }
             // Check if accounts open
             if (!(from.isOpen && to.isOpen)) {
@@ -584,13 +581,14 @@ public class atmInterface extends javax.swing.JFrame {
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                     status.setText("Not a number");
+                    return;
                 }
 
                 if (amt <= 0) {
                     status.setText("Invalid amount.");
                     return;
                 }
-                
+
                 double fee = (amt*0.02);
                 double withFee = amt + fee;
 
@@ -624,6 +622,8 @@ public class atmInterface extends javax.swing.JFrame {
     private void collectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_collectButtonActionPerformed
         // TODO add your handling code here:
         try{
+            
+
             // Get account they want to pull from
             int pid = 0;
             Account pa = new Account();
@@ -642,7 +642,7 @@ public class atmInterface extends javax.swing.JFrame {
             // find the linked Saving/Checking acct
             int link = linked.get(pid);
             Account la = accounts.get(link);
-            
+
             // Check if accounts open
             if (!(pa.isOpen && la.isOpen)) {
                 status.setText("Cannot transact on closed accounts.");
@@ -655,6 +655,7 @@ public class atmInterface extends javax.swing.JFrame {
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 status.setText("Not a number");
+                return;
             }
 
             if (amt <= 0) {
@@ -685,12 +686,13 @@ public class atmInterface extends javax.swing.JFrame {
             e.printStackTrace();
             status.setText("Error collecting from account");
         }
-
     }//GEN-LAST:event_collectButtonActionPerformed
 
     private void transferButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transferButtonActionPerformed
         // TODO add your handling code here:
         try {
+            
+
             // Get account they want to pull from
             int aid = 0;
             Account from = new Account();
@@ -713,7 +715,8 @@ public class atmInterface extends javax.swing.JFrame {
                 aid = Integer.parseInt(toAcc.getText());
             } catch (NumberFormatException e) {
                 e.printStackTrace();
-                status.setText("Not a number");
+                status.setText("Error: Enter valid account number.");
+                return;
             }
             if (!(accounts.containsKey(aid))) {
                 status.setText("Invalid account number.");
@@ -736,7 +739,7 @@ public class atmInterface extends javax.swing.JFrame {
                 status.setText("Cannot pay to the same account.");
                 return;
             }
-            
+
             double amt = 0;
             try {
                 amt = Double.parseDouble(amount.getText());
@@ -779,6 +782,8 @@ public class atmInterface extends javax.swing.JFrame {
     private void purchaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseButtonActionPerformed
         // TODO add your handling code here:
         try {
+            
+
             // Ask user for account they want to transact on
             int count = 0;
             int pid = 0;
@@ -805,7 +810,7 @@ public class atmInterface extends javax.swing.JFrame {
                 status.setText("Cannot transact on closed accounts.");
                 return;
             }
-                       
+
             double amt = 0;
             try {
                 amt = Double.parseDouble(amount.getText());
@@ -818,8 +823,8 @@ public class atmInterface extends javax.swing.JFrame {
                 status.setText("Invalid amount.");
                 return;
             }
-            
-            double total = amt + flatFee(pid);           
+
+            double total = amt + flatFee(pid);
             if ((total) > pa.balance) {
                 status.setText("Insufficient funds for this purchase.");
                 return;
@@ -830,7 +835,7 @@ public class atmInterface extends javax.swing.JFrame {
             // Update this in the DB using account object.
             if (pa.updateAccountDB(conn)) {
                 status.setText("Purchase successful.");
-                if (Transaction.createPurchase(conn, day, total, pid, id)) {
+                if (Transaction.createPurchase(conn, day, amt, pid, id)) {
                     status.setText("Transaction recorded.");
                 } else {
                     status.setText("Bad behavior - Error recording purchase transaction.");
@@ -841,12 +846,13 @@ public class atmInterface extends javax.swing.JFrame {
             e.printStackTrace();
             status.setText("Error using account to purchase");
         }
-
     }//GEN-LAST:event_purchaseButtonActionPerformed
 
     private void withdrawButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_withdrawButtonActionPerformed
         // TODO add your handling code here:
         try {
+            
+
             // Ask user for account they want to transact on
             int count = 0;
             int aid = 0;
@@ -874,13 +880,13 @@ public class atmInterface extends javax.swing.JFrame {
                 return;
             }
 
-            
             double amt = 0;
             try {
                 amt = Double.parseDouble(amount.getText());
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 status.setText("Not a number");
+                return;
             }
 
             if (amt <= 0) {
@@ -906,12 +912,13 @@ public class atmInterface extends javax.swing.JFrame {
             e.printStackTrace();
             status.setText("Error withdrawing from account");
         }
-
     }//GEN-LAST:event_withdrawButtonActionPerformed
 
     private void topupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_topupButtonActionPerformed
         // TODO add your handling code here:
         try {
+            
+
             // Ask user for account they want to transact on
             int count = 0;
             int pid = 0;
@@ -933,7 +940,7 @@ public class atmInterface extends javax.swing.JFrame {
             // find the linked Saving/Checking acct
             int link = linked.get(pid);
             Account la = accounts.get(link);
-            
+
             // Check if accounts open
             if (!(la.isOpen && pa.isOpen)) {
                 status.setText("Cannot transact on closed accounts.");
@@ -946,6 +953,7 @@ public class atmInterface extends javax.swing.JFrame {
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 status.setText("Not a number");
+                return;
             }
 
             if (amt <= 0) {
@@ -979,6 +987,8 @@ public class atmInterface extends javax.swing.JFrame {
     private void depositButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_depositButtonActionPerformed
         // TODO add your handling code here:
         try {
+            
+
             // Ask user for account they want to transact on
             int count = 0;
             int aid = 0;
@@ -999,19 +1009,20 @@ public class atmInterface extends javax.swing.JFrame {
                 status.setText("Failed to choose valid account.");
                 return;
             }
-            
+
             // Check if accounts open
             if (!(a.isOpen)) {
                 status.setText("Cannot transact on closed accounts.");
                 return;
             }
-            
+
             double amt = 0;
             try {
                 amt = Double.parseDouble(amount.getText());
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 status.setText("Not a number");
+                return;
             }
 
             if (amt <= 0) {
@@ -1034,20 +1045,8 @@ public class atmInterface extends javax.swing.JFrame {
             e.printStackTrace();
             status.setText("Error depositing into account");
         }
-
     }//GEN-LAST:event_depositButtonActionPerformed
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        // TODO add your handling code here:
-        try{
-            if(conn!=null){
-               conn.close();
-               System.out.println("From ATM: Closed connection...");
-            }
-         }catch(SQLException se){
-            se.printStackTrace();
-         }
-    }//GEN-LAST:event_formWindowClosed
+    
     
     private int chooseAccount() {
 		try {
@@ -1087,10 +1086,14 @@ public class atmInterface extends javax.swing.JFrame {
         // Check if we need to apply flat fee. If there exists no other transaction
         // made on the pocket then we return $5, ow $0
         double fee = 0.0;
-        String qry = "SELECT DISTINCT t.tid FROM Transactions t, Purchase p, Collect c, PayFriend f"
+        String qry = "SELECT DISTINCT p.tid FROM Purchase p"
                 + " WHERE p.pid = " + p 
-                + " OR c.fromPid = " + p 
-                + " OR f.fromPid = " + p ;
+                + " UNION" 
+                + " SELECT DISTINCT c.tid FROM Collect c"
+                + " WHERE c.fromPid = " + p 
+                + " UNION" 
+                + " SELECT DISTINCT f.tid FROM PayFriend f"
+                + " WHERE f.fromPid = " + p ;
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(qry);
@@ -1148,7 +1151,6 @@ public class atmInterface extends javax.swing.JFrame {
     private javax.swing.JPasswordField PinField;
     private javax.swing.JTextField amount;
     private javax.swing.JButton collectButton;
-    private javax.swing.JTextField date;
     private javax.swing.JButton depositButton;
     private javax.swing.JLabel from;
     private javax.swing.JComboBox<String> fromAcc;
@@ -1158,7 +1160,6 @@ public class atmInterface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField1;
