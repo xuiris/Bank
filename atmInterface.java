@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JButton;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JDialog;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -43,15 +46,21 @@ public class atmInterface extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton3 = new javax.swing.JButton();
+        setPass = new javax.swing.JDialog();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        passField = new javax.swing.JPasswordField();
+        setButton = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         PinField = new javax.swing.JPasswordField();
-        jButton2 = new javax.swing.JButton();
+        enterButton = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         verify = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        taxidField = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         depositButton = new javax.swing.JButton();
@@ -70,7 +79,64 @@ public class atmInterface extends javax.swing.JFrame {
         toAcc = new javax.swing.JTextField();
         amount = new javax.swing.JTextField();
 
-        jButton3.setText("jButton3");
+        setPass.setMinimumSize(new java.awt.Dimension(700, 500));
+        setPass.setPreferredSize(new java.awt.Dimension(700, 500));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setText("RESET YOUR PASSWORD");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setText("ENTER NEW PIN");
+
+        passField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        setButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        setButton.setText("SET");
+        setButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel7.setText("Log In Again With Your New PIN");
+
+        javax.swing.GroupLayout setPassLayout = new javax.swing.GroupLayout(setPass.getContentPane());
+        setPass.getContentPane().setLayout(setPassLayout);
+        setPassLayout.setHorizontalGroup(
+            setPassLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(setPassLayout.createSequentialGroup()
+                .addGroup(setPassLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(setPassLayout.createSequentialGroup()
+                        .addGap(311, 311, 311)
+                        .addComponent(setButton))
+                    .addGroup(setPassLayout.createSequentialGroup()
+                        .addGap(289, 289, 289)
+                        .addGroup(setPassLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4)
+                            .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(setPassLayout.createSequentialGroup()
+                        .addGap(259, 259, 259)
+                        .addGroup(setPassLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel3))))
+                .addContainerGap(244, Short.MAX_VALUE))
+        );
+        setPassLayout.setVerticalGroup(
+            setPassLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(setPassLayout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(jLabel3)
+                .addGap(55, 55, 55)
+                .addComponent(jLabel4)
+                .addGap(49, 49, 49)
+                .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(setButton)
+                .addGap(55, 55, 55)
+                .addComponent(jLabel7)
+                .addContainerGap(161, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ATM \n");
@@ -88,11 +154,11 @@ public class atmInterface extends javax.swing.JFrame {
 
         PinField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButton2.setText("ENTER");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        enterButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        enterButton.setText("ENTER");
+        enterButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                enterButtonActionPerformed(evt);
             }
         });
 
@@ -108,63 +174,75 @@ public class atmInterface extends javax.swing.JFrame {
         verify.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         verify.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel3.setText("ENTER YOUR TAXID");
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel5.setText("TaxID");
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel6.setText("New Customers must enter their taxID");
+
+        taxidField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(154, 154, 154)
-                .addComponent(PinField, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(147, 147, 147)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(enterButton)
+                    .addComponent(PinField, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(120, 120, 120)
+                .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(verify, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
-                        .addGap(158, 158, 158))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(34, 34, 34))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(18, 18, 18)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(taxidField, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(verify, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                                .addGap(158, 158, 158))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton2)
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(120, 120, 120))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(106, 106, 106))))
+                        .addGap(69, 69, 69)
+                        .addComponent(jLabel6)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(51, 51, 51)
+                .addGap(64, 64, 64)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
+                .addGap(35, 35, 35)
                 .addComponent(PinField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(enterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addComponent(jLabel6)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(19, 19, 19))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jLabel3)
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(taxidField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
                         .addGap(18, 18, 18)
-                        .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(44, 44, 44)
                         .addComponent(verify, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(79, Short.MAX_VALUE))))
+                        .addContainerGap(91, Short.MAX_VALUE))))
         );
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 2, 24)); // NOI18N
@@ -258,45 +336,46 @@ public class atmInterface extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(109, 109, 109))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(from)
-                            .addComponent(to)
-                            .addComponent(money))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(toAcc, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
-                                .addComponent(amount))
-                            .addComponent(fromAcc, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(transferButton)
-                            .addComponent(depositButton))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(withdrawButton)
-                            .addComponent(collectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(20, 20, 20)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(topupButton)
-                    .addComponent(wireButton))
-                .addGap(27, 27, 27)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(payButton)
-                    .addComponent(purchaseButton))
-                .addContainerGap(27, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(109, 109, 109))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(from)
+                                    .addComponent(to)
+                                    .addComponent(money))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(toAcc, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                                        .addComponent(amount))
+                                    .addComponent(fromAcc, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(transferButton)
+                                    .addComponent(depositButton))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(withdrawButton)
+                                    .addComponent(collectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(topupButton)
+                            .addComponent(wireButton))
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(payButton)
+                            .addComponent(purchaseButton))
+                        .addContainerGap(27, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -357,11 +436,15 @@ public class atmInterface extends javax.swing.JFrame {
             
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void enterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterButtonActionPerformed
         char[] pin = PinField.getPassword();
         String pass = "";
         for( char x: pin){
             pass +=x;
+        }
+        
+        if(pass.equals("1717")){
+            setPass.setVisible(true);                            
         }
         
         try{ 
@@ -390,6 +473,8 @@ public class atmInterface extends javax.swing.JFrame {
 					accounts.put(aid, Account.getAccount(conn, aid));
 				}
 				accts.close();
+                                
+                                
 				
 				// Enter linked accounts into linked map
 				linked = new HashMap<Integer, Integer>();
@@ -419,7 +504,7 @@ public class atmInterface extends javax.swing.JFrame {
 			System.exit(0);
 			}
        
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_enterButtonActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         // TODO add your handling code here:
@@ -1046,6 +1131,27 @@ public class atmInterface extends javax.swing.JFrame {
             status.setText("Error depositing into account");
         }
     }//GEN-LAST:event_depositButtonActionPerformed
+
+    private void setButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+                String taxID = taxidField.getText();
+                char[] password = passField.getPassword();
+                String newPass = "";
+                for( char x: password){
+                    newPass +=x;
+                }
+                
+                String qry = "UPDATE Customers c SET c.PIN = '"+ newPass + "' WHERE c.taxID = '" + taxID + "'";
+                Statement stmt = conn.createStatement();
+                stmt.executeQuery(qry);
+                
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(atmInterface.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+    }//GEN-LAST:event_setButtonActionPerformed
     
     
     private int chooseAccount() {
@@ -1152,21 +1258,27 @@ public class atmInterface extends javax.swing.JFrame {
     private javax.swing.JTextField amount;
     private javax.swing.JButton collectButton;
     private javax.swing.JButton depositButton;
+    private javax.swing.JButton enterButton;
     private javax.swing.JLabel from;
     private javax.swing.JComboBox<String> fromAcc;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JLabel money;
+    private javax.swing.JPasswordField passField;
     private javax.swing.JButton payButton;
     private javax.swing.JButton purchaseButton;
+    private javax.swing.JButton setButton;
+    private javax.swing.JDialog setPass;
     private javax.swing.JLabel status;
+    private javax.swing.JTextField taxidField;
     private javax.swing.JLabel to;
     private javax.swing.JTextField toAcc;
     private javax.swing.JButton topupButton;

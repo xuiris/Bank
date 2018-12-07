@@ -228,11 +228,7 @@ public class SetUpTables {
 			st.executeQuery(deleteTable);
                         
                         deleteTable = "DROP TABLE WriteCheck";
-<<<<<<< HEAD
-                        st.executeQuery(deleteTable);
-=======
 			st.executeQuery(deleteTable);
->>>>>>> 5b81a097c23aa48ec71cc939dc902be5bc1e6977
 			
 			deleteTable = "DROP TABLE Transactions";
 			st.executeQuery(deleteTable);
