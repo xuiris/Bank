@@ -67,7 +67,14 @@ public class Account {
 		try {
 			Statement stmt = conn.createStatement();
 			int status = 0;
-			if (isOpen) status = 1;
+			if (balance == 0) {
+                            isOpen = false;
+                            status = 0;
+                        }
+                        else {
+                            isOpen = true;
+                            status = 1;
+                        }
 			String qry = "UPDATE Accounts "
 					+ "SET interest = " + interest 
 					+ ", balance = " + balance 

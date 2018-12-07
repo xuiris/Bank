@@ -153,6 +153,7 @@ public class SetUpTables {
 			st.executeQuery(createTable);
 			System.out.println("Wire table created");
                         
+
                         //WriteCheck table
                         createTable = "CREATE TABLE WriteCheck(tid INTEGER," +
                                         "checkNum INTEGER," +
@@ -172,7 +173,15 @@ public class SetUpTables {
 //					" WHERE balance = 0";
 //			st.executeQuery(createTrigger);
 //			System.out.println("Trigger to close zero balance accounts created");
-			
+
+                        //InitialBalances Table
+			createTable = "CREATE TABLE InitialBalances(aid INTEGER," +
+					" balance FLOAT," + 
+					" FOREIGN KEY(aid) REFERENCES Accounts)";                      
+			st.executeQuery(createTable);
+			System.out.println("InitialBalances table created");
+                        
+		
 		}catch(Exception e){
 			e.printStackTrace();
 			System.out.println("error");
@@ -230,8 +239,11 @@ public class SetUpTables {
 			deleteTable = "DROP TABLE LinkedPockets";
 			st.executeQuery(deleteTable);
 			
-			deleteTable = "DROP TABLE Accounts";
+                        deleteTable = "DROP TABLE InitialBalances";
 			st.executeQuery(deleteTable);
+                        
+			deleteTable = "DROP TABLE Accounts";
+			st.executeQuery(deleteTable);             
 			
 			System.out.println("Tables are deleted");
 		}catch(Exception e){
@@ -285,38 +297,66 @@ public class SetUpTables {
                 data = "INSERT INTO Customers(taxID, PIN, address, name) VALUES ('400651982', 1821, '911 State St', 'Pit Wilson')";
                 stmt.executeQuery(data);
 
-		data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (17431, 2000.0, 0.0, '1', 'Student-Checking')";
+		data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (17431, 200.0, 0.0, '1', 'Student-Checking')";
                 stmt.executeQuery(data);					
-                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (54321, 800.0, 0.0, '1', 'Student-Checking')";
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (54321, 2100.0, 0.0, '1', 'Student-Checking')";
                 stmt.executeQuery(data);
-                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (12121, 800.0, 0.0, '1', 'Student-Checking')";
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (12121, 1150.0, 0.0, '1', 'Student-Checking')";
                 stmt.executeQuery(data);
-                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (41725, 2000.0, 0.0, '1', 'Student-Checking')";
-                stmt.executeQuery(data);
-                
-                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (76543, 2000.0, 5.5, '1', 'Interest-Checking')";
-                stmt.executeQuery(data);
-                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (93156, 2000.0, 5.5, '1', 'Interest-Checking')";
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (41725, 15000.0, 0.0, '1', 'Student-Checking')";
                 stmt.executeQuery(data);
                 
-                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (43942, 1000.0, 7.5, '1', 'Savings')";
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (76543, 8456.0, 5.5, '1', 'Interest-Checking')";
                 stmt.executeQuery(data);
-                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (29107, 1000.0, 7.5, '1', 'Savings')";
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (93156, 2000000.0, 5.5, '1', 'Interest-Checking')";
                 stmt.executeQuery(data);
-                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (19023, 1000.0, 7.5, '1', 'Savings')";
+                
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (43942, 1269.0, 7.5, '1', 'Savings')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (29107, 33970.0, 7.5, '1', 'Savings')";
+                stmt.executeQuery(data);
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (19023, 2200.0, 7.5, '1', 'Savings')";
                 stmt.executeQuery(data);
                 data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (32156, 1000.0, 7.5, '1', 'Savings')";
                 stmt.executeQuery(data);
                 
-                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (53027, 200.0, 0.0, '1', 'Pocket')";
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (53027, 50.0, 0.0, '1', 'Pocket')";
                 stmt.executeQuery(data);
-                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (43947, 500.0, 0.0, '1', 'Pocket')";
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (43947, 30.0, 0.0, '1', 'Pocket')";
                 stmt.executeQuery(data);
-                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (60413, 500.0, 0.0, '1', 'Pocket')";
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (60413, 20.0, 0.0, '1', 'Pocket')";
                 stmt.executeQuery(data);
-                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (67521, 2000.0, 0.0, '1', 'Pocket')";
+                data = "INSERT INTO Accounts(aid, balance, interest, open, type) VALUES (67521, 100.0, 0.0, '1', 'Pocket')";
                 stmt.executeQuery(data);
                 
+                data = "INSERT INTO InitialBalances(aid, balance) VALUES (17431, 200.0)";
+                stmt.executeQuery(data);
+                data = "INSERT INTO InitialBalances(aid, balance) VALUES (54321, 2100.0)";
+                stmt.executeQuery(data);
+                data = "INSERT INTO InitialBalances(aid, balance) VALUES (12121, 1150.0)";
+                stmt.executeQuery(data);
+                data = "INSERT INTO InitialBalances(aid, balance) VALUES (41725, 15000.0)";
+                stmt.executeQuery(data);
+                data = "INSERT INTO InitialBalances(aid, balance) VALUES (93156, 2000000.0)";
+                stmt.executeQuery(data);
+                data = "INSERT INTO InitialBalances(aid, balance) VALUES (53027, 50.0)";
+                stmt.executeQuery(data);
+                data = "INSERT INTO InitialBalances(aid, balance) VALUES (43942, 1269.0)";
+                stmt.executeQuery(data);
+                data = "INSERT INTO InitialBalances(aid, balance) VALUES (29107, 33970.0)";
+                stmt.executeQuery(data);
+                data = "INSERT INTO InitialBalances(aid, balance) VALUES (19023, 2200.0)";
+                stmt.executeQuery(data);
+                data = "INSERT INTO InitialBalances(aid, balance) VALUES (60413, 20.0)";
+                stmt.executeQuery(data);
+                data = "INSERT INTO InitialBalances(aid, balance) VALUES (32156, 1000.0)";
+                stmt.executeQuery(data);
+                data = "INSERT INTO InitialBalances(aid, balance) VALUES (76543, 8456.0)";
+                stmt.executeQuery(data);
+                data = "INSERT INTO InitialBalances(aid, balance) VALUES (43947, 30.0)";
+                stmt.executeQuery(data);
+                data = "INSERT INTO InitialBalances(aid, balance) VALUES (67521, 100.0)";
+                stmt.executeQuery(data);
 
                 data = "INSERT INTO LinkedPockets(pid, aid) VALUES (60413, 43942)";
                 stmt.executeQuery(data);
