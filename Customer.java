@@ -52,7 +52,7 @@ public class Customer implements Serializable {
         Customer c = new Customer();
         if (rs.next()) {
 	    c.taxID = rs.getString("taxID");
-            c.name = rs.getString("name");
+            c.name = rs.getString("name").trim();
             c.address = rs.getString("address").trim();
             c.PIN = rs.getInt("PIN");
         } else {
@@ -78,9 +78,9 @@ public class Customer implements Serializable {
         
     @Override
     public String toString(){
-        return  "taxID: " + gettaxID() + 
-                ",     Address: " + getaddress() + 
-                ",     Name: " + getname();
+        return  "Name: " + getname() +
+                ",     taxID: " + gettaxID() + 
+                ",     Address: " + getaddress();
                 
     }
       

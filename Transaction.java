@@ -21,6 +21,7 @@ public class Transaction {
 					+ tid 
 					+ ", " + added
 					+ ", " + aid + ")";
+			System.out.println(qry);
 			stmt.executeQuery(qry);
 			return true;
 		} catch (SQLException e) {
@@ -50,6 +51,7 @@ public class Transaction {
 					+ tid 
 					+ ", " + added
 					+ ", " + pid + ")";
+			System.out.println(qry);
 			stmt.executeQuery(qry);
 			return true;
 		} catch (SQLException e) {
@@ -90,6 +92,7 @@ public class Transaction {
 					+ tid 
 					+ ", " + subtracted
 					+ ", " + aid  + ")";
+			System.out.println(qry);
 			stmt.executeQuery(qry);
 			return true;
 		} catch (SQLException e) {
@@ -119,6 +122,7 @@ public class Transaction {
 					+ tid 
 					+ ", " + amt
 					+ ", " + pid  + ")";
+			System.out.println(qry);
 			stmt.executeQuery(qry);
 			return true;
 		} catch (SQLException e) {
@@ -149,6 +153,7 @@ public class Transaction {
                                 + ", " + amt
                                 + ", " + from
                                 + ", " + to + ")";
+		System.out.println(qry);
                 stmt.executeQuery(qry);
                 return true;
             } catch (SQLException e) {
@@ -179,6 +184,7 @@ public class Transaction {
 					+ tid 
 					+ ", " + amt
 					+ ", " + pid  + ")";
+            		System.out.println(qry);
 			stmt.executeQuery(qry);
 			return true;
 		} catch (SQLException e) {
@@ -220,6 +226,7 @@ public class Transaction {
                                 + ", " + amt
                                 + ", " + from
                                 + ", " + to + ")";
+  		System.out.println(qry);
                 stmt.executeQuery(qry);
                 return true;
             } catch (SQLException e) {
@@ -251,6 +258,7 @@ public class Transaction {
                                 + ", " + amt
                                 + ", " + from
                                 + ", " + to + ")";
+      		System.out.println(qry);
                 stmt.executeQuery(qry);
                 return true;
             } catch (SQLException e) {
@@ -282,6 +290,7 @@ public class Transaction {
                         +", " + checkNum
                         +", " + cid
                         +", " + amt + ")";
+		System.out.println(qry);
                 stmt.executeQuery(qry);
                 return true;
             }catch( SQLException e){

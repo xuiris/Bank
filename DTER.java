@@ -1,3 +1,5 @@
+import java.sql.*;
+import java.util.*;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10,11 +12,113 @@
  */
 public class DTER extends javax.swing.JFrame {
 
+    private final Bank bank;
+    private Connection conn;
     /**
      * Creates new form DTER
      */
     public DTER() {
         initComponents();
+        bank = new Bank();
+        conn = bank.getConnection();
+        createReport();
+    }
+    
+    private void createReport() {
+        String txt = "";
+        HashMap<Integer, Double> totalDeposit = new HashMap<Integer, Double>();
+        
+        // get all accounts in bank
+        String qry = "SELECT a.aid FROM Accounts a";
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet accts = stmt.executeQuery(qry);
+
+            while(accts.next()){
+                int aid  = accts.getInt("aid");
+                double total = getDepositTotal(aid);
+                totalDeposit.put(aid, total);
+            }
+            accts.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error getting accounts from database");
+            report.setText("Error getting accounts from database");
+        } 
+        
+        for (Map.Entry<Integer, Double> t: totalDeposit.entrySet()) {
+            double amt = t.getValue();
+            int aid = t.getKey();
+            if (amt > 100000.0) {
+                try {
+                    String id = Owners.getPrimaryOwner(conn, aid).taxID;
+                    txt = txt + System.lineSeparator()                        
+                        + Customer.getCustomer(conn, id).toString() + System.lineSeparator()
+                        + "-> Sum total of deposits into account " + aid + " this month: $"  + amt;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    System.out.println("Error accessing account" + aid + " from database");
+                    report.setText("Error accessing account" + aid + " from database");
+                }  
+            }
+        }
+        
+        txt = "Listing primary owners of accounts..." + txt;
+        report.setText(txt);
+    }
+    
+    private double getDepositTotal(int aid) {
+        double totAmt = 0.0;
+        
+        String qry = "SELECT SUM(d.amt) AS total FROM Deposit d" 
+                + " WHERE d.aid = " + aid;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet total = stmt.executeQuery(qry);
+
+            if(total.next()){
+                totAmt += total.getDouble("total");
+            }
+            total.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error getting sum of deposits for account");
+            report.setText("Error getting sum of deposits for account");
+        } 
+        
+        qry = "SELECT SUM(t.amt) AS total FROM Transfer t" 
+                + " WHERE t.toAid = " + aid;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet total = stmt.executeQuery(qry);
+
+            if(total.next()){
+                totAmt += total.getDouble("total");
+            }
+            total.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error getting sum of transfers for account");
+            report.setText("Error getting sum of transfers for account");
+        }
+        
+        qry = "SELECT SUM(w.amt) AS total FROM Wire w" 
+                + " WHERE w.toAid = " + aid;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet total = stmt.executeQuery(qry);
+
+            if(total.next()){
+                totAmt += total.getDouble("total");
+            }
+            total.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error getting sum of wires for account");
+            report.setText("Error getting sum of wires for account");
+        }
+        
+        return totAmt;
     }
 
     /**
@@ -28,8 +132,15 @@ public class DTER extends javax.swing.JFrame {
 
         back = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        report = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         back.setText("BACK");
         back.addActionListener(new java.awt.event.ActionListener() {
@@ -40,25 +151,36 @@ public class DTER extends javax.swing.JFrame {
 
         jLabel1.setText("Generate DTER");
 
+        report.setColumns(20);
+        report.setRows(5);
+        jScrollPane1.setViewportView(report);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(back)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(back)))
+                .addGap(15, 15, 15))
             .addGroup(layout.createSequentialGroup()
-                .addGap(173, 173, 173)
+                .addGap(297, 297, 297)
                 .addComponent(jLabel1)
-                .addContainerGap(153, Short.MAX_VALUE))
+                .addContainerGap(322, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 241, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(back)
                 .addContainerGap())
         );
@@ -71,6 +193,18 @@ public class DTER extends javax.swing.JFrame {
         dispose();
         new bankTeller().setVisible(true);
     }//GEN-LAST:event_backActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        try{
+            if(conn!=null){
+               conn.close();
+               System.out.println("From ATM: Closed connection...");
+            }
+         }catch(SQLException se){
+            se.printStackTrace();
+         }
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
@@ -110,5 +244,7 @@ public class DTER extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea report;
     // End of variables declaration//GEN-END:variables
 }

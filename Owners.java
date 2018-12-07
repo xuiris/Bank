@@ -37,6 +37,19 @@ public class Owners {
         return o;  
     }
     
-    
-    
+    public static Owners getPrimaryOwner(Connection conn, int aid) throws SQLException {
+        Statement stmt = conn.createStatement();
+        String qry = "SELECT * FROM Owners o"
+		+ " WHERE o.aid = " + aid
+                + " AND o.type = 'Primary'";
+        ResultSet po = stmt.executeQuery(qry);
+        Owners o = new Owners();
+        if (po.next()) {
+            o.aid = po.getInt("aid");
+            o.taxID = po.getString("taxID");
+            o.type = "Primary";
+        }
+        return o;
+    }
+
 }
