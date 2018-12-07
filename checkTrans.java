@@ -1,3 +1,9 @@
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,8 +19,20 @@ public class checkTrans extends javax.swing.JFrame {
     /**
      * Creates new form checkTrans
      */
+    
+    private final Bank bank;
+    private Connection conn;
+    private Account account;
+    private String day;
+    private String aid; 
+    private int checkNum;
+    private String taxID;
+    
+    
     public checkTrans() {
         initComponents();
+        bank = new Bank();
+        conn = bank.getConnection();
     }
 
     /**
@@ -27,30 +45,135 @@ public class checkTrans extends javax.swing.JFrame {
     private void initComponents() {
 
         back = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        dateField = new javax.swing.JTextField();
+        checkNumber = new javax.swing.JTextField();
+        checkingIDField = new javax.swing.JTextField();
+        amountField = new javax.swing.JTextField();
+        saveButton = new javax.swing.JButton();
+        status = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        taxIDField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        back.setText("BACK");
+        back.setText("CANCEL");
         back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backActionPerformed(evt);
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setText("DATE:");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setText("CHECK NUMBER:");
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setText("Checking Account ID:");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setText("Amount:");
+
+        dateField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        checkNumber.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        checkNumber.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        checkingIDField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        checkingIDField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        amountField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        amountField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        amountField.setToolTipText("");
+
+        saveButton.setText("SAVE");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
+
+        status.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        status.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setText("TaxID:");
+
+        taxIDField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        taxIDField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(checkNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(331, Short.MAX_VALUE)
-                .addComponent(back)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(back)
+                        .addGap(18, 18, 18)
+                        .addComponent(saveButton)
+                        .addGap(23, 23, 23))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addGap(84, 84, 84)
+                                    .addComponent(amountField, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(checkingIDField, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+                                    .addComponent(taxIDField))))
+                        .addGap(116, 116, 116))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(266, Short.MAX_VALUE)
-                .addComponent(back)
+                .addGap(44, 44, 44)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(taxIDField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(checkingIDField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(amountField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(back)
+                    .addComponent(saveButton))
                 .addContainerGap())
         );
 
@@ -63,9 +186,82 @@ public class checkTrans extends javax.swing.JFrame {
         new bankTeller().setVisible(true);
     }//GEN-LAST:event_backActionPerformed
 
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        // TODO add your handling code here:
+        try{
+            StringBuilder warnings = new StringBuilder();
+            String dateInput = dateField.getText();
+            if (null != dateInput && dateInput.trim().length() > 0){
+                day = dateInput;
+            } else {
+
+                day = "12-01-2018";
+            }
+            
+            checkNum = Integer.parseInt(checkNumber.getText());
+            taxID = taxIDField.getText();
+            
+            
+            int cid = Integer.parseInt(checkingIDField.getText());
+            
+            Account from = new Account();
+            try{
+                from = Account.getAccount(conn, cid);
+            } catch (SQLException ex) {
+                Logger.getLogger(checkTrans.class.getName()).log(Level.SEVERE, null, ex);
+                status.setText("Error finding the account");
+            }
+            if(!(from.type.equals("Student-Checking") || from.type.equals("Interest-Checking"))){
+                status.setText("Check can only be written from Checking Account");
+                return;
+            }
+            double amt = 0;
+            try{
+                amt = Double.parseDouble(amountField.getText());
+            } catch(NumberFormatException e){
+                e.printStackTrace();
+                status.setText("Not a numebr");
+            }
+            
+            if(amt <= 0) {
+                status.setText("Invalid amount");
+                return;
+            }
+            if(amt > from.balance){
+                warnings.append("Insufficient funds for this transcation");
+                return;
+            }
+            from.balance -= amt;
+            if(from.updateAccountDB(conn)){
+                status.setText("Check completed");
+               
+                    if (Transaction.createCheck(conn, day, checkNum, amt, cid, taxID)){
+                        status.setText("Check completed and Transaction recorded");
+                    }
+                    
+                
+            }   
+            
+        } catch (SQLException ex) {
+                    Logger.getLogger(checkTrans.class.getName()).log(Level.SEVERE, null, ex);
+                }
+    }//GEN-LAST:event_saveButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
+    
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {                                  
+        // TODO add your handling code here:
+        try{
+            if(conn!=null){
+               conn.close();
+               System.out.println("From BankTeller: Closed connection...");
+            }
+         }catch(SQLException se){
+            se.printStackTrace();
+         }
+    }           
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -99,6 +295,18 @@ public class checkTrans extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField amountField;
     private javax.swing.JButton back;
+    private javax.swing.JTextField checkNumber;
+    private javax.swing.JTextField checkingIDField;
+    private javax.swing.JTextField dateField;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JButton saveButton;
+    private javax.swing.JLabel status;
+    private javax.swing.JTextField taxIDField;
     // End of variables declaration//GEN-END:variables
 }

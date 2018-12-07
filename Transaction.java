@@ -258,6 +258,29 @@ public class Transaction {
                     + " to account " + to;
         }
         
+        public static boolean createCheck(Connection conn, String day, int checkNum, double amt, int cid, String taxID) throws SQLException{
+            try{
+                Statement stmt = conn.createStatement();
+                int tid = newTid(conn);
+                String qry = "INSERT INTO Transactions(tid, taxID, day, type) VALUES (" +
+                        tid +
+                        ", " + taxID +
+                        ", TO_DATE('" + day + "', 'MM-DD-YYYY')" +
+                        ", 'WriteCheck')";
+                System.out.println(qry);
+                stmt.executeQuery(qry);
+                qry = "INSERT INTO WriteCheck(tid, checkNum, cid, amt) VALUES ("
+                        + tid
+                        +", " + checkNum
+                        +", " + cid
+                        +", " + amt + ")";
+                stmt.executeQuery(qry);
+                return true;
+            }catch( SQLException e){
+                return false;
+            }   
+        }
+        
 	// Come up with an available and unique tid.
 	private static int newTid(Connection conn) throws SQLException {
 		Statement stmt = conn.createStatement();

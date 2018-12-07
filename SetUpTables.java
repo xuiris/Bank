@@ -153,6 +153,17 @@ public class SetUpTables {
 			st.executeQuery(createTable);
 			System.out.println("Wire table created");
                         
+                        //WriteCheck table
+                        createTable = "CREATE TABLE WriteCheck(tid INTEGER," +
+                                        "checkNum INTEGER," +
+                                        "cid INTEGER," +
+                                        "PRIMARY KEY (tid)," +
+                                        "FOREIGN KEY(cid) REFERENCES Accounts," +
+                                        "FOREIGN KEY (tid) REFERENCES Transactions ON DELETE CASCADE)";
+                        st.executeQuery(createTable);
+                        System.out.println("WriteCheck table created");
+                        
+                        
 //			String createTrigger = "CREATE TRIGGER checkBalance" +
 //					" AFTER UPDATE OF balance ON Accounts" + 
 //					" FOR EACH ROW" +
