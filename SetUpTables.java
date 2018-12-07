@@ -226,6 +226,9 @@ public class SetUpTables {
                         
                         deleteTable = "DROP TABLE Wire";
 			st.executeQuery(deleteTable);
+                        
+                        deleteTable = "DROP TABLE WriteCheck";
+			st.executeQuery(deleteTable);
 			
 			deleteTable = "DROP TABLE Transactions";
 			st.executeQuery(deleteTable);

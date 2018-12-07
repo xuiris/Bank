@@ -24,6 +24,7 @@ public class Transaction {
 			stmt.executeQuery(qry);
 			return true;
 		} catch (SQLException e) {
+                        e.printStackTrace();
 			return false;
 		}
 	}
@@ -52,7 +53,8 @@ public class Transaction {
 			stmt.executeQuery(qry);
 			return true;
 		} catch (SQLException e) {
-			return false;
+			e.printStackTrace();
+                        return false;
 		}
 	}
 
@@ -91,7 +93,8 @@ public class Transaction {
 			stmt.executeQuery(qry);
 			return true;
 		} catch (SQLException e) {
-			return false;
+			e.printStackTrace();
+                        return false;
 		}	
 	}
 	
@@ -119,7 +122,8 @@ public class Transaction {
 			stmt.executeQuery(qry);
 			return true;
 		} catch (SQLException e) {
-			return false;
+			e.printStackTrace();
+                        return false;
 		}	
 	}
         
@@ -148,6 +152,7 @@ public class Transaction {
                 stmt.executeQuery(qry);
                 return true;
             } catch (SQLException e) {
+                e.printStackTrace();
                 return false;
             }	
 	}
@@ -177,7 +182,8 @@ public class Transaction {
 			stmt.executeQuery(qry);
 			return true;
 		} catch (SQLException e) {
-			return false;
+			e.printStackTrace();
+                        return false;
 		}	
 	}
         
@@ -217,6 +223,7 @@ public class Transaction {
                 stmt.executeQuery(qry);
                 return true;
             } catch (SQLException e) {
+                e.printStackTrace();
                 return false;
             }	
 	}
@@ -247,6 +254,7 @@ public class Transaction {
                 stmt.executeQuery(qry);
                 return true;
             } catch (SQLException e) {
+                e.printStackTrace();
                 return false;
             }	
 	}
@@ -277,6 +285,7 @@ public class Transaction {
                 stmt.executeQuery(qry);
                 return true;
             }catch( SQLException e){
+                e.printStackTrace();
                 return false;
             }   
         }

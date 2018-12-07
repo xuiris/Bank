@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JButton;
+import java.text.SimpleDateFormat;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -24,6 +25,7 @@ public class atmInterface extends javax.swing.JFrame {
     private String id;
     private Map<Integer, Integer> linked; // pid, aid
     private String day;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("mm-dd-yyyy");
     
     
     public atmInterface() {
@@ -69,6 +71,7 @@ public class atmInterface extends javax.swing.JFrame {
         toAcc = new javax.swing.JTextField();
         amount = new javax.swing.JTextField();
         date = new javax.swing.JTextField();
+        dateStatus = new javax.swing.JLabel();
 
         jButton3.setText("jButton3");
 
@@ -256,6 +259,15 @@ public class atmInterface extends javax.swing.JFrame {
 
         amount.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
+        date.setText("mm-dd-yyyy");
+        date.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dateActionPerformed(evt);
+            }
+        });
+
+        dateStatus.setText("Date: ");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -301,7 +313,9 @@ public class atmInterface extends javax.swing.JFrame {
                         .addGap(21, 21, 21)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dateStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(27, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -314,8 +328,10 @@ public class atmInterface extends javax.swing.JFrame {
                 .addGap(39, 39, 39)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
-                    .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52)
+                    .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dateStatus)
+                .addGap(33, 33, 33)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -417,15 +433,7 @@ public class atmInterface extends javax.swing.JFrame {
 						}
 					}
 				}     
-                                
-			        String dateInput = date.getText();
-			        if (null != dateInput && dateInput.trim().length() > 0){
-			            day = dateInput;
-			        } else {
-			        	
-			        	day = "12-01-2018";
-			        }
-                                
+                                                                
                                 updateSelectableAccounts();
                                                     
            }
@@ -445,7 +453,10 @@ public class atmInterface extends javax.swing.JFrame {
 
     private void payButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_payButtonActionPerformed
         // TODO add your handling code here:
-        try {
+        try {           
+            
+            try { getDate(); } catch (Exception E) { return;}
+            
             // Get account they want to pull from
             int fromPid = 0;
             Account from = new Account();
@@ -468,7 +479,8 @@ public class atmInterface extends javax.swing.JFrame {
                 toPid = Integer.parseInt(toAcc.getText());
             } catch (NumberFormatException e) {
                 e.printStackTrace();
-                status.setText("Not a number");
+                status.setText("Error: Enter valid account number.");
+                return;
             }
 
             // Pull account, place in Account object, check if its savings or checkings
@@ -535,6 +547,7 @@ public class atmInterface extends javax.swing.JFrame {
     private void wireButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wireButtonActionPerformed
         // TODO add your handling code here:
         try{
+            try { getDate(); } catch (Exception E) { return;}
 
             // Get account they want to pull from
             int fromAid = 0;
@@ -558,13 +571,15 @@ public class atmInterface extends javax.swing.JFrame {
                 toAid = Integer.parseInt(toAcc.getText());
             } catch (NumberFormatException e) {
                 e.printStackTrace();
-                status.setText("Not a number");
+                status.setText("Error: Enter valid account number.");
+                return;
             }
             try {
                 to = Account.getAccount(conn, toAid);
             } catch (Exception e) {
                 e.printStackTrace();
                 status.setText("Error finding the account to wire to.");
+                return;
             }
             // Check if accounts open
             if (!(from.isOpen && to.isOpen)) {
@@ -584,6 +599,7 @@ public class atmInterface extends javax.swing.JFrame {
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                     status.setText("Not a number");
+                    return;
                 }
 
                 if (amt <= 0) {
@@ -624,6 +640,8 @@ public class atmInterface extends javax.swing.JFrame {
     private void collectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_collectButtonActionPerformed
         // TODO add your handling code here:
         try{
+            try { getDate(); } catch (Exception E) { return;}
+            
             // Get account they want to pull from
             int pid = 0;
             Account pa = new Account();
@@ -655,6 +673,7 @@ public class atmInterface extends javax.swing.JFrame {
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 status.setText("Not a number");
+                return;
             }
 
             if (amt <= 0) {
@@ -691,6 +710,8 @@ public class atmInterface extends javax.swing.JFrame {
     private void transferButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transferButtonActionPerformed
         // TODO add your handling code here:
         try {
+            try { getDate(); } catch (Exception E) { return;}
+            
             // Get account they want to pull from
             int aid = 0;
             Account from = new Account();
@@ -713,7 +734,8 @@ public class atmInterface extends javax.swing.JFrame {
                 aid = Integer.parseInt(toAcc.getText());
             } catch (NumberFormatException e) {
                 e.printStackTrace();
-                status.setText("Not a number");
+                status.setText("Error: Enter valid account number.");
+                return;
             }
             if (!(accounts.containsKey(aid))) {
                 status.setText("Invalid account number.");
@@ -779,6 +801,8 @@ public class atmInterface extends javax.swing.JFrame {
     private void purchaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseButtonActionPerformed
         // TODO add your handling code here:
         try {
+            try { getDate(); } catch (Exception E) { return;}
+            
             // Ask user for account they want to transact on
             int count = 0;
             int pid = 0;
@@ -847,6 +871,8 @@ public class atmInterface extends javax.swing.JFrame {
     private void withdrawButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_withdrawButtonActionPerformed
         // TODO add your handling code here:
         try {
+            try { getDate(); } catch (Exception E) { return;}
+            
             // Ask user for account they want to transact on
             int count = 0;
             int aid = 0;
@@ -881,6 +907,7 @@ public class atmInterface extends javax.swing.JFrame {
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 status.setText("Not a number");
+                return;
             }
 
             if (amt <= 0) {
@@ -912,6 +939,8 @@ public class atmInterface extends javax.swing.JFrame {
     private void topupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_topupButtonActionPerformed
         // TODO add your handling code here:
         try {
+            try { getDate(); } catch (Exception E) { return;}
+            
             // Ask user for account they want to transact on
             int count = 0;
             int pid = 0;
@@ -949,6 +978,7 @@ public class atmInterface extends javax.swing.JFrame {
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 status.setText("Not a number");
+                return;
             }
 
             if (amt <= 0) {
@@ -982,6 +1012,8 @@ public class atmInterface extends javax.swing.JFrame {
     private void depositButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_depositButtonActionPerformed
         // TODO add your handling code here:
         try {
+            try { getDate(); } catch (Exception E) { return;}
+            
             // Ask user for account they want to transact on
             int count = 0;
             int aid = 0;
@@ -1015,6 +1047,7 @@ public class atmInterface extends javax.swing.JFrame {
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 status.setText("Not a number");
+                return;
             }
 
             if (amt <= 0) {
@@ -1051,6 +1084,31 @@ public class atmInterface extends javax.swing.JFrame {
             se.printStackTrace();
          }
     }//GEN-LAST:event_formWindowClosed
+
+    private void dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dateActionPerformed
+    
+    private void getDate() throws Exception {
+        day = date.getText();
+        if (day.isEmpty()) {
+            dateStatus.setText("Default: 12-01-2018");
+            day = "12-01-2018";
+        }
+        else {
+            try {
+                java.util.Date d = dateFormat.parse(day);
+                if (!day.equals(dateFormat.format(d))) {
+                    day = "12-01-2018"; 
+                    dateStatus.setText("Invalid date, using default: 12-01-2018");
+                }
+            } catch (Exception e) {
+                status.setText("Invalid date.");
+                throw e;
+            }
+            dateStatus.setText("Valid date.");
+        }
+    }
     
     private int chooseAccount() {
 		try {
@@ -1090,10 +1148,14 @@ public class atmInterface extends javax.swing.JFrame {
         // Check if we need to apply flat fee. If there exists no other transaction
         // made on the pocket then we return $5, ow $0
         double fee = 0.0;
-        String qry = "SELECT DISTINCT t.tid FROM Transactions t, Purchase p, Collect c, PayFriend f"
+        String qry = "SELECT DISTINCT p.tid FROM Purchase p"
                 + " WHERE p.pid = " + p 
-                + " OR c.fromPid = " + p 
-                + " OR f.fromPid = " + p ;
+                + " UNION" 
+                + " SELECT DISTINCT c.tid FROM Collect c"
+                + " WHERE c.fromPid = " + p 
+                + " UNION" 
+                + " SELECT DISTINCT f.tid FROM PayFriend f"
+                + " WHERE f.fromPid = " + p ;
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(qry);
@@ -1152,6 +1214,7 @@ public class atmInterface extends javax.swing.JFrame {
     private javax.swing.JTextField amount;
     private javax.swing.JButton collectButton;
     private javax.swing.JTextField date;
+    private javax.swing.JLabel dateStatus;
     private javax.swing.JButton depositButton;
     private javax.swing.JLabel from;
     private javax.swing.JComboBox<String> fromAcc;
